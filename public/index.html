@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shaadi QR Manager - Admin Dashboard</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+    .container { max-width: 1100px; margin: auto; }
+    h1 { color: #d62828; text-align: center; }
+    .card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 25px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .full-width { grid-column: span 2; }
+    label { font-weight: bold; display: block; margin-bottom: 6px; }
+    input[type="text"], input[type="date"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+    button { background: #d62828; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    button:hover { background: #ba181b; }
+    .progress-bar { display: none; margin-top: 15px; font-weight: bold; color: #d62828; }
+    .wedding-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .wedding-card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-align: center; position: relative; }
+    .qr-img { width: 220px; height: 220px; object-fit: contain; margin: 10px auto; display: block; }
+    .btn-download { display: inline-block; background: #198754; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>💍 Shaadi QR & Photo Management System</h1>
+
+  <!-- Create New Wedding Form -->
+  <div class="card">
+    <h2>➕ Nayi Shaadi Add Karein</h2>
+    <form id="weddingForm">
+      <div class="form-grid">
+        <div>
+          <label>Dulha (Groom) Ka Naam:</label>
+          <input type="text" id="groomName" required placeholder="e.g. Rahul">
+        </div>
+        <div>
+          <label>Dulhan (Bride) Ka Naam:</label>
+          <input type="text" id="brideName" required placeholder="e.g. Priya">
+        </div>
+        <div>
+          <label>Shaadi Ki Date:</label>
+          <input type="date" id="weddingDate" required>
+        </div>
+        <div>
+          <label>Dulha-Dulhan Cover Photo (QR ke center me lagega):</label>
+          <input type="file" id="coverPhoto" accept="image/*" required>
+        </div>
+        <div class="full-width">
+          <label>Shaadi Ke Saare Photos Select Karein (Up to 2000 photos):</label>
+          <input type="file" id="photos" multiple accept="image/*" required>
+        </div>
+      </div>
+      <br>
+      <button type="submit" id="submitBtn">🚀 Telegram Par Upload Karein & Heart QR Banayein</button>
+      <div id="progressText" class="progress-bar">Photos upload ho rahe hain, kripya intezaar karein... ⏳</div>
+    </form>
+  </div>
+
+  <!-- All Weddings List -->
+  <div class="card">
+    <h2>📋 Aapki Saari Shaadiyan & Heart QR Codes</h2>
+    <div id="weddingList" class="wedding-grid"></div>
+  </div>
+</div>
+
+<script>
+  // Load Existing Weddings
+  async function loadWeddings() {
+    const res = await fetch('/api/weddings');
+    const data = await res.json();
+    const list = document.getElementById('weddingList');
+    list.innerHTML = '';
+
+    if (data.length === 0) {
+      list.innerHTML = '<p>Abhi tak koi shaadi add nahi hui hai.</p>';
+      return;
+    }
+
+    data.forEach(w => {
+      const card = document.createElement('div');
+      card.className = 'wedding-card';
+      card.innerHTML = `
+        <h3>${w.groomName} ❤️ ${w.brideName}</h3>
+        <p>📅 Date: ${w.weddingDate} | 📸 Total: ${w.photos ? w.photos.length : 0} Photos</p>
+        <img src="${w.qrPath}" class="qr-img" alt="Heart QR Code">
+        <div>
+          <a href="${w.qrPath}" download="QR_${w.groomName}_${w.brideName}.png" class="btn-download">⬇️ Download Heart QR</a>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  // Handle Form Submit
+  document.getElementById('weddingForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const pText = document.getElementById('progressText');
+
+    btn.disabled = true;
+    pText.style.display = 'block';
+
+    const formData = new FormData();
+    formData.append('groomName', document.getElementById('groomName').value);
+    formData.append('brideName', document.getElementById('brideName').value);
+    formData.append('weddingDate', document.getElementById('weddingDate').value);
+    formData.append('cover', document.getElementById('coverPhoto').files[0]);
+
+    const photoFiles = document.getElementById('photos').files;
+    for (let i = 0; i < photoFiles.length; i++) {
+      formData.append('photos', photoFiles[i]);
+    }
+
+    try {
+      const res = await fetch('/api/weddings', {
+        method: 'POST',
+        body: formData
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert('Shaadi safaltapoorvak add ho gayi aur Heart QR taiyar hai!');
+        document.getElementById('weddingForm').reset();
+        loadWeddings();
+      } else {
+        alert('Error: ' + result.error);
+      }
+    } catch (err) {
+      alert('Upload fail ho gaya: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      pText.style.display = 'none';
+    }
+  });
+
+  loadWeddings();
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Wedding Gallery</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f0f11; color: #fff; padding-bottom: 40px; }
+    
+    /* Header Section */
+    .header { text-align: center; padding: 30px 15px 20px; background: linear-gradient(180deg, rgba(214,40,40,0.2) 0%, rgba(15,15,17,0) 100%); }
+    .header h1 { font-size: 26px; color: #ffccd5; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .header p { font-size: 14px; color: #aaa; }
+    .photo-count { display: inline-block; background: #d62828; color: #fff; font-size: 12px; font-weight: bold; padding: 4px 10px; border-radius: 20px; margin-top: 8px; }
+
+    /* Phone Gallery Style Grid */
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 3px; max-width: 900px; margin: auto; }
+    @media (min-width: 600px) {
+      .gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 10px; }
+    }
+    
+    .gallery-item { position: relative; width: 100%; padding-top: 100%; background: #222; overflow: hidden; border-radius: 2px; cursor: pointer; }
+    .gallery-item img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
+    .gallery-item:active img { transform: scale(0.96); }
+
+    /* Fullscreen Modal / Lightbox */
+    .modal { display: none; position: fixed; z-index: 999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; flex-direction: column; }
+    .modal.active { display: flex; }
+    .modal-img { max-width: 95%; max-height: 80vh; object-fit: contain; border-radius: 6px; }
+    .modal-close { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #fff; cursor: pointer; text-decoration: none; width: 40px; height: 40px; line-height: 40px; text-align: center; }
+    .btn-download-img { margin-top: 15px; background: #d62828; color: white; padding: 10px 24px; border-radius: 25px; text-decoration: none; font-size: 15px; font-weight: bold; }
+    .loading { text-align: center; padding: 50px 20px; font-size: 16px; color: #bbb; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1 id="coupleTitle">Wedding Memories ❤️</h1>
+    <p id="weddingInfo">Loading photos...</p>
+    <div id="photoCount" class="photo-count" style="display:none;">0 Photos</div>
+  </div>
+
+  <div id="loading" class="loading">Photos load ho rahe hain... Kripya 2 second intezaar karein ⏳</div>
+
+  <!-- Gallery View -->
+  <div class="gallery-grid" id="galleryGrid"></div>
+
+  <!-- Fullscreen Zoom Popup -->
+  <div class="modal" id="modal">
+    <span class="modal-close" id="modalClose">&times;</span>
+    <img src="" id="modalImg" class="modal-img" alt="Shaadi Photo">
+    <a href="" id="modalDownload" download class="btn-download-img" target="_blank">⬇️ Download Photo</a>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const weddingId = urlParams.get('id');
+
+    async function loadGallery() {
+      try {
+        const res = await fetch('/api/weddings');
+        const list = await res.json();
+        const wedding = list.find(w => w.id === weddingId) || list[0];
+
+        document.getElementById('loading').style.display = 'none';
+
+        if (!wedding) {
+          document.getElementById('coupleTitle').innerText = 'Gallery Nahi Mili';
+          document.getElementById('weddingInfo').innerText = 'Kripya QR code dobara scan karein.';
+          return;
+        }
+
+        document.getElementById('coupleTitle').innerText = `${wedding.groomName} ❤️ ${wedding.brideName}`;
+        document.getElementById('weddingInfo').innerText = `Date: ${wedding.weddingDate}`;
+        
+        const photos = wedding.photos || [];
+        const countBadge = document.getElementById('photoCount');
+        countBadge.innerText = `${photos.length} Photos`;
+        countBadge.style.display = 'inline-block';
+
+        const grid = document.getElementById('galleryGrid');
+        grid.innerHTML = '';
+
+        photos.forEach((pUrl, index) => {
+          const item = document.createElement('div');
+          item.className = 'gallery-item';
+          item.innerHTML = `<img src="${pUrl}" loading="lazy" alt="Shaadi Photo ${index + 1}">`;
+          item.addEventListener('click', () => openModal(pUrl));
+          grid.appendChild(item);
+        });
+
+      } catch (err) {
+        document.getElementById('loading').innerText = 'Data load karne me problem aayi.';
+      }
+    }
+
+    // Modal logic
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const modalDownload = document.getElementById('modalDownload');
+    const modalClose = document.getElementById('modalClose');
+
+    function openModal(src) {
+      modalImg.src = src;
+      modalDownload.href = src;
+      modal.classList.add('active');
+    }
+
+    modalClose.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    loadGallery();
+  </script>
+</body>
+</html>
