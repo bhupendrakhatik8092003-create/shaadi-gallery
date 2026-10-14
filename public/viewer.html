@@ -54,65 +54,67 @@
   </div>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const weddingId = urlParams.get('id');
+  const urlParams = new URLSearchParams(window.location.search);
+  const weddingId = urlParams.get('id');
 
-    async function loadGallery() {
-      try {
-        const res = await fetch('/api/weddings');
-        const list = await res.json();
-        const wedding = list.find(w => w.id === weddingId) || list[0];
+  async function loadGallery() {
+    try {
+      // 1. Data load from GitHub repo directly
+      const res = await fetch('data.json?' + new Date().getTime());
+      if (!res.ok) throw new Error("File not found");
+      const list = await res.json();
+      const wedding = list.find(w => w.id === weddingId) || list[0];
 
-        document.getElementById('loading').style.display = 'none';
+      document.getElementById('loading').style.display = 'none';
 
-        if (!wedding) {
-          document.getElementById('coupleTitle').innerText = 'Gallery Nahi Mili';
-          document.getElementById('weddingInfo').innerText = 'Kripya QR code dobara scan karein.';
-          return;
-        }
-
-        document.getElementById('coupleTitle').innerText = `${wedding.groomName} ❤️ ${wedding.brideName}`;
-        document.getElementById('weddingInfo').innerText = `Date: ${wedding.weddingDate}`;
-        
-        const photos = wedding.photos || [];
-        const countBadge = document.getElementById('photoCount');
-        countBadge.innerText = `${photos.length} Photos`;
-        countBadge.style.display = 'inline-block';
-
-        const grid = document.getElementById('galleryGrid');
-        grid.innerHTML = '';
-
-        photos.forEach((pUrl, index) => {
-          const item = document.createElement('div');
-          item.className = 'gallery-item';
-          item.innerHTML = `<img src="${pUrl}" loading="lazy" alt="Shaadi Photo ${index + 1}">`;
-          item.addEventListener('click', () => openModal(pUrl));
-          grid.appendChild(item);
-        });
-
-      } catch (err) {
-        document.getElementById('loading').innerText = 'Data load karne me problem aayi.';
+      if (!wedding) {
+        document.getElementById('coupleTitle').innerText = 'Gallery Nahi Mili';
+        document.getElementById('weddingInfo').innerText = 'Kripya sahi QR code scan karein.';
+        return;
       }
+
+      document.getElementById('coupleTitle').innerText = `${wedding.groomName} ❤️ ${wedding.brideName}`;
+      document.getElementById('weddingInfo').innerText = `Date: ${wedding.weddingDate}`;
+      
+      const photos = wedding.photos || [];
+      const countBadge = document.getElementById('photoCount');
+      countBadge.innerText = `${photos.length} Photos`;
+      countBadge.style.display = 'inline-block';
+
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = '';
+
+      photos.forEach((pUrl, index) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.innerHTML = `<img src="${pUrl}" loading="lazy" alt="Shaadi Photo ${index + 1}">`;
+        item.addEventListener('click', () => openModal(pUrl));
+        grid.appendChild(item);
+      });
+
+    } catch (err) {
+      document.getElementById('loading').innerHTML = 'Photos load ho rahe hain... Kripya 5 second baad page refresh karein ⏳';
     }
+  }
 
-    // Modal logic
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modalImg');
-    const modalDownload = document.getElementById('modalDownload');
-    const modalClose = document.getElementById('modalClose');
+  // Modal logic
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modalImg');
+  const modalDownload = document.getElementById('modalDownload');
+  const modalClose = document.getElementById('modalClose');
 
-    function openModal(src) {
-      modalImg.src = src;
-      modalDownload.href = src;
-      modal.classList.add('active');
-    }
+  function openModal(src) {
+    modalImg.src = src;
+    modalDownload.href = src;
+    modal.classList.add('active');
+  }
 
-    modalClose.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('active');
-    });
+  modalClose.addEventListener('click', () => modal.classList.remove('active'));
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
 
-    loadGallery();
-  </script>
+  loadGallery();
+</script>
 </body>
 </html>
