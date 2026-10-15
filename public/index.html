@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ShaadiQR Pro - VIP Business Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: #0c0d0e; color: #f2f2f2; padding-bottom: 90px; }
@@ -19,7 +20,7 @@
 
     .container { max-width: 600px; margin: auto; padding: 18px; }
 
-    /* Stats Grid (Photo 3 Look) */
+    /* Stats Grid */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
     .stat-card { background: #16181d; border-radius: 20px; padding: 18px; border: 1px solid #232630; position: relative; overflow: hidden; }
     .stat-badge { position: absolute; top: 14px; right: 14px; background: rgba(224, 169, 68, 0.15); color: #e0a944; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
@@ -32,7 +33,7 @@
     .section-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; font-family: 'Playfair Display', Georgia, serif; }
     .section-desc { font-size: 13px; color: #888e9b; margin-bottom: 16px; }
 
-    /* Wedding Cards (Photo 4 Look) */
+    /* Wedding Cards */
     .wedding-list { display: flex; flex-direction: column; gap: 16px; }
     .wedding-banner-card { background: linear-gradient(135deg, #2a2417 0%, #15161a 100%); border-radius: 24px; padding: 22px; border: 1px solid #3d3422; position: relative; }
     .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
@@ -47,7 +48,7 @@
     .card-footer-action { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); }
     .btn-gold-view { background: #e0a944; color: #0c0d0e; border: none; font-weight: 700; font-size: 13px; padding: 9px 18px; border-radius: 20px; cursor: pointer; }
 
-    /* New Wedding Form Form Card */
+    /* New Wedding Form */
     .vip-form-card { background: #16181d; border-radius: 24px; padding: 22px; border: 1px solid #282b36; margin-bottom: 24px; }
     .form-group { margin-bottom: 14px; }
     .form-group label { display: block; font-size: 12px; font-weight: 600; color: #a4a9b6; margin-bottom: 6px; text-transform: uppercase; }
@@ -55,28 +56,27 @@
     .slider-box { display: flex; align-items: center; gap: 12px; }
     .slider-box input[type="range"] { flex: 1; accent-color: #e0a944; }
 
-    /* Bottom Navigation Bar (Photo 3-7 Look) */
+    /* Bottom Navigation Bar */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #121316; border-top: 1px solid #1f2128; display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
     .nav-btn { background: none; border: none; color: #737887; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; cursor: pointer; width: 25%; }
     .nav-btn.active { color: #e0a944; }
     .nav-btn span.icon { font-size: 20px; }
 
-    /* Tab Page Switcher */
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* QR Gallery Tab (Photo 5-6 Look) */
+    /* QR Gallery Tab */
     .qr-collection-banner { background: linear-gradient(180deg, #1f1b13 0%, #15161b 100%); border-radius: 24px; padding: 22px; border: 1px solid #3d3422; text-align: center; margin-bottom: 20px; }
     .qr-banner-title { font-size: 24px; font-weight: 700; color: #ffffff; font-family: 'Playfair Display', Georgia, serif; }
     .qr-banner-gold { color: #e0a944; font-size: 20px; font-weight: 700; margin: 4px 0 10px; }
     .qr-cards-grid { display: flex; flex-direction: column; gap: 16px; }
     .qr-item-card { background: #16181d; border-radius: 20px; padding: 16px; border: 1px solid #252834; display: flex; align-items: center; gap: 16px; }
-    .qr-thumb-box { width: 100px; height: 100px; background: white; border-radius: 14px; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    .qr-thumb-box { width: 100px; height: 120px; background: white; border-radius: 14px; padding: 4px; display: flex; align-items: center; justify-content: center; }
     .qr-thumb-box img { width: 100%; height: 100%; object-fit: contain; }
     .qr-info-box { flex: 1; }
     .btn-share-wa { background: #25d366; color: white; border: none; font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 8px; margin-top: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 
-    /* Settings Tab (Photo 7 Look) */
+    /* Settings Tab */
     .profile-card { background: #16181d; border-radius: 24px; padding: 22px; border: 1px solid #252834; margin-bottom: 20px; }
     .profile-top { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
     .studio-avatar { width: 64px; height: 64px; background: #e0a944; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; color: #0c0d0e; }
@@ -89,7 +89,6 @@
 </head>
 <body>
 
-  <!-- Top Header -->
   <div class="top-header">
     <div class="brand-box">
       <div class="brand-icon">💛</div>
@@ -103,7 +102,7 @@
 
   <div class="container">
 
-    <!-- TAB 1: DASHBOARD (Photo 3) -->
+    <!-- TAB 1: DASHBOARD -->
     <div id="tab-dashboard" class="tab-content active">
       <div class="stats-grid">
         <div class="stat-card">
@@ -111,7 +110,7 @@
           <div class="stat-icon">💛</div>
           <div class="stat-label">Total Shadiya</div>
           <div class="stat-value" id="dashTotalWeddings">0</div>
-          <div class="stat-sub">Active • Sab manage ho raha hai</div>
+          <div class="stat-sub">Active • Cloud Connected</div>
         </div>
         <div class="stat-card">
           <div class="stat-badge">2,000 / shaadi</div>
@@ -135,7 +134,7 @@
         </div>
       </div>
 
-      <!-- Quick Add New Wedding Form (Photo 8 Heart QR Generation) -->
+      <!-- Wedding Form -->
       <div class="vip-form-card">
         <h2 style="font-size:18px; color:#e0a944; margin-bottom:14px;">➕ Nayi Shaadi Add Karein</h2>
         <form id="weddingForm">
@@ -159,7 +158,7 @@
             <input type="file" id="coverPhoto" class="form-control" accept="image/*" required>
           </div>
           <div class="form-group">
-            <label>Background Watermark Opacity Slider (Halka/Dark)</label>
+            <label>Background Watermark Opacity Slider</label>
             <div class="slider-box">
               <input type="range" id="bgOpacity" min="0.05" max="0.40" step="0.05" value="0.15" oninput="document.getElementById('opVal').innerText = Math.round(this.value*100) + '%'">
               <span id="opVal" style="font-size:12px; color:#e0a944; font-weight:bold;">15%</span>
@@ -170,19 +169,19 @@
             <input type="file" id="photos" multiple class="form-control" accept="image/*" required>
           </div>
           <button type="submit" id="submitBtn" class="form-control" style="background:#e0a944; color:#0c0d0e; font-weight:bold; cursor:pointer; margin-top:8px;">🚀 Telegram Par Upload & Gold Heart QR Banayein</button>
-          <div id="uploadStatus" style="display:none; text-align:center; color:#e0a944; font-size:13px; font-weight:bold; margin-top:10px;">Telegram par upload chal raha hai... ⏳</div>
+          <div id="uploadStatus" style="display:none; text-align:center; color:#e0a944; font-size:13px; font-weight:bold; margin-top:10px;">Telegram par direct upload chal raha hai... ⏳</div>
         </form>
       </div>
     </div>
 
-    <!-- TAB 2: SHADIYA (Photo 4) -->
+    <!-- TAB 2: SHADIYA -->
     <div id="tab-shadiya" class="tab-content">
       <div class="section-title">Aapki Shadiya</div>
-      <div class="section-desc">Har card par click karo, photos manage karo aur delete karo.</div>
+      <div class="section-desc">Har card par click karo aur photos manage karo.</div>
       <div id="weddingsListContainer" class="wedding-list"></div>
     </div>
 
-    <!-- TAB 3: QR CODES (Photo 5 & 6) -->
+    <!-- TAB 3: QR CODES -->
     <div id="tab-qr" class="tab-content">
       <div class="qr-collection-banner">
         <div style="font-size:11px; letter-spacing:1px; color:#e0a944; font-weight:bold;">👑 PREMIUM HEART QR COLLECTION</div>
@@ -193,7 +192,7 @@
       <div id="qrListContainer" class="qr-cards-grid"></div>
     </div>
 
-    <!-- TAB 4: SETTINGS (Photo 7) -->
+    <!-- TAB 4: SETTINGS -->
     <div id="tab-settings" class="tab-content">
       <div class="profile-card">
         <div class="profile-top">
@@ -208,7 +207,7 @@
 
       <div class="instruction-card">
         <h3 style="color:#fff; font-size:16px; margin-bottom:12px;">App Kaise Kaam Karta Hai?</h3>
-        <div class="instruction-step"><b>1.</b> Shaadi ka album upload karo (2000 photos tak Telegram channel me).</div>
+        <div class="instruction-step"><b>1.</b> Shaadi ka album upload karo (Telegram channel me direct upload hota hai).</div>
         <div class="instruction-step"><b>2.</b> Automatic Love Snap Heart QR banta hai — gold aperture lens ke saath.</div>
         <div class="instruction-step"><b>3.</b> QR ko PNG download karo ya direct WhatsApp par share karo.</div>
         <div class="instruction-step"><b>4.</b> Client scan karega, bina app ke photos dekhega, tum dashboard par control rakhoge.</div>
@@ -217,7 +216,11 @@
 
   </div>
 
-  <!-- Bottom Navigation (Photo 3-7) -->
+  <!-- Hidden elements for local QR generation -->
+  <div id="tempQrContainer" style="display:none;"></div>
+  <canvas id="qrCanvas" style="display:none;" width="700" height="850"></canvas>
+
+  <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <button class="nav-btn active" onclick="switchTab('dashboard', this)">
       <span class="icon">⊞</span>
@@ -238,7 +241,13 @@
   </div>
 
 <script>
-  let allWeddings = [];
+  // Cloud Credentials
+  const BOT_TOKEN = '8623176056:AAHFpD3ej2XOMOrEPAU70WDWvVZxa1HIepo';
+  const CHAT_ID = '-1004432473756';
+  const GITHUB_USERNAME = 'bhupendrakhatik8092003-create';
+  const REPO_NAME = 'shaadi-gallery';
+
+  let allWeddings = JSON.parse(localStorage.getItem('shaadi_weddings_data') || '[]');
 
   function switchTab(tabName, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -247,16 +256,10 @@
     btn.classList.add('active');
   }
 
-  async function loadData() {
-    try {
-      const res = await fetch('/api/weddings');
-      allWeddings = await res.json();
-      renderDashboard();
-      renderShadiyaTab();
-      renderQRTab();
-    } catch (e) {
-      console.log('Error loading weddings:', e);
-    }
+  function renderAll() {
+    renderDashboard();
+    renderShadiyaTab();
+    renderQRTab();
   }
 
   function renderDashboard() {
@@ -270,7 +273,7 @@
     const box = document.getElementById('weddingsListContainer');
     box.innerHTML = '';
     if (!allWeddings.length) {
-      box.innerHTML = '<p style="text-align:center; color:#666;">Koi shaadi nahi mili.</p>';
+      box.innerHTML = '<p style="text-align:center; color:#666; padding:20px;">Abhi tak koi shaadi add nahi hui hai.</p>';
       return;
     }
 
@@ -288,7 +291,7 @@
         </div>
         <div class="tag-row">
           <span class="chip">${w.photos ? w.photos.length : 0} Photos</span>
-          <span class="chip">👁️ ${w.scans || 1240} scans</span>
+          <span class="chip">👁️ 1,240 scans</span>
         </div>
         <div class="wedding-names">${w.groomName} & ${w.brideName}</div>
         <div class="wedding-meta">📅 ${w.weddingDate} • 📍 ${w.city || 'Jaipur'}</div>
@@ -304,35 +307,167 @@
   function renderQRTab() {
     const box = document.getElementById('qrListContainer');
     box.innerHTML = '';
+    if (!allWeddings.length) {
+      box.innerHTML = '<p style="text-align:center; color:#666; padding:20px;">Koi QR Code available nahi hai.</p>';
+      return;
+    }
     allWeddings.forEach(w => {
       const item = document.createElement('div');
       item.className = 'qr-item-card';
       item.innerHTML = `
         <div class="qr-thumb-box">
-          <img src="${w.qrPath}" alt="Gold Heart QR">
+          <img src="${w.qrDataUrl}" alt="Gold Heart QR">
         </div>
         <div class="qr-info-box">
           <div style="font-size:16px; font-weight:700; color:#fff;">${w.groomName} & ${w.brideName}</div>
           <div style="font-size:12px; color:#888e9b; margin:2px 0 6px;">${w.weddingDate} • ${w.city || 'Jaipur'}</div>
-          <a href="${w.qrPath}" download="QR_${w.groomName}.png" style="text-decoration:none; display:inline-block; font-size:12px; color:#e0a944; font-weight:bold;">⬇️ Download QR</a><br>
-          <button class="btn-share-wa" onclick="shareWhatsApp('${w.groomName}', '${w.brideName}')">💬 WhatsApp Par Bhejo</button>
+          <a href="${w.qrDataUrl}" download="QR_${w.groomName}.png" style="text-decoration:none; display:inline-block; font-size:12px; color:#e0a944; font-weight:bold;">⬇️ Download QR</a><br>
+          <button class="btn-share-wa" onclick="shareWhatsApp('${w.groomName}', '${w.brideName}', '${w.id}')">💬 WhatsApp Par Bhejo</button>
         </div>
       `;
       box.appendChild(item);
     });
   }
 
-  function shareWhatsApp(groom, bride) {
-    const text = encodeURIComponent(`Namaste! ${groom} & ${bride} ki Shaadi ke saare photos dekhne ke liye QR code scan karein ya live gallery link kholein.`);
+  function shareWhatsApp(groom, bride, id) {
+    const link = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/viewer.html?id=${id}`;
+    const text = encodeURIComponent(`Namaste! ${groom} & ${bride} ki Shaadi ke saare photos dekhne ke liye link kholein:\n${link}`);
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
   }
 
-  async function deleteWedding(id) {
+  function deleteWedding(id) {
     if (!confirm('Kya aap is shaadi ko delete karna chahte hain?')) return;
-    await fetch('/api/weddings/' + id, { method: 'DELETE' });
-    loadData();
+    allWeddings = allWeddings.filter(w => w.id !== id);
+    localStorage.setItem('shaadi_weddings_data', JSON.stringify(allWeddings));
+    renderAll();
   }
 
+  // Telegram Direct Upload Helper
+  async function uploadFileToTelegram(file) {
+    const form = new FormData();
+    form.append('chat_id', CHAT_ID);
+    form.append('photo', file);
+
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+      method: 'POST',
+      body: form
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.description || 'Upload fail');
+
+    const photos = data.result.photo;
+    const fileId = photos[photos.length - 1].file_id;
+
+    const fileInfoRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
+    const fileInfo = await fileInfoRes.json();
+    return `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileInfo.result.file_path}`;
+  }
+
+  // Pure Client-Side Photo 8 Love Snap Gold Heart QR Generator
+  async function generateLoveSnapQR(liveUrl, coverImgElement, groom, bride, date, opacity) {
+    return new Promise((resolve) => {
+      const canvas = document.getElementById('qrCanvas');
+      const ctx = canvas.getContext('2d');
+      const width = 700;
+      const height = 850;
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+
+      function drawHeart(x, y, w, h) {
+        ctx.beginPath();
+        ctx.moveTo(x + w / 2, y + h / 4);
+        ctx.bezierCurveTo(x + w / 2, y, x, y, x, y + h / 2.3);
+        ctx.bezierCurveTo(x, y + (h * 0.72), x + w / 2, y + (h * 0.95), x + w / 2, y + h);
+        ctx.bezierCurveTo(x + w / 2, y + (h * 0.95), x + w, y + (h * 0.72), x + w, y + h / 2.3);
+        ctx.bezierCurveTo(x + w, y, x + w / 2, y, x + w / 2, y + h / 4);
+        ctx.closePath();
+      }
+
+      // Watermark
+      if (coverImgElement) {
+        ctx.save();
+        drawHeart(30, 80, width - 60, height - 160);
+        ctx.clip();
+        ctx.globalAlpha = parseFloat(opacity || 0.15);
+        ctx.drawImage(coverImgElement, 30, 80, width - 60, height - 160);
+        ctx.restore();
+      }
+
+      // Gold Outer Border
+      ctx.save();
+      drawHeart(30, 80, width - 60, height - 160);
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = '#c5a059';
+      ctx.stroke();
+      ctx.restore();
+
+      // Top Names
+      ctx.fillStyle = '#111111';
+      ctx.font = 'bold 34px "Playfair Display", Georgia, serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${groom.toUpperCase()}  &  ${bride.toUpperCase()}`, width / 2, 58);
+
+      // Generate Standard QR via QRCodeJS
+      const tempDiv = document.getElementById('tempQrContainer');
+      tempDiv.innerHTML = '';
+      new QRCode(tempDiv, {
+        text: liveUrl,
+        width: 380,
+        height: 380,
+        colorDark: '#a8792c',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      setTimeout(() => {
+        const qrImg = tempDiv.querySelector('img') || tempDiv.querySelector('canvas');
+        const qrX = (width - 380) / 2;
+        const qrY = 190;
+        ctx.drawImage(qrImg, qrX, qrY, 380, 380);
+
+        // Center Lens Frame with Couple Photo
+        const cx = width / 2;
+        const cy = qrY + 190;
+        const radius = 60;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius + 8, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = '#c5a059';
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#222222';
+        ctx.stroke();
+        ctx.clip();
+
+        if (coverImgElement) {
+          ctx.drawImage(coverImgElement, cx - radius, cy - radius, radius * 2, radius * 2);
+        }
+        ctx.restore();
+
+        // Footer
+        ctx.fillStyle = '#111111';
+        ctx.font = 'bold 36px "Playfair Display", Georgia, serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('LOVE SNAP', width / 2, 740);
+
+        ctx.fillStyle = '#a8792c';
+        ctx.font = 'bold 18px sans-serif';
+        ctx.fillText(`QR PHOTO  •  WEDDING DATE: ${date}`, width / 2, 780);
+
+        resolve(canvas.toDataURL('image/png'));
+      }, 300);
+    });
+  }
+
+  // Handle Form Submit
   document.getElementById('weddingForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
@@ -340,37 +475,66 @@
     btn.disabled = true;
     status.style.display = 'block';
 
-    const fd = new FormData();
-    fd.append('groomName', document.getElementById('groomName').value);
-    fd.append('brideName', document.getElementById('brideName').value);
-    fd.append('weddingDate', document.getElementById('weddingDate').value);
-    fd.append('city', document.getElementById('weddingCity').value);
-    fd.append('bgOpacity', document.getElementById('bgOpacity').value);
-    fd.append('cover', document.getElementById('coverPhoto').files[0]);
-
+    const groom = document.getElementById('groomName').value;
+    const bride = document.getElementById('brideName').value;
+    const date = document.getElementById('weddingDate').value;
+    const city = document.getElementById('weddingCity').value;
+    const opacity = document.getElementById('bgOpacity').value;
+    const coverFile = document.getElementById('coverPhoto').files[0];
     const photoFiles = document.getElementById('photos').files;
-    for (let f of photoFiles) fd.append('photos', f);
 
     try {
-      const res = await fetch('/api/weddings', { method: 'POST', body: fd });
-      const data = await res.json();
-      if (data.success) {
-        alert('🎉 Safaltapoorvak upload ho gaya! Gold Heart QR ban gaya hai.');
-        document.getElementById('weddingForm').reset();
-        loadData();
-        switchTab('shadiya', document.querySelectorAll('.nav-btn')[1]);
-      } else {
-        alert('Upload Error: ' + data.error);
+      status.innerText = 'Cover photo Telegram par jaa raha hai...';
+      const coverUrl = await uploadFileToTelegram(coverFile);
+
+      const photoUrls = [];
+      for (let i = 0; i < photoFiles.length; i++) {
+        status.innerText = `Photos upload ho rahe hain (${i + 1}/${photoFiles.length})... ⏳`;
+        const pUrl = await uploadFileToTelegram(photoFiles[i]);
+        photoUrls.push(pUrl);
       }
+
+      const weddingId = Date.now().toString();
+      const liveViewerUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/viewer.html?id=${weddingId}`;
+
+      // Load Cover as Image element for Canvas
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = URL.createObjectURL(coverFile);
+      await new Promise(r => img.onload = r);
+
+      status.innerText = 'Gold Heart QR ban raha hai...';
+      const qrDataUrl = await generateLoveSnapQR(liveViewerUrl, img, groom, bride, date, opacity);
+
+      const newWedding = {
+        id: weddingId,
+        groomName: groom,
+        brideName: bride,
+        weddingDate: date,
+        city: city || 'Jaipur',
+        coverUrl: coverUrl,
+        qrDataUrl: qrDataUrl,
+        photos: photoUrls,
+        createdAt: new Date().toISOString()
+      };
+
+      allWeddings.unshift(newWedding);
+      localStorage.setItem('shaadi_weddings_data', JSON.stringify(allWeddings));
+
+      alert('🎉 Shaadi safaltapoorvak add ho gayi aur Gold Heart QR ban gaya!');
+      document.getElementById('weddingForm').reset();
+      renderAll();
+      switchTab('shadiya', document.querySelectorAll('.nav-btn')[1]);
+
     } catch (err) {
-      alert('Error: ' + err.message);
+      alert('Upload error: ' + err.message);
     } finally {
       btn.disabled = false;
       status.style.display = 'none';
     }
   });
 
-  loadData();
+  renderAll();
 </script>
 </body>
 </html>
