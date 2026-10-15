@@ -1,60 +1,84 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ShaadiQR Pro - VIP Business Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>ShaadiQR Pro - Studio Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: #0c0d0e; color: #f2f2f2; padding-bottom: 90px; }
+    body { background: #0c0d0e; color: #f2f2f2; padding-bottom: 95px; user-select: none; }
 
     /* Top Bar */
     .top-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; background: #121316; border-bottom: 1px solid #1f2128; position: sticky; top: 0; z-index: 100; }
     .brand-box { display: flex; align-items: center; gap: 12px; }
-    .brand-icon { width: 42px; height: 42px; background: #e0a944; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #0c0d0e; font-weight: bold; }
-    .brand-title { font-size: 18px; font-weight: 700; color: #ffffff; letter-spacing: 0.3px; }
-    .brand-subtitle { font-size: 11px; color: #888e9b; text-transform: uppercase; letter-spacing: 1px; }
-    .avatar-badge { width: 38px; height: 38px; background: #e0a944; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0c0d0e; font-weight: 800; font-size: 13px; }
+    .brand-icon { width: 44px; height: 44px; background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 12px rgba(224, 169, 68, 0.25); }
+    .brand-title { font-size: 19px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; }
+    .brand-subtitle { font-size: 10.5px; color: #8c92a4; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; }
+    .avatar-badge { width: 40px; height: 40px; background: #e0a944; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0c0d0e; font-weight: 800; font-size: 13px; cursor: pointer; }
 
     .container { max-width: 600px; margin: auto; padding: 18px; }
 
-    /* Stats Grid */
+    /* Stats Grid (Photo 1 Look) */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
-    .stat-card { background: #16181d; border-radius: 20px; padding: 18px; border: 1px solid #232630; position: relative; overflow: hidden; }
-    .stat-badge { position: absolute; top: 14px; right: 14px; background: rgba(224, 169, 68, 0.15); color: #e0a944; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
-    .stat-icon { font-size: 20px; margin-bottom: 12px; color: #e0a944; }
+    .stat-card { background: #16181d; border-radius: 22px; padding: 18px; border: 1px solid #232630; position: relative; }
+    .stat-badge { position: absolute; top: 14px; right: 14px; background: rgba(224, 169, 68, 0.12); color: #e0a944; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
+    .stat-icon-wrapper { width: 42px; height: 42px; background: #20242e; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
     .stat-label { font-size: 11px; color: #888e9b; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
-    .stat-value { font-size: 26px; font-weight: 800; color: #ffffff; margin: 4px 0 6px; }
+    .stat-value { font-size: 28px; font-weight: 800; color: #ffffff; margin: 4px 0 6px; }
     .stat-sub { font-size: 11px; color: #6b7280; }
 
-    /* Section Headings */
-    .section-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; font-family: 'Playfair Display', Georgia, serif; }
-    .section-desc { font-size: 13px; color: #888e9b; margin-bottom: 16px; }
+    /* Filter & Header Row */
+    .filter-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+    .section-title { font-size: 22px; font-weight: 700; color: #fff; font-family: 'Playfair Display', Georgia, serif; }
+    .section-title span { font-size: 16px; color: #888e9b; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; }
+    .section-desc { font-size: 12.5px; color: #888e9b; margin-bottom: 16px; line-height: 1.5; }
+    
+    .filter-pills { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
+    .pill-btn { background: #1a1c23; border: 1px solid #282c37; color: #9da3b4; padding: 8px 18px; border-radius: 20px; font-size: 12.5px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .pill-btn.active { background: #ffffff; color: #0c0d0e; font-weight: 700; border-color: #ffffff; }
 
-    /* Wedding Cards */
-    .wedding-list { display: flex; flex-direction: column; gap: 16px; }
-    .wedding-banner-card { background: linear-gradient(135deg, #2a2417 0%, #15161a 100%); border-radius: 24px; padding: 22px; border: 1px solid #3d3422; position: relative; }
-    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    /* Wedding Cards (Photo 2 Look) */
+    .wedding-list { display: flex; flex-direction: column; gap: 18px; }
+    .wedding-banner-card { background: linear-gradient(145deg, #2a2315 0%, #16171b 100%); border-radius: 24px; padding: 22px; border: 1px solid #3d3422; position: relative; }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .live-indicator { display: inline-flex; align-items: center; gap: 6px; background: rgba(34, 197, 94, 0.15); color: #22c55e; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
-    .live-dot { width: 7px; height: 7px; background: #22c55e; border-radius: 50%; }
-    .couple-circle-avatar { width: 75px; height: 75px; background: #262933; border: 2px solid #e0a944; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: #e0a944; margin: 0 auto 12px; overflow: hidden; }
-    .couple-circle-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .tag-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 10px; }
-    .chip { background: #21242c; font-size: 11px; padding: 4px 10px; border-radius: 20px; color: #c3c7d2; }
-    .wedding-names { font-size: 22px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 6px; font-family: 'Playfair Display', Georgia, serif; }
-    .wedding-meta { font-size: 13px; color: #9499a6; text-align: center; margin-bottom: 16px; }
-    .card-footer-action { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); }
-    .btn-gold-view { background: #e0a944; color: #0c0d0e; border: none; font-weight: 700; font-size: 13px; padding: 9px 18px; border-radius: 20px; cursor: pointer; }
+    .live-dot { width: 7px; height: 7px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; }
+    .btn-delete-card { background: none; border: none; font-size: 18px; cursor: pointer; opacity: 0.6; }
+    .btn-delete-card:hover { opacity: 1; }
 
-    /* New Wedding Form */
-    .vip-form-card { background: #16181d; border-radius: 24px; padding: 22px; border: 1px solid #282b36; margin-bottom: 24px; }
+    .couple-circle-avatar { width: 85px; height: 85px; background: #262933; border: 2.5px solid #e0a944; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700; color: #e0a944; margin: 0 auto 12px; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+    .couple-circle-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .tag-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; }
+    .chip { background: #20232c; font-size: 11.5px; padding: 5px 12px; border-radius: 20px; color: #c3c7d2; font-weight: 600; }
+    .wedding-names { font-size: 24px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 4px; font-family: 'Playfair Display', Georgia, serif; }
+    .wedding-meta { font-size: 13px; color: #9499a6; text-align: center; margin-bottom: 18px; }
+    .card-footer-action { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .btn-gold-view { background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); color: #0c0d0e; border: none; font-weight: 800; font-size: 13px; padding: 10px 22px; border-radius: 25px; cursor: pointer; }
+
+    /* Floating Action Button for Add Wedding */
+    .fab-btn { position: fixed; right: 20px; bottom: 105px; width: 56px; height: 56px; background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #0c0d0e; font-weight: 900; box-shadow: 0 6px 20px rgba(224, 169, 68, 0.4); border: none; cursor: pointer; z-index: 99; }
+
+    /* Modal Form */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 200; justify-content: center; align-items: center; padding: 15px; }
+    .modal-overlay.active { display: flex; }
+    .modal-box { background: #16181d; width: 100%; max-width: 520px; max-height: 90vh; border-radius: 24px; padding: 22px; border: 1px solid #2a2e3a; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #242834; padding-bottom: 12px; }
+    .modal-title { font-size: 18px; font-weight: 700; color: #e0a944; }
+    .modal-close { background: none; border: none; color: #888; font-size: 22px; cursor: pointer; }
+
     .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 12px; font-weight: 600; color: #a4a9b6; margin-bottom: 6px; text-transform: uppercase; }
+    .form-group label { display: block; font-size: 11.5px; font-weight: 700; color: #a4a9b6; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-control { width: 100%; background: #0e0f12; border: 1px solid #2c303c; border-radius: 12px; padding: 12px 14px; color: #fff; font-size: 14px; }
+    .form-control:focus { outline: none; border-color: #e0a944; }
     .slider-box { display: flex; align-items: center; gap: 12px; }
     .slider-box input[type="range"] { flex: 1; accent-color: #e0a944; }
+
+    /* Live QR Preview Box below slider */
+    .qr-live-preview-box { background: #ffffff; border-radius: 16px; padding: 12px; text-align: center; margin-top: 14px; border: 2px solid #e0a944; }
+    .qr-live-preview-box img { max-width: 220px; height: auto; border-radius: 8px; display: block; margin: auto; }
+    .preview-tip { font-size: 11px; color: #666; margin-top: 6px; font-weight: 600; }
 
     /* Bottom Navigation Bar */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #121316; border-top: 1px solid #1f2128; display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
@@ -65,30 +89,53 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* QR Gallery Tab */
-    .qr-collection-banner { background: linear-gradient(180deg, #1f1b13 0%, #15161b 100%); border-radius: 24px; padding: 22px; border: 1px solid #3d3422; text-align: center; margin-bottom: 20px; }
+    /* QR Gallery Tab (Photo 3-4 Look) */
+    .qr-collection-banner { background: linear-gradient(180deg, #221c13 0%, #15161b 100%); border-radius: 24px; padding: 22px; border: 1px solid #3d3422; text-align: center; margin-bottom: 20px; }
+    .qr-banner-badge { font-size: 11px; letter-spacing: 1px; color: #e0a944; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
     .qr-banner-title { font-size: 24px; font-weight: 700; color: #ffffff; font-family: 'Playfair Display', Georgia, serif; }
     .qr-banner-gold { color: #e0a944; font-size: 20px; font-weight: 700; margin: 4px 0 10px; }
+    .qr-banner-desc { font-size: 12px; color: #9fa4b2; line-height: 1.5; }
+
+    .qr-horizontal-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px; }
+    .mini-qr-card { background: #ffffff; border-radius: 18px; padding: 12px; min-width: 115px; text-align: center; border: 1px solid #e0a944; }
+    .mini-qr-card img { width: 85px; height: 95px; object-fit: contain; }
+    .mini-qr-name { color: #0c0d0e; font-size: 12px; font-weight: 700; margin-top: 6px; }
+
     .qr-cards-grid { display: flex; flex-direction: column; gap: 16px; }
-    .qr-item-card { background: #16181d; border-radius: 20px; padding: 16px; border: 1px solid #252834; display: flex; align-items: center; gap: 16px; }
-    .qr-thumb-box { width: 100px; height: 120px; background: white; border-radius: 14px; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    .qr-item-card { background: #16181d; border-radius: 22px; padding: 18px; border: 1px solid #252834; display: flex; align-items: center; gap: 16px; }
+    .qr-thumb-box { width: 105px; height: 125px; background: white; border-radius: 14px; padding: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .qr-thumb-box img { width: 100%; height: 100%; object-fit: contain; }
     .qr-info-box { flex: 1; }
-    .btn-share-wa { background: #25d366; color: white; border: none; font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 8px; margin-top: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .qr-title { font-size: 17px; font-weight: 700; color: #fff; font-family: 'Playfair Display', Georgia, serif; }
+    .qr-sub { font-size: 12px; color: #888e9b; margin: 3px 0 10px; }
+    .qr-action-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-download-qr { background: #232733; color: #e0a944; border: 1px solid #3c4255; font-size: 12px; font-weight: 700; padding: 7px 12px; border-radius: 8px; cursor: pointer; text-decoration: none; }
+    .btn-share-wa { background: #25d366; color: white; border: none; font-size: 12px; font-weight: 700; padding: 7px 14px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 
-    /* Settings Tab */
+    /* Settings Tab (Photo 5 Look) */
     .profile-card { background: #16181d; border-radius: 24px; padding: 22px; border: 1px solid #252834; margin-bottom: 20px; }
-    .profile-top { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-    .studio-avatar { width: 64px; height: 64px; background: #e0a944; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; color: #0c0d0e; }
-    .studio-name { font-size: 20px; font-weight: 700; color: #fff; }
-    .studio-sub { font-size: 12px; color: #888e9b; }
-    .instruction-card { background: #16181d; border-radius: 20px; padding: 20px; border: 1px solid #252834; }
-    .instruction-step { font-size: 13px; color: #c3c7d2; margin-bottom: 12px; line-height: 1.6; }
+    .profile-top { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+    .studio-avatar { width: 68px; height: 68px; background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: #0c0d0e; }
+    .studio-name { font-size: 21px; font-weight: 700; color: #fff; }
+    .studio-sub { font-size: 12.5px; color: #888e9b; margin-top: 2px; }
+    .studio-email-badge { display: flex; align-items: center; justify-content: space-between; background: #0f1013; padding: 8px 14px; border-radius: 12px; border: 1px solid #222530; margin-top: 8px; }
+    .studio-email { font-size: 12px; color: #c3c7d2; }
+    .online-chip { font-size: 11px; background: rgba(34,197,94,0.15); color: #22c55e; padding: 2px 8px; border-radius: 12px; font-weight: 700; }
+
+    .plans-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .plan-box { background: #16181d; border-radius: 18px; padding: 14px 10px; border: 1px solid #252834; text-align: center; }
+    .plan-box-label { font-size: 10px; color: #737887; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
+    .plan-box-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+    .plan-box-sub { font-size: 10.5px; color: #e0a944; }
+
+    .instruction-card { background: #16181d; border-radius: 22px; padding: 22px; border: 1px solid #252834; }
+    .instruction-step { font-size: 13px; color: #c3c7d2; margin-bottom: 14px; line-height: 1.6; }
     .instruction-step b { color: #e0a944; }
   </style>
 </head>
 <body>
 
+  <!-- Top Header -->
   <div class="top-header">
     <div class="brand-box">
       <div class="brand-icon">💛</div>
@@ -97,130 +144,189 @@
         <div class="brand-subtitle">Business Dashboard • Jaipur</div>
       </div>
     </div>
-    <div class="avatar-badge">SP</div>
+    <div class="avatar-badge" onclick="switchTab('settings', document.querySelectorAll('.nav-btn')[3])">SP</div>
   </div>
 
   <div class="container">
 
-    <!-- TAB 1: DASHBOARD -->
+    <!-- TAB 1: DASHBOARD (Photo 1) -->
     <div id="tab-dashboard" class="tab-content active">
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-badge">+12% THIS MONTH</div>
-          <div class="stat-icon">💛</div>
-          <div class="stat-label">Total Shadiya</div>
+          <div class="stat-icon-wrapper">💛</div>
+          <div class="stat-label">Total Weddings</div>
           <div class="stat-value" id="dashTotalWeddings">0</div>
-          <div class="stat-sub">Active • Cloud Connected</div>
+          <div class="stat-sub">Active • All managed smoothly</div>
         </div>
         <div class="stat-card">
-          <div class="stat-badge">2,000 / shaadi</div>
-          <div class="stat-icon">🖼️</div>
+          <div class="stat-badge">2,000 / wedding</div>
+          <div class="stat-icon-wrapper">🖼️</div>
           <div class="stat-label">Total Photos</div>
           <div class="stat-value" id="dashTotalPhotos">0</div>
           <div class="stat-sub">Telegram Cloud Storage</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">💽</div>
+          <div class="stat-icon-wrapper">💽</div>
           <div class="stat-label">Total Storage</div>
-          <div class="stat-value">Free Unlimited</div>
+          <div class="stat-value">335.5 GB</div>
           <div class="stat-sub">100% Lifetime Free</div>
         </div>
         <div class="stat-card">
           <div class="stat-badge">LIVE TRACKING</div>
-          <div class="stat-icon">⚡</div>
+          <div class="stat-icon-wrapper">⚡</div>
           <div class="stat-label">Total Scans</div>
           <div class="stat-value" id="dashTotalScans">1,240</div>
-          <div class="stat-sub">Guests viewing online</div>
+          <div class="stat-sub">Live guests online</div>
         </div>
       </div>
 
-      <!-- Wedding Form -->
-      <div class="vip-form-card">
-        <h2 style="font-size:18px; color:#e0a944; margin-bottom:14px;">➕ Nayi Shaadi Add Karein</h2>
-        <form id="weddingForm">
-          <div class="form-group">
-            <label>Dulha (Groom) Name</label>
-            <input type="text" id="groomName" class="form-control" required placeholder="e.g. Deepak">
-          </div>
-          <div class="form-group">
-            <label>Dulhan (Bride) Name</label>
-            <input type="text" id="brideName" class="form-control" required placeholder="e.g. Poonam">
-          </div>
-          <div class="form-group">
-            <label>Shaadi Ki Date & City</label>
-            <div style="display:flex; gap:10px;">
-              <input type="date" id="weddingDate" class="form-control" required>
-              <input type="text" id="weddingCity" class="form-control" placeholder="City (Jaipur)">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Cover Photo (Center Camera Lens me lagega)</label>
-            <input type="file" id="coverPhoto" class="form-control" accept="image/*" required>
-          </div>
-          <div class="form-group">
-            <label>Background Watermark Opacity Slider</label>
-            <div class="slider-box">
-              <input type="range" id="bgOpacity" min="0.05" max="0.40" step="0.05" value="0.15" oninput="document.getElementById('opVal').innerText = Math.round(this.value*100) + '%'">
-              <span id="opVal" style="font-size:12px; color:#e0a944; font-weight:bold;">15%</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Shaadi Photos (Telegram par unlimited upload)</label>
-            <input type="file" id="photos" multiple class="form-control" accept="image/*" required>
-          </div>
-          <button type="submit" id="submitBtn" class="form-control" style="background:#e0a944; color:#0c0d0e; font-weight:bold; cursor:pointer; margin-top:8px;">🚀 Telegram Par Upload & Gold Heart QR Banayein</button>
-          <div id="uploadStatus" style="display:none; text-align:center; color:#e0a944; font-size:13px; font-weight:bold; margin-top:10px;">Telegram par direct upload chal raha hai... ⏳</div>
-        </form>
+      <div class="filter-header">
+        <div class="section-title">Your Weddings <span id="weddingCountLabel">— 0 selected</span></div>
       </div>
+      <div class="section-desc">Click any wedding card to view photos, download Gold QR, or share with clients.</div>
+
+      <div class="filter-pills">
+        <button class="pill-btn active" onclick="filterWeddings('all', this)">All</button>
+        <button class="pill-btn" onclick="filterWeddings('active', this)">Active</button>
+        <button class="pill-btn" onclick="filterWeddings('archived', this)">Archived</button>
+      </div>
+
+      <div id="dashWeddingsContainer" class="wedding-list"></div>
     </div>
 
-    <!-- TAB 2: SHADIYA -->
+    <!-- TAB 2: WEDDINGS (Photo 2) -->
     <div id="tab-shadiya" class="tab-content">
-      <div class="section-title">Aapki Shadiya</div>
-      <div class="section-desc">Har card par click karo aur photos manage karo.</div>
+      <div class="section-title">All Weddings</div>
+      <div class="section-desc">Manage guest albums, view full resolutions, or delete old events.</div>
       <div id="weddingsListContainer" class="wedding-list"></div>
     </div>
 
-    <!-- TAB 3: QR CODES -->
+    <!-- TAB 3: QR CODES (Photo 3-4) -->
     <div id="tab-qr" class="tab-content">
       <div class="qr-collection-banner">
-        <div style="font-size:11px; letter-spacing:1px; color:#e0a944; font-weight:bold;">👑 PREMIUM HEART QR COLLECTION</div>
-        <div class="qr-banner-title">Saare Heart QR ek jagah</div>
-        <div class="qr-banner-gold">Gold border ke saath</div>
-        <p style="font-size:12px; color:#9fa4b2;">Har QR code Love Snap Gold Heart shape me hai. Client scan karte hi gallery khul jaati hai bina app ke.</p>
+        <div class="qr-banner-badge">👑 Premium Heart QR Collection</div>
+        <div class="qr-banner-title">All Heart QRs in One Place</div>
+        <div class="qr-banner-gold">With Royal Gold Border</div>
+        <div class="qr-banner-desc">Every QR code is clipped in heart geometry with central camera lens. Clients scan directly without installing any app.</div>
       </div>
+
+      <!-- Horizontal Preview Row (Photo 3) -->
+      <div class="qr-horizontal-scroll" id="qrHorizontalRow"></div>
+
+      <!-- Main QR List (Photo 4) -->
       <div id="qrListContainer" class="qr-cards-grid"></div>
     </div>
 
-    <!-- TAB 4: SETTINGS -->
+    <!-- TAB 4: SETTINGS (Photo 5) -->
     <div id="tab-settings" class="tab-content">
       <div class="profile-card">
         <div class="profile-top">
           <div class="studio-avatar">SP</div>
           <div>
             <div class="studio-name">Sharma Photography</div>
-            <div class="studio-sub">Owner • Jaipur • 8 saal ka experience</div>
-            <div style="display:inline-block; font-size:11px; background:rgba(34,197,94,0.15); color:#22c55e; padding:2px 8px; border-radius:12px; margin-top:6px;">● Online</div>
+            <div class="studio-sub">Owner • Jaipur • 8 Years Experience</div>
           </div>
+        </div>
+        <div class="studio-email-badge">
+          <span class="studio-email">sharma.photo@gmail.com</span>
+          <span class="online-chip">● Online</span>
+        </div>
+      </div>
+
+      <!-- 3 Plan Summary Boxes (Photo 5) -->
+      <div class="plans-row">
+        <div class="plan-box">
+          <div class="plan-box-label">PLAN</div>
+          <div class="plan-box-title">Pro Max</div>
+          <div class="plan-box-sub">Unlimited QR</div>
+        </div>
+        <div class="plan-box">
+          <div class="plan-box-label">VALIDITY</div>
+          <div class="plan-box-title">12 Months</div>
+          <div class="plan-box-sub">Renew 12 Jan</div>
+        </div>
+        <div class="plan-box">
+          <div class="plan-box-label">SUPPORT</div>
+          <div class="plan-box-title">Priority</div>
+          <div class="plan-box-sub">WhatsApp 24/7</div>
         </div>
       </div>
 
       <div class="instruction-card">
-        <h3 style="color:#fff; font-size:16px; margin-bottom:12px;">App Kaise Kaam Karta Hai?</h3>
-        <div class="instruction-step"><b>1.</b> Shaadi ka album upload karo (Telegram channel me direct upload hota hai).</div>
-        <div class="instruction-step"><b>2.</b> Automatic Love Snap Heart QR banta hai — gold aperture lens ke saath.</div>
-        <div class="instruction-step"><b>3.</b> QR ko PNG download karo ya direct WhatsApp par share karo.</div>
-        <div class="instruction-step"><b>4.</b> Client scan karega, bina app ke photos dekhega, tum dashboard par control rakhoge.</div>
+        <h3 style="color:#fff; font-size:16px; margin-bottom:14px;">How the App Works?</h3>
+        <div class="instruction-step"><b>1.</b> Upload wedding album photos (up to 2,000 photos directly to Telegram cloud).</div>
+        <div class="instruction-step"><b>2.</b> Automatic Love Snap Heart QR is generated with royal gold border and couple portrait.</div>
+        <div class="instruction-step"><b>3.</b> Download high-resolution PNG or send via WhatsApp directly.</div>
+        <div class="instruction-step"><b>4.</b> Guests scan to view gallery without app installation. You manage everything from this dashboard.</div>
       </div>
     </div>
 
   </div>
 
-  <!-- Hidden elements for local QR generation -->
+  <!-- Floating Add Button -->
+  <button class="fab-btn" onclick="openAddModal()">+</button>
+
+  <!-- Modal: Add New Wedding Form with Live QR Preview -->
+  <div class="modal-overlay" id="addModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">Create New Wedding QR</div>
+        <button class="modal-close" onclick="closeAddModal()">&times;</button>
+      </div>
+
+      <form id="weddingForm">
+        <div class="form-group">
+          <label>Groom Name</label>
+          <input type="text" id="groomName" class="form-control" required placeholder="e.g. Deepak" oninput="updateLivePreview()">
+        </div>
+        <div class="form-group">
+          <label>Bride Name</label>
+          <input type="text" id="brideName" class="form-control" required placeholder="e.g. Poonam" oninput="updateLivePreview()">
+        </div>
+        <div class="form-group">
+          <label>Wedding Date & City</label>
+          <div style="display:flex; gap:10px;">
+            <input type="date" id="weddingDate" class="form-control" required onchange="updateLivePreview()">
+            <input type="text" id="weddingCity" class="form-control" placeholder="City (Jaipur)">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Couple Cover Photo (Center Camera Frame)</label>
+          <input type="file" id="coverPhoto" class="form-control" accept="image/*" required onchange="handleCoverSelected(this)">
+        </div>
+
+        <div class="form-group">
+          <label>Background Watermark Opacity</label>
+          <div class="slider-box">
+            <input type="range" id="bgOpacity" min="0.05" max="0.45" step="0.05" value="0.15" oninput="handleSliderChange(this.value)">
+            <span id="opVal" style="font-size:12px; color:#e0a944; font-weight:bold;">15%</span>
+          </div>
+        </div>
+
+        <!-- Live Interactive QR Preview (Directly Below Slider) -->
+        <div class="qr-live-preview-box">
+          <div style="font-size:12px; color:#111; font-weight:800; margin-bottom:6px;">LIVE GOLD HEART QR PREVIEW</div>
+          <img id="livePreviewImg" src="" alt="Real-time Preview">
+          <div class="preview-tip">Adjust the opacity slider above to see real-time watermark transparency.</div>
+        </div>
+
+        <div class="form-group" style="margin-top:16px;">
+          <label>Select All Wedding Photos (Up to 2,000 photos)</label>
+          <input type="file" id="photos" multiple class="form-control" accept="image/*" required>
+        </div>
+
+        <button type="submit" id="submitBtn" class="form-control" style="background:linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); color:#0c0d0e; font-weight:800; font-size:15px; cursor:pointer; margin-top:10px;">🚀 Upload to Cloud & Generate Gold QR</button>
+        <div id="uploadStatus" style="display:none; text-align:center; color:#e0a944; font-size:13px; font-weight:bold; margin-top:12px;">Uploading to Telegram Cloud Storage... Please wait ⏳</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Hidden Canvas & Temp container for fast rendering -->
   <div id="tempQrContainer" style="display:none;"></div>
   <canvas id="qrCanvas" style="display:none;" width="700" height="850"></canvas>
 
-  <!-- Bottom Navigation -->
+  <!-- Bottom Navigation Bar -->
   <div class="bottom-nav">
     <button class="nav-btn active" onclick="switchTab('dashboard', this)">
       <span class="icon">⊞</span>
@@ -228,11 +334,11 @@
     </button>
     <button class="nav-btn" onclick="switchTab('shadiya', this)">
       <span class="icon">🖼️</span>
-      <span>Shadiya</span>
+      <span>Weddings</span>
     </button>
     <button class="nav-btn" onclick="switchTab('qr', this)">
       <span class="icon">🔲</span>
-      <span>QR</span>
+      <span>QR Codes</span>
     </button>
     <button class="nav-btn" onclick="switchTab('settings', this)">
       <span class="icon">⚙️</span>
@@ -241,19 +347,28 @@
   </div>
 
 <script>
-  // Cloud Credentials
   const BOT_TOKEN = '8623176056:AAHFpD3ej2XOMOrEPAU70WDWvVZxa1HIepo';
   const CHAT_ID = '-1004432473756';
   const GITHUB_USERNAME = 'bhupendrakhatik8092003-create';
   const REPO_NAME = 'shaadi-gallery';
 
   let allWeddings = JSON.parse(localStorage.getItem('shaadi_weddings_data') || '[]');
+  let loadedCoverImage = null;
 
   function switchTab(tabName, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + tabName).classList.add('active');
     btn.classList.add('active');
+  }
+
+  function openAddModal() {
+    document.getElementById('addModal').classList.add('active');
+    updateLivePreview();
+  }
+
+  function closeAddModal() {
+    document.getElementById('addModal').classList.remove('active');
   }
 
   function renderAll() {
@@ -264,16 +379,22 @@
 
   function renderDashboard() {
     document.getElementById('dashTotalWeddings').innerText = allWeddings.length;
+    document.getElementById('weddingCountLabel').innerText = `— ${allWeddings.length} selected`;
     let totalP = 0;
     allWeddings.forEach(w => totalP += (w.photos ? w.photos.length : 0));
     document.getElementById('dashTotalPhotos').innerText = totalP.toLocaleString();
+    renderWeddingCards('dashWeddingsContainer');
   }
 
   function renderShadiyaTab() {
-    const box = document.getElementById('weddingsListContainer');
+    renderWeddingCards('weddingsListContainer');
+  }
+
+  function renderWeddingCards(containerId) {
+    const box = document.getElementById(containerId);
     box.innerHTML = '';
     if (!allWeddings.length) {
-      box.innerHTML = '<p style="text-align:center; color:#666; padding:20px;">Abhi tak koi shaadi add nahi hui hai.</p>';
+      box.innerHTML = '<p style="text-align:center; color:#666; padding:30px 10px;">No weddings created yet. Tap the <b>+</b> button to add one.</p>';
       return;
     }
 
@@ -284,7 +405,7 @@
       card.innerHTML = `
         <div class="card-top">
           <div class="live-indicator"><span class="live-dot"></span> LIVE</div>
-          <button onclick="deleteWedding('${w.id}')" style="background:none; border:none; color:#dc3545; font-size:18px; cursor:pointer;">🗑️</button>
+          <button class="btn-delete-card" onclick="deleteWedding('${w.id}')">🗑️</button>
         </div>
         <div class="couple-circle-avatar">
           ${w.coverUrl ? `<img src="${w.coverUrl}">` : initials}
@@ -296,8 +417,8 @@
         <div class="wedding-names">${w.groomName} & ${w.brideName}</div>
         <div class="wedding-meta">📅 ${w.weddingDate} • 📍 ${w.city || 'Jaipur'}</div>
         <div class="card-footer-action">
-          <span style="font-size:12px; color:#e0a944; font-weight:bold;">👑 QR Ready</span>
-          <button class="btn-gold-view" onclick="switchTab('qr', document.querySelectorAll('.nav-btn')[2])">QR Dekho</button>
+          <span style="font-size:12.5px; color:#e0a944; font-weight:800;">👑 QR Ready</span>
+          <button class="btn-gold-view" onclick="switchTab('qr', document.querySelectorAll('.nav-btn')[2])">View QR</button>
         </div>
       `;
       box.appendChild(card);
@@ -305,13 +426,27 @@
   }
 
   function renderQRTab() {
-    const box = document.getElementById('qrListContainer');
-    box.innerHTML = '';
+    const horizontalRow = document.getElementById('qrHorizontalRow');
+    const mainList = document.getElementById('qrListContainer');
+    horizontalRow.innerHTML = '';
+    mainList.innerHTML = '';
+
     if (!allWeddings.length) {
-      box.innerHTML = '<p style="text-align:center; color:#666; padding:20px;">Koi QR Code available nahi hai.</p>';
+      mainList.innerHTML = '<p style="text-align:center; color:#666; padding:20px;">No QR codes available yet.</p>';
       return;
     }
+
     allWeddings.forEach(w => {
+      // Horizontal Mini Card
+      const mini = document.createElement('div');
+      mini.className = 'mini-qr-card';
+      mini.innerHTML = `
+        <img src="${w.qrDataUrl}">
+        <div class="mini-qr-name">${w.groomName}</div>
+      `;
+      horizontalRow.appendChild(mini);
+
+      // Main Card
       const item = document.createElement('div');
       item.className = 'qr-item-card';
       item.innerHTML = `
@@ -319,117 +454,134 @@
           <img src="${w.qrDataUrl}" alt="Gold Heart QR">
         </div>
         <div class="qr-info-box">
-          <div style="font-size:16px; font-weight:700; color:#fff;">${w.groomName} & ${w.brideName}</div>
-          <div style="font-size:12px; color:#888e9b; margin:2px 0 6px;">${w.weddingDate} • ${w.city || 'Jaipur'}</div>
-          <a href="${w.qrDataUrl}" download="QR_${w.groomName}.png" style="text-decoration:none; display:inline-block; font-size:12px; color:#e0a944; font-weight:bold;">⬇️ Download QR</a><br>
-          <button class="btn-share-wa" onclick="shareWhatsApp('${w.groomName}', '${w.brideName}', '${w.id}')">💬 WhatsApp Par Bhejo</button>
+          <div class="qr-title">${w.groomName} & ${w.brideName}</div>
+          <div class="qr-sub">📅 ${w.weddingDate} • 📍 ${w.city || 'Jaipur'}</div>
+          <div class="qr-action-row">
+            <button class="btn-download-qr" onclick="downloadQR('${w.qrDataUrl}', '${w.groomName}_${w.brideName}')">⬇️ Download PNG</button>
+            <button class="btn-share-wa" onclick="shareToWhatsApp('${w.groomName}', '${w.brideName}', '${w.id}')">💬 WhatsApp</button>
+          </div>
         </div>
       `;
-      box.appendChild(item);
+      mainList.appendChild(item);
     });
   }
 
-  function shareWhatsApp(groom, bride, id) {
+  // Pure Native Phone Gallery Download Fix
+  function downloadQR(dataUrl, name) {
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = `LoveSnap_QR_${name}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // True Native Android WhatsApp App Launch (No login page)
+  function shareToWhatsApp(groom, bride, id) {
     const link = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/viewer.html?id=${id}`;
-    const text = encodeURIComponent(`Namaste! ${groom} & ${bride} ki Shaadi ke saare photos dekhne ke liye link kholein:\n${link}`);
-    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    const text = encodeURIComponent(`✨ *${groom} & ${bride} Wedding Memories*\n\nScan the Love Snap Heart QR or open the link below to view all wedding photos without installing any app:\n👉 ${link}`);
+    // Deep-link directly to phone's installed WhatsApp app
+    window.location.href = `whatsapp://send?text=${text}`;
   }
 
   function deleteWedding(id) {
-    if (!confirm('Kya aap is shaadi ko delete karna chahte hain?')) return;
+    if (!confirm('Are you sure you want to delete this wedding album?')) return;
     allWeddings = allWeddings.filter(w => w.id !== id);
     localStorage.setItem('shaadi_weddings_data', JSON.stringify(allWeddings));
     renderAll();
   }
 
-  // Telegram Direct Upload Helper
-  async function uploadFileToTelegram(file) {
-    const form = new FormData();
-    form.append('chat_id', CHAT_ID);
-    form.append('photo', file);
-
-    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-      method: 'POST',
-      body: form
-    });
-    const data = await res.json();
-    if (!data.ok) throw new Error(data.description || 'Upload fail');
-
-    const photos = data.result.photo;
-    const fileId = photos[photos.length - 1].file_id;
-
-    const fileInfoRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
-    const fileInfo = await fileInfoRes.json();
-    return `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileInfo.result.file_path}`;
+  function handleCoverSelected(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        loadedCoverImage = new Image();
+        loadedCoverImage.onload = function() {
+          updateLivePreview();
+        };
+        loadedCoverImage.src = e.target.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
   }
 
-  // Pure Client-Side Photo 8 Love Snap Gold Heart QR Generator
-  async function generateLoveSnapQR(liveUrl, coverImgElement, groom, bride, date, opacity) {
-    return new Promise((resolve) => {
-      const canvas = document.getElementById('qrCanvas');
-      const ctx = canvas.getContext('2d');
-      const width = 700;
-      const height = 850;
+  function handleSliderChange(val) {
+    document.getElementById('opVal').innerText = Math.round(val * 100) + '%';
+    updateLivePreview();
+  }
 
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, width, height);
+  // Live QR Canvas Render Engine
+  function updateLivePreview() {
+    const groom = document.getElementById('groomName').value || 'DEEPAK';
+    const bride = document.getElementById('brideName').value || 'POONAM';
+    const date = document.getElementById('weddingDate').value || '2026-11-20';
+    const opacity = document.getElementById('bgOpacity').value || 0.15;
 
-      function drawHeart(x, y, w, h) {
-        ctx.beginPath();
-        ctx.moveTo(x + w / 2, y + h / 4);
-        ctx.bezierCurveTo(x + w / 2, y, x, y, x, y + h / 2.3);
-        ctx.bezierCurveTo(x, y + (h * 0.72), x + w / 2, y + (h * 0.95), x + w / 2, y + h);
-        ctx.bezierCurveTo(x + w / 2, y + (h * 0.95), x + w, y + (h * 0.72), x + w, y + h / 2.3);
-        ctx.bezierCurveTo(x + w, y, x + w / 2, y, x + w / 2, y + h / 4);
-        ctx.closePath();
-      }
+    const canvas = document.getElementById('qrCanvas');
+    const ctx = canvas.getContext('2d');
+    const width = 700;
+    const height = 850;
 
-      // Watermark
-      if (coverImgElement) {
-        ctx.save();
-        drawHeart(30, 80, width - 60, height - 160);
-        ctx.clip();
-        ctx.globalAlpha = parseFloat(opacity || 0.15);
-        ctx.drawImage(coverImgElement, 30, 80, width - 60, height - 160);
-        ctx.restore();
-      }
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, width, height);
 
-      // Gold Outer Border
+    function drawHeart(x, y, w, h) {
+      ctx.beginPath();
+      ctx.moveTo(x + w / 2, y + h / 4);
+      ctx.bezierCurveTo(x + w / 2, y, x, y, x, y + h / 2.3);
+      ctx.bezierCurveTo(x, y + (h * 0.72), x + w / 2, y + (h * 0.95), x + w / 2, y + h);
+      ctx.bezierCurveTo(x + w / 2, y + (h * 0.95), x + w, y + (h * 0.72), x + w, y + h / 2.3);
+      ctx.bezierCurveTo(x + w, y, x + w / 2, y, x + w / 2, y + h / 4);
+      ctx.closePath();
+    }
+
+    // Watermark Background
+    if (loadedCoverImage) {
       ctx.save();
       drawHeart(30, 80, width - 60, height - 160);
-      ctx.lineWidth = 10;
-      ctx.strokeStyle = '#c5a059';
-      ctx.stroke();
+      ctx.clip();
+      ctx.globalAlpha = parseFloat(opacity);
+      ctx.drawImage(loadedCoverImage, 30, 80, width - 60, height - 160);
       ctx.restore();
+    }
 
-      // Top Names
-      ctx.fillStyle = '#111111';
-      ctx.font = 'bold 34px "Playfair Display", Georgia, serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(`${groom.toUpperCase()}  &  ${bride.toUpperCase()}`, width / 2, 58);
+    // Outer Royal Gold Heart Border
+    ctx.save();
+    drawHeart(30, 80, width - 60, height - 160);
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = '#c5a059';
+    ctx.stroke();
+    ctx.restore();
 
-      // Generate Standard QR via QRCodeJS
-      const tempDiv = document.getElementById('tempQrContainer');
-      tempDiv.innerHTML = '';
-      new QRCode(tempDiv, {
-        text: liveUrl,
-        width: 380,
-        height: 380,
-        colorDark: '#a8792c',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      });
+    // Groom & Bride Header
+    ctx.fillStyle = '#111111';
+    ctx.font = 'bold 34px "Playfair Display", Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${groom.toUpperCase()}  &  ${bride.toUpperCase()}`, width / 2, 58);
 
-      setTimeout(() => {
-        const qrImg = tempDiv.querySelector('img') || tempDiv.querySelector('canvas');
+    // QR Dots
+    const tempDiv = document.getElementById('tempQrContainer');
+    tempDiv.innerHTML = '';
+    new QRCode(tempDiv, {
+      text: `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/viewer.html?test=1`,
+      width: 380,
+      height: 380,
+      colorDark: '#a8792c',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    setTimeout(() => {
+      const qrImg = tempDiv.querySelector('img') || tempDiv.querySelector('canvas');
+      if (qrImg) {
         const qrX = (width - 380) / 2;
         const qrY = 190;
         ctx.drawImage(qrImg, qrX, qrY, 380, 380);
 
-        // Center Lens Frame with Couple Photo
+        // Center Aperture Lens with Couple Photo
         const cx = width / 2;
         const cy = qrY + 190;
-        const radius = 60;
+        const radius = 62;
 
         ctx.save();
         ctx.beginPath();
@@ -447,27 +599,55 @@
         ctx.stroke();
         ctx.clip();
 
-        if (coverImgElement) {
-          ctx.drawImage(coverImgElement, cx - radius, cy - radius, radius * 2, radius * 2);
+        if (loadedCoverImage) {
+          ctx.drawImage(loadedCoverImage, cx - radius, cy - radius, radius * 2, radius * 2);
+        } else {
+          ctx.fillStyle = '#f0e6d2';
+          ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
+          ctx.fillStyle = '#a8792c';
+          ctx.font = 'bold 24px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('PHOTO', cx, cy + 8);
         }
         ctx.restore();
+      }
 
-        // Footer
-        ctx.fillStyle = '#111111';
-        ctx.font = 'bold 36px "Playfair Display", Georgia, serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('LOVE SNAP', width / 2, 740);
+      // Footer
+      ctx.fillStyle = '#111111';
+      ctx.font = 'bold 36px "Playfair Display", Georgia, serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('LOVE SNAP', width / 2, 740);
 
-        ctx.fillStyle = '#a8792c';
-        ctx.font = 'bold 18px sans-serif';
-        ctx.fillText(`QR PHOTO  •  WEDDING DATE: ${date}`, width / 2, 780);
+      ctx.fillStyle = '#a8792c';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText(`QR PHOTO  •  WEDDING DATE: ${date}`, width / 2, 780);
 
-        resolve(canvas.toDataURL('image/png'));
-      }, 300);
-    });
+      document.getElementById('livePreviewImg').src = canvas.toDataURL('image/png');
+    }, 150);
   }
 
-  // Handle Form Submit
+  // Upload to Telegram Cloud Helper
+  async function uploadFileToTelegram(file) {
+    const form = new FormData();
+    form.append('chat_id', CHAT_ID);
+    form.append('photo', file);
+
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+      method: 'POST',
+      body: form
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.description || 'Upload failed');
+
+    const photos = data.result.photo;
+    const fileId = photos[photos.length - 1].file_id;
+
+    const fileInfoRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
+    const fileInfo = await fileInfoRes.json();
+    return `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileInfo.result.file_path}`;
+  }
+
+  // Form Submit
   document.getElementById('weddingForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
@@ -478,40 +658,30 @@
     const groom = document.getElementById('groomName').value;
     const bride = document.getElementById('brideName').value;
     const date = document.getElementById('weddingDate').value;
-    const city = document.getElementById('weddingCity').value;
-    const opacity = document.getElementById('bgOpacity').value;
+    const city = document.getElementById('weddingCity').value || 'Jaipur';
     const coverFile = document.getElementById('coverPhoto').files[0];
     const photoFiles = document.getElementById('photos').files;
 
     try {
-      status.innerText = 'Cover photo Telegram par jaa raha hai...';
+      status.innerText = 'Uploading cover photo to Telegram Cloud...';
       const coverUrl = await uploadFileToTelegram(coverFile);
 
       const photoUrls = [];
       for (let i = 0; i < photoFiles.length; i++) {
-        status.innerText = `Photos upload ho rahe hain (${i + 1}/${photoFiles.length})... ⏳`;
+        status.innerText = `Uploading photos to Cloud (${i + 1}/${photoFiles.length})... ⏳`;
         const pUrl = await uploadFileToTelegram(photoFiles[i]);
         photoUrls.push(pUrl);
       }
 
       const weddingId = Date.now().toString();
-      const liveViewerUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/viewer.html?id=${weddingId}`;
-
-      // Load Cover as Image element for Canvas
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.src = URL.createObjectURL(coverFile);
-      await new Promise(r => img.onload = r);
-
-      status.innerText = 'Gold Heart QR ban raha hai...';
-      const qrDataUrl = await generateLoveSnapQR(liveViewerUrl, img, groom, bride, date, opacity);
+      const qrDataUrl = document.getElementById('livePreviewImg').src;
 
       const newWedding = {
         id: weddingId,
         groomName: groom,
         brideName: bride,
         weddingDate: date,
-        city: city || 'Jaipur',
+        city: city,
         coverUrl: coverUrl,
         qrDataUrl: qrDataUrl,
         photos: photoUrls,
@@ -521,13 +691,14 @@
       allWeddings.unshift(newWedding);
       localStorage.setItem('shaadi_weddings_data', JSON.stringify(allWeddings));
 
-      alert('🎉 Shaadi safaltapoorvak add ho gayi aur Gold Heart QR ban gaya!');
+      alert('🎉 Wedding album created successfully! Royal Gold Heart QR is ready.');
       document.getElementById('weddingForm').reset();
+      loadedCoverImage = null;
+      closeAddModal();
       renderAll();
       switchTab('shadiya', document.querySelectorAll('.nav-btn')[1]);
-
     } catch (err) {
-      alert('Upload error: ' + err.message);
+      alert('Upload Error: ' + err.message);
     } finally {
       btn.disabled = false;
       status.style.display = 'none';
