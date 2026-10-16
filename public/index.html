@@ -219,10 +219,20 @@
       <div class="section-desc">Click any wedding card to view photos, download Gold QR, or share with clients.</div>
 
       <!-- Functional Filter Pills -->
-      <div class="filter-pills">
-        <button class="pill-btn active" onclick="applyFilter('all', this)">All</button>
-        <button class="pill-btn" onclick="applyFilter('active', this)">Active</button>
-        <button class="pill-btn" onclick="applyFilter('archived', this)">Archived</button>
+      <!-- Filter Pills & Search Bar (Photo Match) -->
+      <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
+        <div class="filter-pills" style="margin-bottom: 0;">
+          <button class="pill-btn active" onclick="applyFilter('all', this)">All</button>
+          <button class="pill-btn" onclick="applyFilter('active', this)">Active</button>
+          <button class="pill-btn" onclick="applyFilter('archived', this)">Archived</button>
+        </div>
+        
+        <!-- Live Search Bar -->
+        <div style="flex: 1; min-width: 140px; position: relative;">
+          <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; color: #737887;">🔍</span>
+          <input type="text" id="weddingSearchInput" placeholder="Search..." oninput="handleSearch(this.value)" 
+                 style="width: 100%; background: #16181d; border: 1px solid #282c37; border-radius: 20px; padding: 8px 14px 8px 34px; color: #fff; font-size: 13px; outline: none;">
+        </div>
       </div>
 
       <div id="dashWeddingsContainer" class="wedding-list"></div>
@@ -390,6 +400,12 @@
 
   let allWeddings = JSON.parse(localStorage.getItem('shaadi_weddings_data') || '[]');
   let currentFilter = 'all';
+  let searchQuery = '';
+
+  function handleSearch(val) {
+    searchQuery = val.toLowerCase().trim();
+    renderDashboard();
+  }
   let loadedCoverImage = null;
 
   function switchTab(tabName, btn) {
@@ -425,6 +441,15 @@
     let filtered = allWeddings;
     if (currentFilter === 'active') filtered = allWeddings.filter(w => w.status !== 'archived');
     if (currentFilter === 'archived') filtered = allWeddings.filter(w => w.status === 'archived');
+
+    // Live Search Filter (Groom, Bride ya City se search karne ke liye)
+    if (searchQuery) {
+      filtered = filtered.filter(w => 
+        (w.groomName && w.groomName.toLowerCase().includes(searchQuery)) ||
+        (w.brideName && w.brideName.toLowerCase().includes(searchQuery)) ||
+        (w.city && w.city.toLowerCase().includes(searchQuery))
+      );
+    }
 
     document.getElementById('dashTotalWeddings').innerText = allWeddings.length;
     document.getElementById('weddingCountLabel').innerText = `— ${filtered.length} selected`;
