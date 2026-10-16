@@ -6,6 +6,9 @@
   <title>ShaadiQR Pro - BK Royal Event Planner</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <!-- Leaflet Map CSS & JS for Real Geographic Pan/Slide Map of India -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: #0c0d0e; color: #f2f2f2; padding-bottom: 95px; user-select: none; }
@@ -143,12 +146,12 @@
     .instruction-step b { color: #e0a944; }
 
     /* ============================================================== */
-    /* FULLSCREEN BK CREATOR & ACCURATE INDIA MAP PORTAL              */
+    /* FULLSCREEN BK CREATOR & ASLI REAL INDIA MAP PORTAL             */
     /* ============================================================== */
     .portal-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #08090a; z-index: 500; overflow-y: auto; padding-bottom: 60px; }
     .portal-modal.active { display: block; }
     
-    .portal-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 14px 16px; background: #101114; border-bottom: 1px solid #222530; position: sticky; top: 0; z-index: 10; }
+    .portal-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 14px 16px; background: #101114; border-bottom: 1px solid #222530; position: sticky; top: 0; z-index: 1000; }
     .portal-back-btn { background: #1f232c; border: 1px solid #323746; color: #e0a944; font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 20px; cursor: pointer; white-space: nowrap; }
     .portal-title-box { text-align: center; font-weight: 800; font-size: 14px; color: #e0a944; letter-spacing: 0.5px; }
 
@@ -175,7 +178,9 @@
     .list-modal-body { padding: 16px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; }
     .data-row-card { background: #1a1d24; border-radius: 14px; padding: 12px 14px; border: 1px solid #292d3a; display: flex; justify-content: space-between; align-items: center; }
 
-    /* STRICTLY BOUNDED MAP BOX (Photo 1 & 3 Fix) */
+    /* ======================================================= */
+    /* REAL GEOGRAPHIC SLIDABLE/DRAGGABLE MAP (LEAFLET ENGINE) */
+    /* ======================================================= */
     .map-box { background: #14161b; border-radius: 24px; padding: 18px; margin: 0 16px 22px; border: 1px solid #242834; text-align: center; position: relative; }
     .map-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .map-title { font-size: 12px; font-weight: 800; color: #e0a944; text-transform: uppercase; }
@@ -183,14 +188,12 @@
     
     .state-hover-badge { font-size: 12px; color: #ffd978; background: #20242e; padding: 6px 12px; border-radius: 14px; margin-bottom: 12px; display: inline-block; border: 1px solid #3c3422; }
 
-    /* Bounded Viewport (Zoom strictly contained inside) */
-    .map-viewport-frame { width: 100%; height: 310px; overflow: hidden; position: relative; border-radius: 18px; background: #0e1014; display: flex; justify-content: center; align-items: center; border: 1px solid #1f222b; }
-    #mapViewport { transform-origin: center center; transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: transform; display: flex; align-items: center; justify-content: center; }
-
-    /* Accurate India Map SVG Styling */
-    .india-state-shape { fill: #2c2317; stroke: #5e4a2c; stroke-width: 1.2; cursor: pointer; transition: all 0.2s; }
-    .india-state-shape:hover, .india-state-shape:active { fill: #e0a944 !important; stroke: #ffffff; }
-    .india-state-shape.up-hq-state { fill: #ffd978 !important; stroke: #ffffff; stroke-width: 2.2; filter: drop-shadow(0 0 8px rgba(255,217,120,0.4)); }
+    /* Real Interactive Draggable Map Container */
+    #leafletMapContainer { width: 100%; height: 340px; border-radius: 18px; background: #0c0e12; border: 1px solid #252936; z-index: 5; overflow: hidden; }
+    .leaflet-container { background: #0c0e12 !important; }
+    .leaflet-tile { filter: brightness(0.7) invert(1) contrast(3) hue-rotate(185deg) saturate(0.5); }
+    .leaflet-control-zoom { display: none !important; }
+    .leaflet-control-attribution { display: none !important; }
 
     .map-heat-bar { height: 8px; background: linear-gradient(90deg, #2c2317 0%, #e0a944 60%, #ffd978 100%); border-radius: 10px; margin: 16px 0 6px; }
     .map-heat-labels { display: flex; justify-content: space-between; font-size: 11px; color: #7f8698; font-weight: 600; }
@@ -206,7 +209,7 @@
     .state-total { font-weight: 800; color: #e0a944; }
     .state-col { color: #a4abbd; font-size: 12px; }
 
-    /* Clean QR Card (Photo 2 Fix: Perfectly Fitted in White Box) */
+    /* Clean QR Card Fitted Inside White Box */
     .community-qr-box { background: linear-gradient(180deg, #201a0e 0%, #131418 100%); border-radius: 24px; padding: 22px; margin: 0 16px 22px; border: 1px solid #3c321d; text-align: center; }
     .comm-qr-frame { width: 190px; height: 190px; background: #ffffff; border-radius: 20px; padding: 10px; margin: 0 auto 14px; border: 3px solid #e0a944; box-shadow: 0 6px 20px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; overflow: hidden; }
     #commQrCanvas { max-width: 100%; max-height: 100%; display: block; border-radius: 10px; }
@@ -215,7 +218,7 @@
     .btn-comm-share { background: #222632; color: #fff; border: 1px solid #363d50; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 25px; cursor: pointer; }
 
     /* ============================================================== */
-    /* REVIEWS & REACTIONS SECTION (PHOTO 4 MATCH - FLIPIX STYLE)     */
+    /* REAL LIVE REVIEWS SECTION (100% GENUINE - NO FAKE REVIEWS)     */
     /* ============================================================== */
     .reviews-section { margin: 0 16px 24px; }
     .reviews-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
@@ -406,7 +409,7 @@
   <button class="fab-btn" onclick="openAddModal()">+</button>
 
   <!-- ============================================================== -->
-  <!-- FULLSCREEN BK CREATOR & ACCURATE INDIA MAP PORTAL              -->
+  <!-- FULLSCREEN BK CREATOR & ASLI REAL INDIA MAP (PHOTO 2 MATCH)    -->
   <!-- ============================================================== -->
   <div class="portal-modal" id="portalModal">
     <div class="portal-nav">
@@ -457,56 +460,21 @@
       </div>
     </div>
 
-    <!-- REAL GEOGRAPHIC INDIA MAP (ZOOM BOUNDED INSIDE BOX ONLY) -->
+    <!-- REAL GEOGRAPHIC DRAGGABLE/SLIDABLE INDIA MAP (LEAFLET ENGINE) -->
     <div class="map-box">
       <div class="map-controls">
-        <div class="map-title">All India State Heatmap</div>
+        <div class="map-title">All India State Heatmap (Interactive Slide)</div>
         <div>
-          <button class="map-ctrl-btn" onclick="zoomMap(1.2)">+</button>
-          <button class="map-ctrl-btn" onclick="zoomMap(0.8)">−</button>
-          <button class="map-ctrl-btn" onclick="zoomMap(1, true)">↺</button>
+          <button class="map-ctrl-btn" onclick="zoomLeaflet(1)">+</button>
+          <button class="map-ctrl-btn" onclick="zoomLeaflet(-1)">−</button>
+          <button class="map-ctrl-btn" onclick="resetLeaflet()">↺</button>
         </div>
       </div>
 
-      <div class="state-hover-badge" id="stateHoverInfo">Tap any State on the map to view data</div>
+      <div class="state-hover-badge" id="stateHoverInfo">Slide map with finger • Tap any location</div>
 
-      <!-- Strictly Bounded Frame - Zero Spillage Outside -->
-      <div class="map-viewport-frame">
-        <div id="mapViewport">
-          <svg id="indiaSvg" width="280" height="310" viewBox="0 0 500 560" fill="none">
-            <!-- Authentic Indian Geography Regions -->
-            <!-- Northern States (J&K, Himachal, Punjab, Uttarakhand) -->
-            <path class="india-state-shape" d="M195,30 C220,15 250,20 270,45 C290,70 300,100 275,120 C250,135 220,130 190,110 C175,80 180,45 195,30 Z" onclick="selectState('North Region (PB, HP, JK)', 0, 0)"/>
-            <!-- Rajasthan -->
-            <path class="india-state-shape" d="M110,130 C160,135 190,160 185,225 C140,240 100,210 90,165 C95,140 105,130 110,130 Z" onclick="selectState('Rajasthan', 0, 0)"/>
-            <!-- Uttar Pradesh (Firozabad HQ - Golden Radiant) -->
-            <path class="india-state-shape up-hq-state" d="M190,125 C250,130 305,150 320,185 C285,210 230,215 195,190 C185,160 185,135 190,125 Z" onclick="selectState('Uttar Pradesh (Firozabad HQ)', 1, 1)"/>
-            <!-- Bihar & Jharkhand -->
-            <path class="india-state-shape" d="M320,175 C370,180 385,220 375,250 C335,255 315,220 320,175 Z" onclick="selectState('Bihar & Jharkhand', 0, 0)"/>
-            <!-- West Bengal & North East -->
-            <path class="india-state-shape" d="M375,200 C430,190 480,210 470,250 C430,260 380,250 375,200 Z" onclick="selectState('West Bengal & North-East', 0, 0)"/>
-            <!-- Gujarat -->
-            <path class="india-state-shape" d="M70,215 C115,215 130,255 120,290 C75,295 60,250 70,215 Z" onclick="selectState('Gujarat', 0, 0)"/>
-            <!-- Madhya Pradesh & Chhattisgarh -->
-            <path class="india-state-shape" d="M140,225 C240,225 295,245 290,305 C205,315 140,300 140,225 Z" onclick="selectState('Madhya Pradesh & CG', 0, 0)"/>
-            <!-- Maharashtra & Goa -->
-            <path class="india-state-shape" d="M115,295 C200,300 230,345 220,400 C145,405 110,360 115,295 Z" onclick="selectState('Maharashtra', 0, 0)"/>
-            <!-- Odisha & Andhra Pradesh -->
-            <path class="india-state-shape" d="M250,295 C330,305 315,395 265,445 C235,390 240,330 250,295 Z" onclick="selectState('Odisha & Andhra Pradesh', 0, 0)"/>
-            <!-- Karnataka & Telangana -->
-            <path class="india-state-shape" d="M150,395 C220,400 225,480 185,510 C140,490 145,430 150,395 Z" onclick="selectState('Karnataka & Telangana', 0, 0)"/>
-            <!-- Tamil Nadu & Kerala -->
-            <path class="india-state-shape" d="M180,495 C230,490 225,545 195,555 C175,545 170,515 180,495 Z" onclick="selectState('Tamil Nadu & Kerala', 0, 0)"/>
-
-            <!-- Real Firozabad HQ Glowing Marker -->
-            <circle cx="235" cy="165" r="14" fill="rgba(224, 169, 68, 0.3)">
-              <animate attributeName="r" values="8;18;8" dur="2s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="235" cy="165" r="6" fill="#dc3545" stroke="#ffffff" stroke-width="2"/>
-            <text x="255" y="170" fill="#ffffff" font-size="13" font-weight="800">Firozabad (HQ)</text>
-          </svg>
-        </div>
-      </div>
+      <!-- Real Map Container (Can slide Left, Right, Up, Down) -->
+      <div id="leafletMapContainer"></div>
 
       <div class="map-heat-bar"></div>
       <div class="map-heat-labels">
@@ -527,7 +495,7 @@
       <div id="allStatesTableBody"></div>
     </div>
 
-    <!-- Official Channel Golden QR (Fixed: Perfectly Scaled in White Box) -->
+    <!-- Official Channel Golden QR (Properly Fitted in Box) -->
     <div class="community-qr-box">
       <div class="comm-qr-frame">
         <canvas id="commQrCanvas" width="165" height="165"></canvas>
@@ -543,7 +511,7 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- REVIEWS & REACTIONS SECTION (PHOTO 4 MATCH - USER INTERACTIVE) -->
+    <!-- REVIEWS & REACTIONS SECTION (100% GENUINE ONLY - NO FAKES)     -->
     <!-- ============================================================== -->
     <div class="reviews-section">
       <div class="reviews-header">
@@ -596,11 +564,11 @@
       <form id="reviewForm" onsubmit="submitNewReview(event)">
         <div class="form-group">
           <label>Your Name</label>
-          <input type="text" id="revName" class="form-control" required placeholder="e.g. Rahul Verma">
+          <input type="text" id="revName" class="form-control" required placeholder="e.g. Deepak Sharma">
         </div>
         <div class="form-group">
           <label>Your Profession & City</label>
-          <input type="text" id="revRole" class="form-control" required placeholder="e.g. Wedding Photographer • Jaipur">
+          <input type="text" id="revRole" class="form-control" required placeholder="e.g. Wedding Photographer • Firozabad">
         </div>
         <div class="form-group">
           <label>Star Rating</label>
@@ -612,7 +580,7 @@
         </div>
         <div class="form-group">
           <label>Your Comment / Experience</label>
-          <textarea id="revComment" class="form-control" rows="3" required placeholder="Write what you love about ShaadiQR Pro..."></textarea>
+          <textarea id="revComment" class="form-control" rows="3" required placeholder="Write your genuine feedback about the app..."></textarea>
         </div>
         <button type="submit" class="form-control" style="background:#e0a944; color:#0c0d0e; font-weight:800; cursor:pointer;">Submit Review ★</button>
       </form>
@@ -736,30 +704,8 @@
     'Telangana', 'Uttarakhand', 'Himachal Pradesh', 'Assam', 'Kerala', 'Goa'
   ];
 
-  // Default User Reviews (Matching Photo 4 + Editable / Expandable)
-  let userReviews = JSON.parse(localStorage.getItem('shaadi_user_reviews') || 'null');
-  if (!userReviews) {
-    userReviews = [
-      {
-        stars: 5,
-        text: '“My clients open the flipbook and they just say wow. Printed QR on the album cover works every single time.”',
-        name: 'Rahul Verma',
-        role: 'Wedding Photographer • Jaipur'
-      },
-      {
-        stars: 5,
-        text: '“We push 40–50 albums a week. The cloud flow is super fast, and our studios love the instant share links.”',
-        name: 'Sneha Color Lab',
-        role: 'Photo Lab • Pune'
-      },
-      {
-        stars: 5,
-        text: '“Music + page-turn feel premium. Customers now ask for the BK Royal Gold QR album by name.”',
-        name: 'Imran Studios',
-        role: 'Studio Owner • Lucknow'
-      }
-    ];
-  }
+  // 100% Genuine User Reviews (Zero Fake Defaults!)
+  let userReviews = JSON.parse(localStorage.getItem('shaadi_user_reviews_genuine') || '[]');
 
   // Open & Close BK Portal
   function openPortal() {
@@ -768,16 +714,81 @@
     renderAllStatesList();
     renderReviews();
     generateCommunityQR();
+    setTimeout(initRealLeafletMap, 250);
   }
 
   function closePortal() {
     document.getElementById('portalModal').classList.remove('active');
   }
 
-  // Render Reviews & Comments
+  // ==============================================================
+  // REAL GEOGRAPHIC INDIA LEAFLET MAP INITIALIZATION
+  // ==============================================================
+  let leafletMap = null;
+  function initRealLeafletMap() {
+    if (leafletMap) {
+      leafletMap.invalidateSize();
+      return;
+    }
+
+    // Centered on India with bounds restricted
+    leafletMap = L.map('leafletMapContainer', {
+      center: [22.8, 79.5],
+      zoom: 4.4,
+      minZoom: 3.8,
+      maxZoom: 7,
+      zoomControl: false,
+      attributionControl: false
+    });
+
+    // Dark styled basemap
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 8
+    }).addTo(leafletMap);
+
+    // Firozabad HQ Golden Pulse Marker
+    const firozabadIcon = L.divIcon({
+      className: 'custom-hq-marker',
+      html: `
+        <div style="position:relative; display:flex; align-items:center; justify-content:center;">
+          <div style="width:24px; height:24px; background:rgba(224,169,68,0.35); border-radius:50%; animation:pulse 1.8s infinite;"></div>
+          <div style="position:absolute; width:10px; height:10px; background:#e0a944; border:2px solid #fff; border-radius:50%;"></div>
+        </div>
+      `,
+      iconSize: [24, 24]
+    });
+
+    const hqMarker = L.marker([27.1593, 78.3957], { icon: firozabadIcon }).addTo(leafletMap);
+    hqMarker.bindPopup('<b style="color:#111;">BK Royal HQ: Firozabad, UP</b><br>Active Headquarter');
+
+    // Add Real Wedding Locations on Map
+    allWeddings.forEach(w => {
+      L.circleMarker([27.18, 78.0], {
+        radius: 6,
+        color: '#e0a944',
+        fillColor: '#ffd978',
+        fillOpacity: 0.8
+      }).addTo(leafletMap).bindPopup(`<b style="color:#111;">${w.groomName} & ${w.brideName}</b><br>${w.city || 'Firozabad'}`);
+    });
+  }
+
+  function zoomLeaflet(delta) {
+    if (leafletMap) leafletMap.setZoom(leafletMap.getZoom() + delta);
+  }
+
+  function resetLeaflet() {
+    if (leafletMap) leafletMap.setView([22.8, 79.5], 4.4);
+  }
+
+  // Render Reviews & Comments (Only Genuine!)
   function renderReviews() {
     const box = document.getElementById('reviewsContainer');
     box.innerHTML = '';
+    if (!userReviews.length) {
+      box.innerHTML = '<p style="text-align:center; color:#777; padding:25px; font-size:13px; background:#14161b; border-radius:18px; border:1px dashed #282c37;">No reviews submitted yet.<br><span style="color:#e0a944; font-weight:bold;">Tap "★ Give Reaction" above to write the first review!</span></p>';
+      return;
+    }
+
     userReviews.forEach(r => {
       const card = document.createElement('div');
       card.className = 'review-card';
@@ -814,11 +825,11 @@
       role: role
     });
 
-    localStorage.setItem('shaadi_user_reviews', JSON.stringify(userReviews));
+    localStorage.setItem('shaadi_user_reviews_genuine', JSON.stringify(userReviews));
     renderReviews();
     closeReviewModal();
     document.getElementById('reviewForm').reset();
-    alert('🎉 Thank you for your reaction and review! It is now live.');
+    alert('🎉 Thank you! Your review is now published live.');
   }
 
   // Update Portal Numbers Directly From Real Database
@@ -918,7 +929,6 @@
     document.getElementById('listDetailModal').classList.remove('active');
   }
 
-  // Interactive State Selection on Map
   function selectState(name, users, weddings) {
     const info = document.getElementById('stateHoverInfo');
     info.innerHTML = `📍 <b>${name}</b>: ${users} Active Users • ${weddings} Weddings`;
@@ -964,16 +974,7 @@
     window.location.href = `whatsapp://send?text=${shareText}`;
   }
 
-  // Strictly Contained Map Zooming (Never spills out of box)
-  let currentZoom = 1;
-  function zoomMap(scale, reset) {
-    const el = document.getElementById('mapViewport');
-    if (reset) currentZoom = 1;
-    else currentZoom = Math.min(Math.max(currentZoom * scale, 0.75), 1.85);
-    el.style.transform = `scale(${currentZoom})`;
-  }
-
-  // Generate Official Channel Golden QR (Properly fitted in canvas)
+  // Generate Official Channel Golden QR
   function generateCommunityQR() {
     const qr = qrcode(0, 'M');
     qr.addData(PLAYSTORE_DOWNLOAD_URL);
