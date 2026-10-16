@@ -23,6 +23,16 @@
 
     .container { max-width: 600px; margin: auto; padding: 18px; }
 
+    /* 2 Big Action Banners */
+    .action-banner-row { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
+    .action-box-card { border-radius: 22px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: transform 0.15s; }
+    .action-box-card:active { transform: scale(0.98); }
+    .action-box-create { background: linear-gradient(135deg, #2b2212 0%, #17181e 100%); border: 1.5px solid #e0a944; box-shadow: 0 6px 20px rgba(224,169,68,0.25); }
+    .action-box-portfolio { background: linear-gradient(135deg, #181d26 0%, #121316 100%); border: 1.5px solid #333a4c; }
+    .action-icon-circle { width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+    .action-title { font-size: 18px; font-weight: 800; color: #fff; font-family: 'Playfair Display', serif; }
+    .action-desc { font-size: 11.5px; margin-top: 2px; font-weight: 600; }
+
     /* Stats Grid */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
     .stat-card { background: #16181d; border-radius: 22px; padding: 16px; border: 1px solid #232630; }
@@ -202,9 +212,7 @@
 </head>
 <body>
 
-  <!-- ============================================================== -->
-  <!-- MANDATORY LOGIN & REGISTRATION OVERLAY SCREEN (FIRST LAUNCH)    -->
-  <!-- ============================================================== -->
+  <!-- MANDATORY LOGIN & REGISTRATION OVERLAY -->
   <div class="auth-overlay" id="authOverlay">
     <div class="auth-card">
       <div class="auth-brand">
@@ -218,7 +226,7 @@
         <button class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')">Create Account</button>
       </div>
 
-      <!-- 1. LOGIN FORM -->
+      <!-- LOGIN FORM -->
       <form id="loginForm" onsubmit="handleUserLogin(event)">
         <div class="form-group">
           <label>Mobile Number or Gmail ID</label>
@@ -234,7 +242,7 @@
         </div>
       </form>
 
-      <!-- 2. CREATE ACCOUNT FORM (GLOBAL LANGUAGES & COUNTRIES) -->
+      <!-- CREATE ACCOUNT FORM -->
       <form id="registerForm" style="display:none;" onsubmit="handleUserRegistration(event)">
         <div class="form-group">
           <label>Full Name</label>
@@ -253,7 +261,6 @@
           <input type="email" id="regEmail" class="form-control" required placeholder="e.g. bhupendrakhatik8092003@gmail.com">
         </div>
 
-        <!-- Global World Languages -->
         <div class="form-group">
           <label>Select Preferred Language (Global)</label>
           <select id="regLanguage" class="form-control" style="background:#0e0f12; color:#fff;">
@@ -281,7 +288,6 @@
           </select>
         </div>
 
-        <!-- Global World Countries -->
         <div class="form-group">
           <label>Country</label>
           <select id="regCountry" class="form-control" style="background:#0e0f12; color:#fff;" onchange="handleCountryChange(this.value)">
@@ -317,7 +323,7 @@
         </div>
 
         <div class="form-group">
-          <label>Profile Photo (Will display on your profile header)</label>
+          <label>Profile Photo</label>
           <input type="file" id="regProfilePhoto" class="form-control" accept="image/*">
         </div>
 
@@ -334,7 +340,7 @@
     </div>
   </div>
 
-  <!-- 3. FORGOT PASSWORD OTP MODAL (STRICT 2 TIMES PER DAY LIMIT) -->
+  <!-- FORGOT PASSWORD OTP MODAL (STRICT 2/DAY LIMIT) -->
   <div class="modal-overlay" id="forgotModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -346,7 +352,7 @@
           <label>Enter Registered Mobile Number</label>
           <input type="tel" id="forgotPhone" class="form-control" placeholder="e.g. 7500972831">
         </div>
-        <div style="font-size:11px; color:#e0a944; margin-bottom:10px;">🔒 Security Rule: Password reset is allowed only 2 times per day.</div>
+        <div style="font-size:11px; color:#e0a944; margin-bottom:10px;">🔒 Security: Maximum 2 password resets allowed per day.</div>
         <button type="button" class="form-control" style="background:#e0a944; color:#0c0d0e; font-weight:800; cursor:pointer;" onclick="sendForgotOTP()">Generate Verification OTP 📲</button>
       </div>
 
@@ -368,13 +374,13 @@
     </div>
   </div>
 
-  <!-- Top Header (Dynamic for current logged-in user) -->
+  <!-- Top Header -->
   <div class="top-header">
     <div class="brand-box">
       <div class="brand-icon">💛</div>
       <div>
         <div class="brand-title">ShaadiQR Pro</div>
-        <div class="brand-subtitle" id="topHeaderSubtitle">BK Royal Event Planner • Firozabad, UP</div>
+        <div class="brand-subtitle" id="topHeaderSubtitle">Studio Dashboard</div>
       </div>
     </div>
     <div class="avatar-badge" id="topUserAvatar" onclick="openPortal()" title="Open Profile & Hub">BK</div>
@@ -384,6 +390,35 @@
 
     <!-- TAB 1: DASHBOARD -->
     <div id="tab-dashboard" class="tab-content active">
+
+      <!-- 2 NAYE FULL-WIDTH BOXES (CREATE SHAADI & MY SHAADI) -->
+      <div class="action-banner-row">
+        <!-- Box 1: Create Shaadi -->
+        <div class="action-box-card action-box-create" onclick="openAddModal()">
+          <div style="display:flex; align-items:center; gap:15px;">
+            <div class="action-icon-circle" style="background:linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%);">💍</div>
+            <div>
+              <div class="action-title">Create Shaadi</div>
+              <div class="action-desc" style="color:#c5a059;">Design Gold Heart QR & Studio Upload Tools →</div>
+            </div>
+          </div>
+          <div style="background:#e0a944; color:#0c0d0e; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:bold;">+</div>
+        </div>
+
+        <!-- Box 2: My Shaadi -->
+        <div class="action-box-card action-box-portfolio" onclick="openMyShaadiModal()">
+          <div style="display:flex; align-items:center; gap:15px;">
+            <div class="action-icon-circle" style="background:#202634; color:#e0a944;">📖</div>
+            <div>
+              <div class="action-title">My Shaadi</div>
+              <div class="action-desc" style="color:#888e9b;">Your Personal Weddings Portfolio & History →</div>
+            </div>
+          </div>
+          <div style="background:#202634; color:#e0a944; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:bold;">→</div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-top-row">
@@ -480,18 +515,18 @@
       <div id="qrListContainer" class="qr-cards-grid"></div>
     </div>
 
-    <!-- TAB 4: SETTINGS (Dynamic User Profile) -->
+    <!-- TAB 4: SETTINGS -->
     <div id="tab-settings" class="tab-content">
       <div class="profile-card">
         <div class="profile-top">
           <div class="studio-avatar" id="settingsAvatar" onclick="openPortal()">BK</div>
           <div>
-            <div class="studio-name" id="settingsStudioName">BK Royal Event Planner</div>
-            <div class="studio-sub" id="settingsStudioSub">Owner: Bhupendra Khatik • Firozabad, UP</div>
+            <div class="studio-name" id="settingsStudioName">Studio Name</div>
+            <div class="studio-sub" id="settingsStudioSub">Owner • City, State</div>
           </div>
         </div>
         <div class="studio-email-badge">
-          <span class="studio-email" id="settingsEmail">bhupendrakhatik8092003@gmail.com</span>
+          <span class="studio-email" id="settingsEmail">user@gmail.com</span>
           <span class="online-chip">● Online</span>
         </div>
       </div>
@@ -517,7 +552,7 @@
       <div class="instruction-card">
         <h3 style="color:#fff; font-size:16px; margin-bottom:14px;">Security & Account Management</h3>
         <div style="font-size:13px; color:#c3c7d2; line-height:1.6; margin-bottom:16px;">
-          Logged in as <b id="loggedUserDisplay" style="color:#e0a944;">Admin</b>. Only authorized creators can add/delete albums.
+          Logged in as <b id="loggedUserDisplay" style="color:#e0a944;">User</b>. Only authorized creators can add/delete albums.
         </div>
         <button onclick="handleUserLogout()" style="background:#dc3545; color:#fff; border:none; padding:10px 20px; border-radius:14px; font-weight:800; cursor:pointer; width:100%;">Logout of Account 🚪</button>
       </div>
@@ -528,9 +563,30 @@
   <!-- Floating Add Button -->
   <button class="fab-btn" onclick="openAddModal()">+</button>
 
-  <!-- ============================================================== -->
-  <!-- FULLSCREEN CREATOR HUB & LEAFLET INDIA MAP                     -->
-  <!-- ============================================================== -->
+  <!-- DEDICATED MY SHAADI FULLSCREEN PORTFOLIO MODAL -->
+  <div class="list-modal-overlay" id="myShaadiModal" onclick="closeMyShaadiModal()">
+    <div class="list-modal-box" onclick="event.stopPropagation()" style="max-width:540px; height:90vh;">
+      <div class="list-modal-head">
+        <div class="list-modal-title">📖 My Shaadi Portfolio</div>
+        <button onclick="closeMyShaadiModal()" style="background:none; border:none; color:#aaa; font-size:24px; cursor:pointer;">&times;</button>
+      </div>
+
+      <!-- Controls: Search + Newest / Oldest Sort Dropdown -->
+      <div style="padding:14px 16px; background:#101114; border-bottom:1px solid #222530; display:flex; gap:10px; flex-wrap:wrap;">
+        <input type="text" id="myShaadiSearch" placeholder="🔍 Search by name or city..." oninput="renderMyShaadiList()" 
+               style="flex:1; min-width:160px; background:#16181d; border:1px solid #2c303c; border-radius:12px; padding:10px 14px; color:#fff; font-size:13px; outline:none;">
+        <select id="myShaadiSort" onchange="renderMyShaadiList()" 
+                style="background:#16181d; border:1px solid #2c303c; border-radius:12px; padding:10px 12px; color:#e0a944; font-size:12px; font-weight:700; outline:none;">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+        </select>
+      </div>
+
+      <div class="list-modal-body" id="myShaadiContainer"></div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN CREATOR HUB & MAP MODAL -->
   <div class="portal-modal" id="portalModal">
     <div class="portal-nav">
       <button class="portal-back-btn" onclick="closePortal()">← Back</button>
@@ -538,7 +594,6 @@
       <div class="avatar-badge" id="hubNavAvatar" style="width:34px; height:34px; font-size:11px;">BK</div>
     </div>
 
-    <!-- Creator Banner -->
     <div class="portal-hero">
       <div class="portal-hero-title">Join BK Royal Creator Program</div>
       <div class="portal-hero-desc">Collaborate with BK Royal Event Planner for premium wedding flipbooks, stage flower decoration, and custom QR systems.</div>
@@ -580,7 +635,7 @@
       </div>
     </div>
 
-    <!-- REAL GEOGRAPHIC DRAGGABLE/SLIDABLE INDIA MAP -->
+    <!-- REAL GEOGRAPHIC DRAGGABLE INDIA MAP -->
     <div class="map-box">
       <div class="map-controls">
         <div class="map-title">All India State Heatmap (Interactive Slide)</div>
@@ -602,7 +657,7 @@
       </div>
     </div>
 
-    <!-- Real State-by-State Breakdown Table -->
+    <!-- Real State Breakdown Table -->
     <div class="states-table-card">
       <div style="font-weight:800; color:#fff; font-size:15px; margin-bottom:10px;">All India States Live Data</div>
       <div class="table-head">
@@ -613,7 +668,7 @@
       <div id="allStatesTableBody"></div>
     </div>
 
-    <!-- Official Channel Golden QR -->
+    <!-- Community QR -->
     <div class="community-qr-box">
       <div class="comm-qr-frame">
         <canvas id="commQrCanvas" width="165" height="165"></canvas>
@@ -628,13 +683,12 @@
       </div>
     </div>
 
-    <!-- REVIEWS & REACTIONS SECTION (SECURE DELETE PERMISSION) -->
+    <!-- Reviews Section -->
     <div class="reviews-section">
       <div class="reviews-header">
         <div class="reviews-title">User Reviews & Feedback</div>
         <button class="btn-add-review" onclick="openReviewModal()">★ Give Reaction</button>
       </div>
-
       <div class="review-cards-list" id="reviewsContainer"></div>
     </div>
 
@@ -724,7 +778,7 @@
     </div>
   </div>
 
-  <!-- Modal: Add New Wedding Form -->
+  <!-- Modal: Add New Wedding Form (Full Creation Studio) -->
   <div class="modal-overlay" id="addModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -837,7 +891,7 @@
     localStorage.setItem('shaadi_registered_users', JSON.stringify(registeredUsers));
   }
 
-  // Check Authentication on Launch
+  // Authentication Checker
   function checkAuthentication() {
     if (!currentUser) {
       document.getElementById('authOverlay').classList.add('active');
@@ -884,7 +938,7 @@
 
     currentUser = user;
     localStorage.setItem('shaadi_current_user', JSON.stringify(currentUser));
-    alert(`🎉 Welcome, ${currentUser.name}!`);
+    alert(`🎉 Welcome back, ${currentUser.name}!`);
     checkAuthentication();
   }
 
@@ -907,7 +961,6 @@
       return;
     }
 
-    // Duplicate Check
     const exists = registeredUsers.some(u => u.phone === phone || u.email.toLowerCase() === email);
     if (exists) {
       alert('⚠️ This Mobile Number or Gmail ID is already registered! Please Login instead.');
@@ -958,7 +1011,6 @@
     document.getElementById('forgotModal').classList.remove('active');
   }
 
-  // STRICT 2-TIMES-PER-DAY PASSWORD RESET LIMIT
   function sendForgotOTP() {
     const ph = document.getElementById('forgotPhone').value.trim();
     const user = registeredUsers.find(u => u.phone === ph);
@@ -976,7 +1028,6 @@
       return;
     }
 
-    // Increment attempts count
     localStorage.setItem(key, (attempts + 1).toString());
 
     currentGeneratedOTP = Math.floor(1000 + Math.random() * 9000).toString();
@@ -1010,18 +1061,14 @@
     }
   }
 
-  // DYNAMIC PROFILE INJECTION (USER SPECIFIC)
   function applyUserDataToUI() {
     if (!currentUser) return;
-
-    // Subtitle & Studio
     document.getElementById('topHeaderSubtitle').innerText = `${currentUser.studio} • ${currentUser.city || 'City'}, ${currentUser.state || 'State'}`;
     document.getElementById('settingsStudioName').innerText = currentUser.studio || 'Studio Name';
     document.getElementById('settingsStudioSub').innerText = `Owner: ${currentUser.name} • ${currentUser.city || 'City'}, ${currentUser.state || 'State'}`;
     document.getElementById('settingsEmail').innerText = currentUser.email || 'user@gmail.com';
     document.getElementById('loggedUserDisplay').innerText = `${currentUser.name} (${currentUser.role === 'SUPER_ADMIN' ? 'Owner / Super Admin' : 'Creator'})`;
 
-    // Dynamic Avatar (Photo or Initials)
     const initials = (currentUser.studio && currentUser.studio.length >= 2) 
       ? (currentUser.studio[0] + currentUser.studio[1]).toUpperCase() 
       : ((currentUser.name[0] || 'U') + (currentUser.name[1] || '')).toUpperCase();
@@ -1041,7 +1088,75 @@
     }
   }
 
-  // Reviews with Strict Permission
+  // MY SHAADI MODAL
+  function openMyShaadiModal() {
+    document.getElementById('myShaadiModal').classList.add('active');
+    renderMyShaadiList();
+  }
+
+  function closeMyShaadiModal() {
+    document.getElementById('myShaadiModal').classList.remove('active');
+  }
+
+  function renderMyShaadiList() {
+    const box = document.getElementById('myShaadiContainer');
+    box.innerHTML = '';
+
+    let myList = allWeddings.filter(w => {
+      if (!currentUser) return true;
+      if (currentUser.role === 'SUPER_ADMIN') return true;
+      return w.creatorPhone === currentUser.phone;
+    });
+
+    const q = (document.getElementById('myShaadiSearch').value || '').toLowerCase().trim();
+    if (q) {
+      myList = myList.filter(w => 
+        (w.groomName && w.groomName.toLowerCase().includes(q)) ||
+        (w.brideName && w.brideName.toLowerCase().includes(q)) ||
+        (w.city && w.city.toLowerCase().includes(q))
+      );
+    }
+
+    const sortMode = document.getElementById('myShaadiSort').value;
+    if (sortMode === 'oldest') {
+      myList.sort((a, b) => new Date(a.weddingDate || a.createdAt) - new Date(b.weddingDate || b.createdAt));
+    } else {
+      myList.sort((a, b) => new Date(b.weddingDate || b.createdAt) - new Date(a.weddingDate || a.createdAt));
+    }
+
+    if (!myList.length) {
+      box.innerHTML = '<p style="text-align:center; color:#888; padding:30px;">No weddings created by your account yet. Tap "Create Shaadi" above to design your first QR!</p>';
+      return;
+    }
+
+    myList.forEach(w => {
+      const card = document.createElement('div');
+      card.className = 'wedding-banner-card';
+      card.style.padding = '16px';
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div style="font-size:11px; color:#e0a944; font-weight:bold;">📅 ${w.weddingDate} • 📍 ${w.city || 'City'}</div>
+          <button onclick="deleteWedding('${w.id}')" style="background:none; border:none; color:#dc3545; font-size:16px; cursor:pointer;">🗑️</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <div style="width:50px; height:50px; border-radius:50%; border:2px solid #e0a944; overflow:hidden; flex-shrink:0;">
+            <img src="${w.coverUrl || w.qrDataUrl}" style="width:100%; height:100%; object-fit:cover;">
+          </div>
+          <div>
+            <div style="font-size:17px; font-weight:800; color:#fff; font-family:'Playfair Display', serif;">${w.groomName} & ${w.brideName}</div>
+            <div style="font-size:11.5px; color:#888;">📸 ${w.photos ? w.photos.length : 0} Photos • 👁️ ${w.scans || 0} Scans</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button onclick="closeMyShaadiModal(); showFullscreenQR('${w.qrDataUrl}', '${w.groomName}', '${w.brideName}', '${w.id}')" class="btn-download-qr" style="flex:1;">View QR</button>
+          <button onclick="shareToWhatsApp('${w.groomName}', '${w.brideName}', '${w.id}')" class="btn-share-wa" style="flex:1; justify-content:center;">💬 WhatsApp</button>
+        </div>
+      `;
+      box.appendChild(card);
+    });
+  }
+
+  // Reviews & Comments
   function renderReviews() {
     const box = document.getElementById('reviewsContainer');
     box.innerHTML = '';
@@ -1054,7 +1169,6 @@
       const card = document.createElement('div');
       card.className = 'review-card';
       const starStr = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
-      
       const canDelete = currentUser && (currentUser.role === 'SUPER_ADMIN' || currentUser.phone === r.authorPhone || currentUser.email === r.authorEmail);
 
       card.innerHTML = `
@@ -1113,7 +1227,6 @@
     alert('🎉 Thank you! Your review is now published live.');
   }
 
-  // Weddings Deletion Security
   function deleteWedding(id) {
     const wedding = allWeddings.find(w => w.id === id);
     if (!wedding) return;
@@ -1128,9 +1241,12 @@
     allWeddings = allWeddings.filter(w => w.id !== id);
     localStorage.setItem('shaadi_weddings_data', JSON.stringify(allWeddings));
     renderAll();
+    if (document.getElementById('myShaadiModal').classList.contains('active')) {
+      renderMyShaadiList();
+    }
   }
 
-  // Leaflet Interactive Real Map
+  // Leaflet Map
   let leafletMap = null;
   function initRealLeafletMap() {
     if (leafletMap) {
@@ -1155,7 +1271,7 @@
       className: 'custom-hq-marker',
       html: `
         <div style="position:relative; display:flex; align-items:center; justify-content:center;">
-          <div style="width:24px; height:24px; background:rgba(224,169,68,0.35); border-radius:50%; animation:pulse 1.8s infinite;"></div>
+          <div style="width:24px; height:24px; background:rgba(224,169,68,0.35); border-radius:50%;"></div>
           <div style="position:absolute; width:10px; height:10px; background:#e0a944; border:2px solid #fff; border-radius:50%;"></div>
         </div>
       `,
@@ -1171,7 +1287,7 @@
         color: '#e0a944',
         fillColor: '#ffd978',
         fillOpacity: 0.8
-      }).addTo(leafletMap).bindPopup(`<b style="color:#111;">${w.groomName} & ${w.brideName}</b><br>${w.city || 'Firozabad'}`);
+      }).addTo(leafletMap).bindPopup(`<b style="color:#111;">${w.groomName} & ${w.brideName}</b><br>${w.city || 'City'}`);
     });
   }
 
@@ -1183,7 +1299,6 @@
     if (leafletMap) leafletMap.setView([22.8, 79.5], 4.4);
   }
 
-  // Portal & 4 Cards
   const INDIA_STATES = [
     'Uttar Pradesh (HQ)', 'Rajasthan', 'Bihar', 'Madhya Pradesh', 'Maharashtra', 
     'Haryana', 'Delhi NCR', 'Gujarat', 'West Bengal', 'Punjab', 'Jharkhand', 
@@ -1366,7 +1481,7 @@
     }
   }
 
-  // Dashboard & Tabs
+  // Navigation & Filtering
   function switchTab(tabName, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -1809,7 +1924,6 @@
     }
   });
 
-  // Start & Check Authentication
   checkAuthentication();
 </script>
 </body>
