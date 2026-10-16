@@ -542,8 +542,17 @@
   }
 
   function shareToWhatsApp(groom, bride, id) {
+    const wedding = allWeddings.find(w => w.id === id);
     const link = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/viewer.html?id=${id}`;
-    const text = encodeURIComponent(`✨ *${groom} & ${bride} Wedding Memories*\n\nScan Love Snap Heart QR or tap link below to view all wedding photos without installing any app:\n👉 ${link}`);
+    const qrData = wedding ? wedding.qrDataUrl : document.getElementById('livePreviewImg').src;
+
+    if (window.AndroidSaver && window.AndroidSaver.shareImageToWhatsApp) {
+      window.AndroidSaver.shareImageToWhatsApp(qrData, groom, bride, link);
+      return;
+    }
+
+    // Browser fallback
+    const text = encodeURIComponent(`✨ *${groom} & ${bride} Wedding Memories*\n\nScan QR or open link below to view photos:\n👉 ${link}`);
     window.location.href = `whatsapp://send?text=${text}`;
   }
 
