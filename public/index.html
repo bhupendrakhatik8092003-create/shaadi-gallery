@@ -20,13 +20,14 @@
 
     .container { max-width: 600px; margin: auto; padding: 18px; }
 
-    /* Stats Grid */
+    /* Stats Grid (No Overlap - Flex Row) */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
-    .stat-card { background: #16181d; border-radius: 22px; padding: 18px; border: 1px solid #232630; position: relative; }
-    .stat-badge { position: absolute; top: 14px; right: 14px; background: rgba(224, 169, 68, 0.12); color: #e0a944; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
-    .stat-icon-wrapper { width: 42px; height: 42px; background: #20242e; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px; color: #e0a944; }
+    .stat-card { background: #16181d; border-radius: 22px; padding: 16px; border: 1px solid #232630; }
+    .stat-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .stat-badge { background: rgba(224, 169, 68, 0.12); color: #e0a944; font-size: 9.5px; font-weight: 700; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+    .stat-icon-wrapper { width: 40px; height: 40px; background: #20242e; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #e0a944; }
     .stat-label { font-size: 11px; color: #888e9b; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
-    .stat-value { font-size: 26px; font-weight: 800; color: #ffffff; margin: 4px 0 6px; }
+    .stat-value { font-size: 24px; font-weight: 800; color: #ffffff; margin: 4px 0 6px; }
     .stat-sub { font-size: 11px; color: #6b7280; }
 
     /* Filter & Header Row */
@@ -65,7 +66,7 @@
     .modal-box { background: #16181d; width: 100%; max-width: 520px; max-height: 90vh; border-radius: 24px; padding: 22px; border: 1px solid #2a2e3a; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #242834; padding-bottom: 12px; }
     .modal-title { font-size: 18px; font-weight: 700; color: #e0a944; }
-    .modal-close { background: none; border: none; color: #888; font-size: 22px; cursor: pointer; }
+    .modal-close { background: none; border: none; color: #888; font-size: 24px; cursor: pointer; }
 
     .form-group { margin-bottom: 14px; }
     .form-group label { display: block; font-size: 11.5px; font-weight: 700; color: #a4a9b6; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -73,10 +74,15 @@
     .slider-box { display: flex; align-items: center; gap: 12px; }
     .slider-box input[type="range"] { flex: 1; accent-color: #e0a944; }
 
-    /* Live QR Preview Box */
     .qr-live-preview-box { background: #ffffff; border-radius: 18px; padding: 14px; text-align: center; margin-top: 14px; border: 2px solid #e0a944; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
     .qr-live-preview-box img { max-width: 250px; height: auto; border-radius: 10px; display: block; margin: auto; }
     .preview-tip { font-size: 11.5px; color: #555; margin-top: 8px; font-weight: 600; }
+
+    /* Fullscreen QR Modal */
+    .fs-qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); z-index: 300; justify-content: center; align-items: center; flex-direction: column; padding: 20px; }
+    .fs-qr-modal.active { display: flex; }
+    .fs-qr-img { max-width: 90%; max-height: 65vh; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); margin-bottom: 20px; background: #fff; }
+    .fs-btn-row { display: flex; gap: 12px; }
 
     /* Bottom Navigation Bar */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #121316; border-top: 1px solid #1f2128; display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
@@ -95,13 +101,13 @@
     .qr-banner-desc { font-size: 12px; color: #9fa4b2; line-height: 1.5; }
 
     .qr-horizontal-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px; }
-    .mini-qr-card { background: #ffffff; border-radius: 18px; padding: 12px; min-width: 120px; text-align: center; border: 1px solid #e0a944; }
+    .mini-qr-card { background: #ffffff; border-radius: 18px; padding: 12px; min-width: 120px; text-align: center; border: 1px solid #e0a944; cursor: pointer; }
     .mini-qr-card img { width: 90px; height: 110px; object-fit: contain; }
     .mini-qr-name { color: #0c0d0e; font-size: 12px; font-weight: 700; margin-top: 6px; }
 
     .qr-cards-grid { display: flex; flex-direction: column; gap: 16px; }
     .qr-item-card { background: #16181d; border-radius: 22px; padding: 18px; border: 1px solid #252834; display: flex; align-items: center; gap: 16px; }
-    .qr-thumb-box { width: 110px; height: 135px; background: white; border-radius: 14px; padding: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .qr-thumb-box { width: 110px; height: 135px; background: white; border-radius: 14px; padding: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; }
     .qr-thumb-box img { width: 100%; height: 100%; object-fit: contain; }
     .qr-info-box { flex: 1; }
     .qr-title { font-size: 17px; font-weight: 700; color: #fff; font-family: 'Playfair Display', Georgia, serif; }
@@ -150,30 +156,57 @@
     <!-- TAB 1: DASHBOARD -->
     <div id="tab-dashboard" class="tab-content active">
       <div class="stats-grid">
+        <!-- Card 1 -->
         <div class="stat-card">
-          <div class="stat-badge">+12% THIS MONTH</div>
-          <div class="stat-icon-wrapper">💛</div>
+          <div class="stat-top-row">
+            <div class="stat-icon-wrapper">💛</div>
+            <div class="stat-badge">+12% THIS MONTH</div>
+          </div>
           <div class="stat-label">Total Weddings</div>
           <div class="stat-value" id="dashTotalWeddings">0</div>
           <div class="stat-sub">Active • All managed smoothly</div>
         </div>
+
+        <!-- Card 2 -->
         <div class="stat-card">
-          <div class="stat-badge">2,000 / wedding</div>
-          <div class="stat-icon-wrapper">🖼️</div>
+          <div class="stat-top-row">
+            <div class="stat-icon-wrapper">🖼️</div>
+            <div class="stat-badge">2,000 / wedding</div>
+          </div>
           <div class="stat-label">Total Photos</div>
           <div class="stat-value" id="dashTotalPhotos">0</div>
           <div class="stat-sub">Telegram Cloud Storage</div>
         </div>
+
+        <!-- Card 3: Memory Chip Icon (Pure Gold SVG) -->
         <div class="stat-card">
-          <!-- Golden Memory Chip Icon -->
-          <div class="stat-icon-wrapper" style="font-size:24px;">💽</div>
+          <div class="stat-top-row">
+            <div class="stat-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0a944" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+                <rect x="8" y="8" width="8" height="8" rx="1"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+                <line x1="20" y1="9" x2="23" y2="9"></line>
+                <line x1="20" y1="15" x2="23" y2="15"></line>
+                <line x1="1" y1="9" x2="4" y2="9"></line>
+                <line x1="1" y1="15" x2="4" y2="15"></line>
+              </svg>
+            </div>
+          </div>
           <div class="stat-label">Total Storage</div>
           <div class="stat-value" style="font-size:22px;">Unlimited</div>
           <div class="stat-sub">100% Lifetime Free Cloud</div>
         </div>
+
+        <!-- Card 4 -->
         <div class="stat-card">
-          <div class="stat-badge">LIVE TRACKING</div>
-          <div class="stat-icon-wrapper">⚡</div>
+          <div class="stat-top-row">
+            <div class="stat-icon-wrapper">⚡</div>
+            <div class="stat-badge">LIVE TRACKING</div>
+          </div>
           <div class="stat-label">Total Scans</div>
           <div class="stat-value" id="dashTotalScans">1,240</div>
           <div class="stat-sub">Live guests online</div>
@@ -260,6 +293,16 @@
 
   </div>
 
+  <!-- Fullscreen QR Modal (Bada QR View) -->
+  <div class="fs-qr-modal" id="fsQrModal" onclick="closeFsQr()">
+    <img id="fsQrImg" class="fs-qr-img" src="" alt="Full Screen QR">
+    <div class="fs-btn-row" onclick="event.stopPropagation()">
+      <button class="btn-download-qr" id="fsDownloadBtn">⬇️ Download to Gallery</button>
+      <button class="btn-share-wa" id="fsWaBtn">💬 WhatsApp</button>
+      <button class="btn-download-qr" style="background:#dc3545; color:#fff;" onclick="closeFsQr()">✖ Close</button>
+    </div>
+  </div>
+
   <!-- Floating Add Button -->
   <button class="fab-btn" onclick="openAddModal()">+</button>
 
@@ -300,11 +343,10 @@
           </div>
         </div>
 
-        <!-- Live Interactive QR Preview -->
         <div class="qr-live-preview-box">
           <div style="font-size:12px; color:#111; font-weight:800; margin-bottom:6px;">LIVE GOLD HEART QR PREVIEW</div>
           <img id="livePreviewImg" src="" alt="Real-time Preview">
-          <div class="preview-tip">Adjust the opacity slider above to see real-time watermark transparency.</div>
+          <div class="preview-tip">Adjust opacity slider to balance scannability and photo visibility.</div>
         </div>
 
         <div class="form-group" style="margin-top:16px;">
@@ -424,7 +466,7 @@
         <div class="wedding-meta">📅 ${w.weddingDate} • 📍 ${w.city || 'Firozabad'}</div>
         <div class="card-footer-action">
           <span style="font-size:12.5px; color:#e0a944; font-weight:800;">👑 QR Ready</span>
-          <button class="btn-gold-view" onclick="switchTab('qr', document.querySelectorAll('.nav-btn')[2])">View QR</button>
+          <button class="btn-gold-view" onclick="showFullscreenQR('${w.qrDataUrl}', '${w.groomName}', '${w.brideName}', '${w.id}')">View QR</button>
         </div>
       `;
       box.appendChild(card);
@@ -445,6 +487,7 @@
     allWeddings.forEach(w => {
       const mini = document.createElement('div');
       mini.className = 'mini-qr-card';
+      mini.onclick = () => showFullscreenQR(w.qrDataUrl, w.groomName, w.brideName, w.id);
       mini.innerHTML = `
         <img src="${w.qrDataUrl}">
         <div class="mini-qr-name">${w.groomName}</div>
@@ -454,14 +497,14 @@
       const item = document.createElement('div');
       item.className = 'qr-item-card';
       item.innerHTML = `
-        <div class="qr-thumb-box">
+        <div class="qr-thumb-box" onclick="showFullscreenQR('${w.qrDataUrl}', '${w.groomName}', '${w.brideName}', '${w.id}')">
           <img src="${w.qrDataUrl}" alt="Gold Heart QR">
         </div>
         <div class="qr-info-box">
           <div class="qr-title">${w.groomName} & ${w.brideName}</div>
           <div class="qr-sub">📅 ${w.weddingDate} • 📍 ${w.city || 'Firozabad'}</div>
           <div class="qr-action-row">
-            <button class="btn-download-qr" onclick="saveImageToPhone('${w.qrDataUrl}', '${w.groomName}_${w.brideName}')">⬇️ Download PNG</button>
+            <button class="btn-download-qr" onclick="saveImageToPhone('${w.qrDataUrl}', '${w.groomName}_${w.brideName}')">⬇️ Download</button>
             <button class="btn-share-wa" onclick="shareToWhatsApp('${w.groomName}', '${w.brideName}', '${w.id}')">💬 WhatsApp</button>
           </div>
         </div>
@@ -470,31 +513,32 @@
     });
   }
 
-  // 100% Reliable Native Download for Mobile Phone
-  function saveImageToPhone(base64Data, filename) {
-    try {
-      const byteString = atob(base64Data.split(',')[1]);
-      const mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-      for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      const blob = new Blob([ab], { type: mimeString });
-      const blobUrl = URL.createObjectURL(blob);
+  // Full Screen QR Popup Logic
+  function showFullscreenQR(dataUrl, groom, bride, id) {
+    document.getElementById('fsQrImg').src = dataUrl;
+    document.getElementById('fsDownloadBtn').onclick = () => saveImageToPhone(dataUrl, `${groom}_${bride}`);
+    document.getElementById('fsWaBtn').onclick = () => shareToWhatsApp(groom, bride, id);
+    document.getElementById('fsQrModal').classList.add('active');
+  }
 
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = `LoveSnap_${filename}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 1500);
-      alert('✅ Heart QR downloaded to your phone gallery!');
-    } catch (e) {
-      const w = window.open("");
-      w.document.write(`<img src="${base64Data}" style="max-width:100%;"><br><p>Long press image to Save to phone.</p>`);
+  function closeFsQr() {
+    document.getElementById('fsQrModal').classList.remove('active');
+  }
+
+  // Native Android Gallery Downloader Bridge
+  function saveImageToPhone(base64Data, filename) {
+    if (window.AndroidSaver && window.AndroidSaver.saveBase64Image) {
+      window.AndroidSaver.saveBase64Image(base64Data, `LoveSnap_${filename}.png`);
+      alert('✅ Heart QR saved directly to your phone gallery!');
+      return;
     }
+    // Fallback for standard browsers
+    const a = document.createElement('a');
+    a.href = base64Data;
+    a.download = `LoveSnap_${filename}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 
   function shareToWhatsApp(groom, bride, id) {
@@ -529,7 +573,6 @@
     updateLivePreview();
   }
 
-  // Pure Math Guaranteed Matrix Gold Heart QR Engine
   function updateLivePreview() {
     const groom = document.getElementById('groomName').value || 'DEEPAK';
     const bride = document.getElementById('brideName').value || 'POONAM';
@@ -554,7 +597,6 @@
       ctx.closePath();
     }
 
-    // 1. Watermark Photo inside Heart
     if (loadedCoverImage) {
       ctx.save();
       drawHeart(35, 75, width - 70, 560);
@@ -564,7 +606,6 @@
       ctx.restore();
     }
 
-    // 2. Royal Gold Heart Outer Border
     ctx.save();
     drawHeart(35, 75, width - 70, 560);
     ctx.lineWidth = 10;
@@ -572,15 +613,12 @@
     ctx.stroke();
     ctx.restore();
 
-    // 3. Header Groom & Bride
     ctx.fillStyle = '#111111';
     ctx.font = 'bold 32px "Playfair Display", Georgia, serif';
     ctx.textAlign = 'center';
     ctx.fillText(`${groom.toUpperCase()}  &  ${bride.toUpperCase()}`, width / 2, 54);
 
-    // 4. Guaranteed Scannable Gold QR Dots Matrix
-    const qrType = 0; // auto
-    const qr = qrcode(qrType, 'H');
+    const qr = qrcode(0, 'H');
     qr.addData(`https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/viewer.html?test=1`);
     qr.make();
 
@@ -590,7 +628,7 @@
     const qrStartX = (width - qrBoxSize) / 2;
     const qrStartY = 175;
 
-    ctx.fillStyle = '#a8792c'; // Metallic Gold
+    ctx.fillStyle = '#a8792c';
     for (let r = 0; r < moduleCount; r++) {
       for (let c = 0; c < moduleCount; c++) {
         if (qr.isDark(r, c)) {
@@ -599,7 +637,6 @@
       }
     }
 
-    // 5. Center Camera Aperture Lens
     const cx = width / 2;
     const cy = qrStartY + qrBoxSize / 2;
     const radius = 64;
@@ -632,7 +669,6 @@
     }
     ctx.restore();
 
-    // 6. Footer (Cleanly shifted down - no overlap with heart tip)
     ctx.fillStyle = '#111111';
     ctx.font = 'bold 36px "Playfair Display", Georgia, serif';
     ctx.textAlign = 'center';
@@ -645,7 +681,6 @@
     document.getElementById('livePreviewImg').src = canvas.toDataURL('image/png');
   }
 
-  // High-Speed Client-Side Image Compressor (Reduces 15MB to 300KB in 50ms)
   async function compressImageFast(file) {
     return new Promise((resolve) => {
       const img = new Image();
@@ -678,7 +713,6 @@
     });
   }
 
-  // Fast Telegram Upload
   async function uploadFileToTelegram(fileBlob) {
     const form = new FormData();
     form.append('chat_id', CHAT_ID);
@@ -699,10 +733,9 @@
     return `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileInfo.result.file_path}`;
   }
 
-  // Fast Parallel Chunk Upload (4 photos at once)
   async function uploadPhotosParallel(files, statusCallback) {
     const results = [];
-    const chunkSize = 3; // 3 concurrent uploads
+    const chunkSize = 3;
     for (let i = 0; i < files.length; i += chunkSize) {
       const chunk = Array.from(files).slice(i, i + chunkSize);
       statusCallback(i, files.length);
@@ -716,7 +749,6 @@
     return results;
   }
 
-  // Submit Handler
   document.getElementById('weddingForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
