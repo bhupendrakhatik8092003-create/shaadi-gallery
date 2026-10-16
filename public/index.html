@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ShaadiQR Pro - BK Royal Event Planner</title>
+  <title>ShaadiQR Pro - Studio Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-  <!-- Leaflet Map CSS & JS for Real Geographic Pan/Slide Map of India -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
@@ -19,8 +18,8 @@
     .brand-icon { width: 44px; height: 44px; background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 12px rgba(224, 169, 68, 0.25); }
     .brand-title { font-size: 19px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; }
     .brand-subtitle { font-size: 10.5px; color: #8c92a4; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; }
-    .avatar-badge { width: 40px; height: 40px; background: #e0a944; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0c0d0e; font-weight: 800; font-size: 13px; cursor: pointer; transition: transform 0.2s; }
-    .avatar-badge:active { transform: scale(0.92); }
+    .avatar-badge { width: 40px; height: 40px; background: #e0a944; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0c0d0e; font-weight: 800; font-size: 13px; cursor: pointer; overflow: hidden; border: 2px solid #e0a944; }
+    .avatar-badge img { width: 100%; height: 100%; object-fit: cover; }
 
     .container { max-width: 600px; margin: auto; padding: 18px; }
 
@@ -69,29 +68,12 @@
     /* Floating Add Button */
     .fab-btn { position: fixed; right: 20px; bottom: 105px; width: 56px; height: 56px; background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #0c0d0e; font-weight: 900; box-shadow: 0 6px 20px rgba(224, 169, 68, 0.4); border: none; cursor: pointer; z-index: 99; }
 
-    /* Modal Form */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 200; justify-content: center; align-items: center; padding: 15px; }
-    .modal-overlay.active { display: flex; }
-    .modal-box { background: #16181d; width: 100%; max-width: 520px; max-height: 90vh; border-radius: 24px; padding: 22px; border: 1px solid #2a2e3a; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #242834; padding-bottom: 12px; }
-    .modal-title { font-size: 18px; font-weight: 700; color: #e0a944; }
-    .modal-close { background: none; border: none; color: #888; font-size: 24px; cursor: pointer; }
-
+    /* Forms & Controls */
     .form-group { margin-bottom: 14px; }
     .form-group label { display: block; font-size: 11.5px; font-weight: 700; color: #a4a9b6; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-control { width: 100%; background: #0e0f12; border: 1px solid #2c303c; border-radius: 12px; padding: 12px 14px; color: #fff; font-size: 14px; }
     .slider-box { display: flex; align-items: center; gap: 12px; }
     .slider-box input[type="range"] { flex: 1; accent-color: #e0a944; }
-
-    .qr-live-preview-box { background: #ffffff; border-radius: 18px; padding: 14px; text-align: center; margin-top: 14px; border: 2px solid #e0a944; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-    .qr-live-preview-box img { max-width: 250px; height: auto; border-radius: 10px; display: block; margin: auto; }
-    .preview-tip { font-size: 11.5px; color: #555; margin-top: 8px; font-weight: 600; }
-
-    /* Fullscreen QR Modal */
-    .fs-qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); z-index: 300; justify-content: center; align-items: center; flex-direction: column; padding: 20px; }
-    .fs-qr-modal.active { display: flex; }
-    .fs-qr-img { max-width: 90%; max-height: 65vh; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); margin-bottom: 20px; background: #fff; }
-    .fs-btn-row { display: flex; gap: 12px; }
 
     /* Bottom Navigation Bar */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #121316; border-top: 1px solid #1f2128; display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
@@ -102,33 +84,11 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* QR Gallery Tab */
-    .qr-collection-banner { background: linear-gradient(180deg, #221c13 0%, #15161b 100%); border-radius: 24px; padding: 22px; border: 1px solid #3d3422; text-align: center; margin-bottom: 20px; }
-    .qr-banner-badge { font-size: 11px; letter-spacing: 1px; color: #e0a944; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
-    .qr-banner-title { font-size: 24px; font-weight: 700; color: #ffffff; font-family: 'Playfair Display', Georgia, serif; }
-    .qr-banner-gold { color: #e0a944; font-size: 20px; font-weight: 700; margin: 4px 0 10px; }
-    .qr-banner-desc { font-size: 12px; color: #9fa4b2; line-height: 1.5; }
-
-    .qr-horizontal-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px; }
-    .mini-qr-card { background: #ffffff; border-radius: 18px; padding: 12px; min-width: 120px; text-align: center; border: 1px solid #e0a944; cursor: pointer; }
-    .mini-qr-card img { width: 90px; height: 110px; object-fit: contain; }
-    .mini-qr-name { color: #0c0d0e; font-size: 12px; font-weight: 700; margin-top: 6px; }
-
-    .qr-cards-grid { display: flex; flex-direction: column; gap: 16px; }
-    .qr-item-card { background: #16181d; border-radius: 22px; padding: 18px; border: 1px solid #252834; display: flex; align-items: center; gap: 16px; }
-    .qr-thumb-box { width: 110px; height: 135px; background: white; border-radius: 14px; padding: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; }
-    .qr-thumb-box img { width: 100%; height: 100%; object-fit: contain; }
-    .qr-info-box { flex: 1; }
-    .qr-title { font-size: 17px; font-weight: 700; color: #fff; font-family: 'Playfair Display', Georgia, serif; }
-    .qr-sub { font-size: 12px; color: #888e9b; margin: 3px 0 10px; }
-    .qr-action-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .btn-download-qr { background: #232733; color: #e0a944; border: 1px solid #3c4255; font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
-    .btn-share-wa { background: #25d366; color: white; border: none; font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-
-    /* Settings Tab */
+    /* Profile / Settings Card */
     .profile-card { background: #16181d; border-radius: 24px; padding: 22px; border: 1px solid #252834; margin-bottom: 20px; }
     .profile-top { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
-    .studio-avatar { width: 68px; height: 68px; background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: #0c0d0e; }
+    .studio-avatar { width: 68px; height: 68px; background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: #0c0d0e; overflow: hidden; border: 2px solid #e0a944; }
+    .studio-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .studio-name { font-size: 21px; font-weight: 700; color: #fff; }
     .studio-sub { font-size: 12.5px; color: #888e9b; margin-top: 2px; }
     .studio-email-badge { display: flex; align-items: center; justify-content: space-between; background: #0f1013; padding: 8px 14px; border-radius: 12px; border: 1px solid #222530; margin-top: 8px; }
@@ -141,16 +101,18 @@
     .plan-box-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 2px; }
     .plan-box-sub { font-size: 10.5px; color: #e0a944; }
 
-    .instruction-card { background: #16181d; border-radius: 22px; padding: 22px; border: 1px solid #252834; }
-    .instruction-step { font-size: 13px; color: #c3c7d2; margin-bottom: 14px; line-height: 1.6; }
-    .instruction-step b { color: #e0a944; }
+    /* Authentication Screen */
+    .auth-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #08090b; z-index: 2000; overflow-y: auto; padding: 20px 15px 40px; display: none; }
+    .auth-overlay.active { display: block; }
+    .auth-card { background: #14161b; max-width: 480px; margin: 20px auto; border-radius: 24px; padding: 24px; border: 1px solid #292d3a; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+    .auth-brand { text-align: center; margin-bottom: 20px; }
+    .auth-tabs { display: flex; gap: 8px; background: #0c0d10; padding: 5px; border-radius: 14px; margin-bottom: 20px; }
+    .auth-tab-btn { flex: 1; padding: 10px; border: none; background: none; color: #888; font-weight: 700; font-size: 13px; border-radius: 10px; cursor: pointer; }
+    .auth-tab-btn.active { background: #e0a944; color: #0c0d0e; }
 
-    /* ============================================================== */
-    /* FULLSCREEN BK CREATOR & ASLI REAL INDIA MAP PORTAL             */
-    /* ============================================================== */
+    /* Creator Hub Fullscreen */
     .portal-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #08090a; z-index: 500; overflow-y: auto; padding-bottom: 60px; }
     .portal-modal.active { display: block; }
-    
     .portal-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 14px 16px; background: #101114; border-bottom: 1px solid #222530; position: sticky; top: 0; z-index: 1000; }
     .portal-back-btn { background: #1f232c; border: 1px solid #323746; color: #e0a944; font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 20px; cursor: pointer; white-space: nowrap; }
     .portal-title-box { text-align: center; font-weight: 800; font-size: 14px; color: #e0a944; letter-spacing: 0.5px; }
@@ -158,37 +120,22 @@
     .portal-hero { background: linear-gradient(180deg, #231c0e 0%, #111216 100%); border-radius: 24px; padding: 22px 18px; margin: 16px; border: 1px solid #3c331f; border-left: 5px solid #e0a944; }
     .portal-hero-title { font-size: 22px; font-weight: 800; color: #fff; font-family: 'Playfair Display', Georgia, serif; line-height: 1.3; margin-bottom: 8px; }
     .portal-hero-desc { font-size: 12.5px; color: #a4abbd; line-height: 1.5; margin-bottom: 16px; }
-    .btn-creator { background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); color: #0c0d0e; border: none; font-weight: 800; font-size: 13.5px; padding: 12px 22px; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(224, 169, 68, 0.3); }
+    .btn-creator { background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); color: #0c0d0e; border: none; font-weight: 800; font-size: 13.5px; padding: 12px 22px; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 
-    /* 4 Clickable Action Cards */
     .nation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 16px 22px; }
-    .nation-card { background: #14161b; border-radius: 20px; padding: 16px; border: 1px solid #242834; position: relative; cursor: pointer; transition: transform 0.15s, border-color 0.15s; }
-    .nation-card:active { transform: scale(0.97); border-color: #e0a944; }
+    .nation-card { background: #14161b; border-radius: 20px; padding: 16px; border: 1px solid #242834; position: relative; cursor: pointer; }
     .nation-card-icon { position: absolute; top: 16px; right: 16px; font-size: 20px; color: #e0a944; }
     .nation-card-label { font-size: 10.5px; color: #7f8698; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
     .nation-card-value { font-size: 26px; font-weight: 800; color: #ffffff; }
     .nation-tap-hint { font-size: 9.5px; color: #e0a944; font-weight: 700; margin-top: 4px; }
 
-    /* Detailed Popup / List Modal for the 4 Cards */
-    .list-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px); z-index: 600; justify-content: center; align-items: center; padding: 15px; }
-    .list-modal-overlay.active { display: flex; }
-    .list-modal-box { background: #14161b; width: 100%; max-width: 500px; max-height: 85vh; border-radius: 24px; border: 1px solid #333848; display: flex; flex-direction: column; overflow: hidden; }
-    .list-modal-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid #252834; background: #101114; }
-    .list-modal-title { font-size: 17px; font-weight: 800; color: #e0a944; }
-    .list-modal-body { padding: 16px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; }
-    .data-row-card { background: #1a1d24; border-radius: 14px; padding: 12px 14px; border: 1px solid #292d3a; display: flex; justify-content: space-between; align-items: center; }
-
-    /* ======================================================= */
-    /* REAL GEOGRAPHIC SLIDABLE/DRAGGABLE MAP (LEAFLET ENGINE) */
-    /* ======================================================= */
-    .map-box { background: #14161b; border-radius: 24px; padding: 18px; margin: 0 16px 22px; border: 1px solid #242834; text-align: center; position: relative; }
+    /* Map Box */
+    .map-box { background: #14161b; border-radius: 24px; padding: 18px; margin: 0 16px 22px; border: 1px solid #242834; text-align: center; }
     .map-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .map-title { font-size: 12px; font-weight: 800; color: #e0a944; text-transform: uppercase; }
     .map-ctrl-btn { width: 32px; height: 32px; background: #20242e; border: 1px solid #333848; color: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; }
-    
     .state-hover-badge { font-size: 12px; color: #ffd978; background: #20242e; padding: 6px 12px; border-radius: 14px; margin-bottom: 12px; display: inline-block; border: 1px solid #3c3422; }
 
-    /* Real Interactive Draggable Map Container */
     #leafletMapContainer { width: 100%; height: 340px; border-radius: 18px; background: #0c0e12; border: 1px solid #252936; z-index: 5; overflow: hidden; }
     .leaflet-container { background: #0c0e12 !important; }
     .leaflet-tile { filter: brightness(0.7) invert(1) contrast(3) hue-rotate(185deg) saturate(0.5); }
@@ -198,18 +145,17 @@
     .map-heat-bar { height: 8px; background: linear-gradient(90deg, #2c2317 0%, #e0a944 60%, #ffd978 100%); border-radius: 10px; margin: 16px 0 6px; }
     .map-heat-labels { display: flex; justify-content: space-between; font-size: 11px; color: #7f8698; font-weight: 600; }
 
-    /* Real State-by-State Table */
+    /* State Breakdown Table */
     .states-table-card { background: #14161b; border-radius: 24px; padding: 16px; margin: 0 16px 22px; border: 1px solid #242834; }
     .table-head { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 10px; border-bottom: 1px solid #242834; font-size: 10px; font-weight: 800; color: #888e9b; text-transform: uppercase; }
     .table-row { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 13px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; align-items: center; cursor: pointer; }
-    .table-row:active { background: rgba(224, 169, 68, 0.08); }
     .table-row.featured { background: rgba(224, 169, 68, 0.12); border-radius: 12px; border: 1px solid rgba(224, 169, 68, 0.35); }
     .state-name { font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; }
     .state-accent { width: 3px; height: 16px; background: #e0a944; border-radius: 2px; }
     .state-total { font-weight: 800; color: #e0a944; }
     .state-col { color: #a4abbd; font-size: 12px; }
 
-    /* Clean QR Card Fitted Inside White Box */
+    /* Community QR */
     .community-qr-box { background: linear-gradient(180deg, #201a0e 0%, #131418 100%); border-radius: 24px; padding: 22px; margin: 0 16px 22px; border: 1px solid #3c321d; text-align: center; }
     .comm-qr-frame { width: 190px; height: 190px; background: #ffffff; border-radius: 20px; padding: 10px; margin: 0 auto 14px; border: 3px solid #e0a944; box-shadow: 0 6px 20px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; overflow: hidden; }
     #commQrCanvas { max-width: 100%; max-height: 100%; display: block; border-radius: 10px; }
@@ -217,9 +163,7 @@
     .btn-follow { background: #25d366; color: white; border: none; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
     .btn-comm-share { background: #222632; color: #fff; border: 1px solid #363d50; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 25px; cursor: pointer; }
 
-    /* ============================================================== */
-    /* REAL LIVE REVIEWS SECTION (100% GENUINE - NO FAKE REVIEWS)     */
-    /* ============================================================== */
+    /* Reviews Section */
     .reviews-section { margin: 0 16px 24px; }
     .reviews-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .reviews-title { font-size: 18px; font-weight: 800; color: #fff; }
@@ -227,17 +171,27 @@
     
     .review-cards-list { display: flex; flex-direction: column; gap: 14px; }
     .review-card { background: #14161b; border-radius: 20px; padding: 18px; border: 1px solid #242834; position: relative; }
-    .review-card::before { content: "“"; position: absolute; top: 12px; right: 18px; font-family: 'Playfair Display', serif; font-size: 42px; color: rgba(224, 169, 68, 0.15); line-height: 1; }
-    .stars-row { color: #f59e0b; font-size: 15px; margin-bottom: 8px; letter-spacing: 2px; }
+    .review-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .stars-row { color: #f59e0b; font-size: 15px; letter-spacing: 2px; }
+    .btn-del-review { background: none; border: none; color: #dc3545; font-size: 16px; cursor: pointer; }
     .review-text { font-size: 13px; color: #e2e8f0; line-height: 1.5; margin-bottom: 12px; font-style: italic; }
     .reviewer-name { font-size: 14px; font-weight: 700; color: #ffffff; }
     .reviewer-role { font-size: 11.5px; color: #888e9b; margin-top: 2px; }
 
-    /* Review Input Modal */
-    .review-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 650; justify-content: center; align-items: center; padding: 15px; }
-    .review-modal-overlay.active { display: flex; }
+    /* Modals */
+    .modal-overlay, .list-modal-overlay, .review-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px); z-index: 600; justify-content: center; align-items: center; padding: 15px; }
+    .modal-overlay.active, .list-modal-overlay.active, .review-modal-overlay.active { display: flex; }
+    .modal-box, .list-modal-box { background: #16181d; width: 100%; max-width: 520px; max-height: 90vh; border-radius: 24px; padding: 22px; border: 1px solid #2a2e3a; overflow-y: auto; }
+    .modal-header, .list-modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #242834; padding-bottom: 12px; }
+    .modal-title, .list-modal-title { font-size: 18px; font-weight: 700; color: #e0a944; }
+    .modal-close { background: none; border: none; color: #888; font-size: 24px; cursor: pointer; }
+    .data-row-card { background: #1a1d24; border-radius: 14px; padding: 12px 14px; border: 1px solid #292d3a; display: flex; justify-content: space-between; align-items: center; }
 
-    /* Directory Footer */
+    .fs-qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); z-index: 300; justify-content: center; align-items: center; flex-direction: column; padding: 20px; }
+    .fs-qr-modal.active { display: flex; }
+    .fs-qr-img { max-width: 90%; max-height: 65vh; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); margin-bottom: 20px; background: #fff; }
+    .fs-btn-row { display: flex; gap: 12px; }
+
     .portal-footer { background: #0c0d0f; border-top: 1px solid #1c202a; padding: 26px 18px 20px; margin-top: 25px; }
     .footer-links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
     .footer-col-title { font-size: 11.5px; color: #e0a944; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
@@ -248,16 +202,182 @@
 </head>
 <body>
 
-  <!-- Top Header -->
+  <!-- ============================================================== -->
+  <!-- MANDATORY LOGIN & REGISTRATION OVERLAY SCREEN (FIRST LAUNCH)    -->
+  <!-- ============================================================== -->
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div style="font-size:36px; margin-bottom:8px;">💛</div>
+        <div style="font-size:24px; font-weight:800; color:#fff; font-family:'Playfair Display', serif;">ShaadiQR Pro</div>
+        <div style="font-size:12px; color:#c5a059; text-transform:uppercase; font-weight:700; letter-spacing:1px;">Global Studio Management</div>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">Login</button>
+        <button class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')">Create Account</button>
+      </div>
+
+      <!-- 1. LOGIN FORM -->
+      <form id="loginForm" onsubmit="handleUserLogin(event)">
+        <div class="form-group">
+          <label>Mobile Number or Gmail ID</label>
+          <input type="text" id="loginIdentifier" class="form-control" required placeholder="e.g. 7500972831 or your@gmail.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" class="form-control" required placeholder="Enter password">
+        </div>
+        <button type="submit" class="form-control" style="background:#e0a944; color:#0c0d0e; font-weight:800; font-size:15px; cursor:pointer; margin-top:8px;">Secure Login 🚀</button>
+        <div style="text-align:center; margin-top:14px;">
+          <a href="javascript:void(0)" onclick="openForgotModal()" style="color:#e0a944; font-size:12px; text-decoration:none; font-weight:600;">Forgot Password? Reset with OTP</a>
+        </div>
+      </form>
+
+      <!-- 2. CREATE ACCOUNT FORM (GLOBAL LANGUAGES & COUNTRIES) -->
+      <form id="registerForm" style="display:none;" onsubmit="handleUserRegistration(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="regName" class="form-control" required placeholder="e.g. Bhupendra Khatik">
+        </div>
+        <div class="form-group">
+          <label>Studio / Event Business Name</label>
+          <input type="text" id="regStudio" class="form-control" required placeholder="e.g. BK Royal Event Planner">
+        </div>
+        <div class="form-group">
+          <label>Mobile Number (Primary Login ID)</label>
+          <input type="tel" id="regPhone" class="form-control" required placeholder="e.g. 7500972831">
+        </div>
+        <div class="form-group">
+          <label>Gmail ID (Primary Login ID)</label>
+          <input type="email" id="regEmail" class="form-control" required placeholder="e.g. bhupendrakhatik8092003@gmail.com">
+        </div>
+
+        <!-- Global World Languages -->
+        <div class="form-group">
+          <label>Select Preferred Language (Global)</label>
+          <select id="regLanguage" class="form-control" style="background:#0e0f12; color:#fff;">
+            <option value="English">English</option>
+            <option value="Hindi">Hindi (हिंदी)</option>
+            <option value="Spanish">Spanish (Español)</option>
+            <option value="French">French (Français)</option>
+            <option value="Arabic">Arabic (العربية)</option>
+            <option value="German">German (Deutsch)</option>
+            <option value="Russian">Russian (Русский)</option>
+            <option value="Portuguese">Portuguese (Português)</option>
+            <option value="Italian">Italian (Italiano)</option>
+            <option value="Chinese">Chinese (中文)</option>
+            <option value="Japanese">Japanese (日本語)</option>
+            <option value="Korean">Korean (한국어)</option>
+            <option value="Urdu">Urdu (اردو)</option>
+            <option value="Bengali">Bengali (বাংলা)</option>
+            <option value="Punjabi">Punjabi (ਪੰਜਾਬੀ)</option>
+            <option value="Marathi">Marathi (मराठी)</option>
+            <option value="Telugu">Telugu (తెలుగు)</option>
+            <option value="Tamil">Tamil (தமிழ்)</option>
+            <option value="Gujarati">Gujarati (ગુજરાતી)</option>
+            <option value="Turkish">Turkish (Türkçe)</option>
+            <option value="Other">Other Language</option>
+          </select>
+        </div>
+
+        <!-- Global World Countries -->
+        <div class="form-group">
+          <label>Country</label>
+          <select id="regCountry" class="form-control" style="background:#0e0f12; color:#fff;" onchange="handleCountryChange(this.value)">
+            <option value="India">India</option>
+            <option value="United States">United States</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Canada">Canada</option>
+            <option value="Australia">Australia</option>
+            <option value="United Arab Emirates">United Arab Emirates</option>
+            <option value="Saudi Arabia">Saudi Arabia</option>
+            <option value="Germany">Germany</option>
+            <option value="France">France</option>
+            <option value="Singapore">Singapore</option>
+            <option value="Malaysia">Malaysia</option>
+            <option value="Nepal">Nepal</option>
+            <option value="Bangladesh">Bangladesh</option>
+            <option value="Sri Lanka">Sri Lanka</option>
+            <option value="South Africa">South Africa</option>
+            <option value="Italy">Italy</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Other">Other Country</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>State / Province (Rajy) — If no state, type 'Other'</label>
+          <input type="text" id="regState" class="form-control" required placeholder="e.g. Uttar Pradesh or Other">
+        </div>
+
+        <div class="form-group">
+          <label>District / City (Jila / City Name)</label>
+          <input type="text" id="regCity" class="form-control" required placeholder="e.g. Firozabad or Any City">
+        </div>
+
+        <div class="form-group">
+          <label>Profile Photo (Will display on your profile header)</label>
+          <input type="file" id="regProfilePhoto" class="form-control" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label>Create Password</label>
+          <input type="password" id="regPassword" class="form-control" required placeholder="Minimum 6 characters">
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" id="regConfirmPassword" class="form-control" required placeholder="Confirm password">
+        </div>
+        <button type="submit" class="form-control" style="background:#e0a944; color:#0c0d0e; font-weight:800; font-size:15px; cursor:pointer; margin-top:8px;">Confirm & Create Account ✅</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. FORGOT PASSWORD OTP MODAL (STRICT 2 TIMES PER DAY LIMIT) -->
+  <div class="modal-overlay" id="forgotModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">Reset Password via OTP</div>
+        <button class="modal-close" onclick="closeForgotModal()">&times;</button>
+      </div>
+      <div id="forgotStep1">
+        <div class="form-group">
+          <label>Enter Registered Mobile Number</label>
+          <input type="tel" id="forgotPhone" class="form-control" placeholder="e.g. 7500972831">
+        </div>
+        <div style="font-size:11px; color:#e0a944; margin-bottom:10px;">🔒 Security Rule: Password reset is allowed only 2 times per day.</div>
+        <button type="button" class="form-control" style="background:#e0a944; color:#0c0d0e; font-weight:800; cursor:pointer;" onclick="sendForgotOTP()">Generate Verification OTP 📲</button>
+      </div>
+
+      <div id="forgotStep2" style="display:none;">
+        <div style="background:#20242e; padding:12px; border-radius:12px; margin-bottom:12px; text-align:center;">
+          <div style="font-size:11px; color:#aaa;">Your Verification OTP code is:</div>
+          <div id="displayedOTP" style="font-size:24px; font-weight:800; color:#e0a944; letter-spacing:4px; margin-top:4px;">0000</div>
+        </div>
+        <div class="form-group">
+          <label>Enter 4-Digit OTP</label>
+          <input type="text" id="enteredOTP" class="form-control" placeholder="Enter OTP">
+        </div>
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" id="forgotNewPass" class="form-control" placeholder="Enter new password">
+        </div>
+        <button type="button" class="form-control" style="background:#22c55e; color:#fff; font-weight:800; cursor:pointer;" onclick="verifyAndChangePass()">Verify OTP & Update Password ✅</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Header (Dynamic for current logged-in user) -->
   <div class="top-header">
     <div class="brand-box">
       <div class="brand-icon">💛</div>
       <div>
         <div class="brand-title">ShaadiQR Pro</div>
-        <div class="brand-subtitle">BK Royal Event Planner • Firozabad, UP</div>
+        <div class="brand-subtitle" id="topHeaderSubtitle">BK Royal Event Planner • Firozabad, UP</div>
       </div>
     </div>
-    <div class="avatar-badge" onclick="openPortal()" title="Open BK Creator Hub">BK</div>
+    <div class="avatar-badge" id="topUserAvatar" onclick="openPortal()" title="Open Profile & Hub">BK</div>
   </div>
 
   <div class="container">
@@ -272,7 +392,7 @@
           </div>
           <div class="stat-label">Total Weddings</div>
           <div class="stat-value" id="dashTotalWeddings">0</div>
-          <div class="stat-sub">Active • All managed smoothly</div>
+          <div class="stat-sub">Active • Managed smoothly</div>
         </div>
 
         <div class="stat-card">
@@ -360,18 +480,18 @@
       <div id="qrListContainer" class="qr-cards-grid"></div>
     </div>
 
-    <!-- TAB 4: SETTINGS -->
+    <!-- TAB 4: SETTINGS (Dynamic User Profile) -->
     <div id="tab-settings" class="tab-content">
       <div class="profile-card">
         <div class="profile-top">
-          <div class="studio-avatar" onclick="openPortal()">BK</div>
+          <div class="studio-avatar" id="settingsAvatar" onclick="openPortal()">BK</div>
           <div>
-            <div class="studio-name">BK Royal Event Planner</div>
-            <div class="studio-sub">Owner • Firozabad, UP • Flower Decoration & Event Specialist</div>
+            <div class="studio-name" id="settingsStudioName">BK Royal Event Planner</div>
+            <div class="studio-sub" id="settingsStudioSub">Owner: Bhupendra Khatik • Firozabad, UP</div>
           </div>
         </div>
         <div class="studio-email-badge">
-          <span class="studio-email">bhupendrakhatik8092003@gmail.com</span>
+          <span class="studio-email" id="settingsEmail">bhupendrakhatik8092003@gmail.com</span>
           <span class="online-chip">● Online</span>
         </div>
       </div>
@@ -395,11 +515,11 @@
       </div>
 
       <div class="instruction-card">
-        <h3 style="color:#fff; font-size:16px; margin-bottom:14px;">How the App Works?</h3>
-        <div class="instruction-step"><b>1.</b> Upload wedding album photos (up to 2,000 photos directly to Telegram cloud).</div>
-        <div class="instruction-step"><b>2.</b> Automatic Love Snap Heart QR is generated with royal gold border and couple portrait.</div>
-        <div class="instruction-step"><b>3.</b> Download high-resolution PNG or send via WhatsApp directly.</div>
-        <div class="instruction-step"><b>4.</b> Guests scan to view gallery without app installation. You manage everything from this dashboard.</div>
+        <h3 style="color:#fff; font-size:16px; margin-bottom:14px;">Security & Account Management</h3>
+        <div style="font-size:13px; color:#c3c7d2; line-height:1.6; margin-bottom:16px;">
+          Logged in as <b id="loggedUserDisplay" style="color:#e0a944;">Admin</b>. Only authorized creators can add/delete albums.
+        </div>
+        <button onclick="handleUserLogout()" style="background:#dc3545; color:#fff; border:none; padding:10px 20px; border-radius:14px; font-weight:800; cursor:pointer; width:100%;">Logout of Account 🚪</button>
       </div>
     </div>
 
@@ -409,16 +529,16 @@
   <button class="fab-btn" onclick="openAddModal()">+</button>
 
   <!-- ============================================================== -->
-  <!-- FULLSCREEN BK CREATOR & ASLI REAL INDIA MAP (PHOTO 2 MATCH)    -->
+  <!-- FULLSCREEN CREATOR HUB & LEAFLET INDIA MAP                     -->
   <!-- ============================================================== -->
   <div class="portal-modal" id="portalModal">
     <div class="portal-nav">
       <button class="portal-back-btn" onclick="closePortal()">← Back</button>
       <div class="portal-title-box">BK ROYAL • CREATOR HUB</div>
-      <div class="avatar-badge" style="width:34px; height:34px; font-size:11px;">BK</div>
+      <div class="avatar-badge" id="hubNavAvatar" style="width:34px; height:34px; font-size:11px;">BK</div>
     </div>
 
-    <!-- Creator Banner with Real Phone Contact -->
+    <!-- Creator Banner -->
     <div class="portal-hero">
       <div class="portal-hero-title">Join BK Royal Creator Program</div>
       <div class="portal-hero-desc">Collaborate with BK Royal Event Planner for premium wedding flipbooks, stage flower decoration, and custom QR systems.</div>
@@ -443,7 +563,7 @@
       <div class="nation-card" onclick="openListModal('planners')">
         <span class="nation-card-icon">👑</span>
         <div class="nation-card-label">Event Planners</div>
-        <div class="nation-card-value">1 (BK Royal)</div>
+        <div class="nation-card-value" id="cardPlannersCount">1</div>
         <div class="nation-tap-hint">Tap to view planners →</div>
       </div>
       <div class="nation-card" onclick="openListModal('weddings')">
@@ -460,7 +580,7 @@
       </div>
     </div>
 
-    <!-- REAL GEOGRAPHIC DRAGGABLE/SLIDABLE INDIA MAP (LEAFLET ENGINE) -->
+    <!-- REAL GEOGRAPHIC DRAGGABLE/SLIDABLE INDIA MAP -->
     <div class="map-box">
       <div class="map-controls">
         <div class="map-title">All India State Heatmap (Interactive Slide)</div>
@@ -472,8 +592,6 @@
       </div>
 
       <div class="state-hover-badge" id="stateHoverInfo">Slide map with finger • Tap any location</div>
-
-      <!-- Real Map Container (Can slide Left, Right, Up, Down) -->
       <div id="leafletMapContainer"></div>
 
       <div class="map-heat-bar"></div>
@@ -495,7 +613,7 @@
       <div id="allStatesTableBody"></div>
     </div>
 
-    <!-- Official Channel Golden QR (Properly Fitted in Box) -->
+    <!-- Official Channel Golden QR -->
     <div class="community-qr-box">
       <div class="comm-qr-frame">
         <canvas id="commQrCanvas" width="165" height="165"></canvas>
@@ -510,9 +628,7 @@
       </div>
     </div>
 
-    <!-- ============================================================== -->
-    <!-- REVIEWS & REACTIONS SECTION (100% GENUINE ONLY - NO FAKES)     -->
-    <!-- ============================================================== -->
+    <!-- REVIEWS & REACTIONS SECTION (SECURE DELETE PERMISSION) -->
     <div class="reviews-section">
       <div class="reviews-header">
         <div class="reviews-title">User Reviews & Feedback</div>
@@ -522,7 +638,7 @@
       <div class="review-cards-list" id="reviewsContainer"></div>
     </div>
 
-    <!-- Live Active Directory Footer -->
+    <!-- Footer -->
     <div class="portal-footer">
       <div class="footer-links-grid">
         <div>
@@ -540,7 +656,7 @@
       </div>
 
       <div style="border-top:1px solid #1c202a; padding-top:16px;">
-        <div class="footer-col-title">BK Royal Contact</div>
+        <div class="footer-col-title">Official Contact</div>
         <div class="footer-contact-item">📞 <b>Phone:</b> <a href="tel:+917500972831">+91 7500972831</a></div>
         <div class="footer-contact-item">✉️ <b>Email:</b> <a href="mailto:bhupendrakhatik8092003@gmail.com">bhupendrakhatik8092003@gmail.com</a></div>
         <div class="footer-contact-item">📍 <b>Location:</b> Firozabad, Uttar Pradesh, India</div>
@@ -553,7 +669,7 @@
 
   </div>
 
-  <!-- Review Submission Modal -->
+  <!-- Review Modal -->
   <div class="review-modal-overlay" id="reviewModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -587,7 +703,7 @@
     </div>
   </div>
 
-  <!-- Dynamic Detailed List Modal for the 4 Cards -->
+  <!-- Detail List Modal -->
   <div class="list-modal-overlay" id="listDetailModal" onclick="closeListModal()">
     <div class="list-modal-box" onclick="event.stopPropagation()">
       <div class="list-modal-head">
@@ -691,39 +807,330 @@
   const REPO_NAME = 'shaadi-gallery';
   const PLAYSTORE_DOWNLOAD_URL = `https://bhupendrakhatik8092003-create.github.io/shaadi-gallery/public/index.html`;
 
+  const MASTER_ADMIN_EMAIL = 'bhupendrakhatik8092003@gmail.com';
+  const MASTER_ADMIN_PHONE = '7500972831';
+
   let allWeddings = JSON.parse(localStorage.getItem('shaadi_weddings_data') || '[]');
+  let registeredUsers = JSON.parse(localStorage.getItem('shaadi_registered_users') || '[]');
+  let currentUser = JSON.parse(localStorage.getItem('shaadi_current_user') || 'null');
+  let userReviews = JSON.parse(localStorage.getItem('shaadi_user_reviews_genuine') || '[]');
+
   let currentFilter = 'all';
   let searchQuery = '';
   let loadedCoverImage = null;
+  let currentGeneratedOTP = null;
 
-  // Real India States Master List
-  const INDIA_STATES = [
-    'Uttar Pradesh (HQ)', 'Rajasthan', 'Bihar', 'Madhya Pradesh', 'Maharashtra', 
-    'Haryana', 'Delhi NCR', 'Gujarat', 'West Bengal', 'Punjab', 'Jharkhand', 
-    'Chhattisgarh', 'Odisha', 'Karnataka', 'Tamil Nadu', 'Andhra Pradesh', 
-    'Telangana', 'Uttarakhand', 'Himachal Pradesh', 'Assam', 'Kerala', 'Goa'
-  ];
+  // Initialize Default Master User
+  if (!registeredUsers.some(u => u.phone === MASTER_ADMIN_PHONE || u.email === MASTER_ADMIN_EMAIL)) {
+    registeredUsers.push({
+      name: 'Bhupendra Khatik (Owner)',
+      studio: 'BK Royal Event Planner',
+      phone: MASTER_ADMIN_PHONE,
+      email: MASTER_ADMIN_EMAIL,
+      country: 'India',
+      state: 'Uttar Pradesh',
+      city: 'Firozabad',
+      password: 'admin',
+      role: 'SUPER_ADMIN',
+      photoDataUrl: ''
+    });
+    localStorage.setItem('shaadi_registered_users', JSON.stringify(registeredUsers));
+  }
 
-  // 100% Genuine User Reviews (Zero Fake Defaults!)
-  let userReviews = JSON.parse(localStorage.getItem('shaadi_user_reviews_genuine') || '[]');
+  // Check Authentication on Launch
+  function checkAuthentication() {
+    if (!currentUser) {
+      document.getElementById('authOverlay').classList.add('active');
+    } else {
+      document.getElementById('authOverlay').classList.remove('active');
+      applyUserDataToUI();
+      renderAll();
+    }
+  }
 
-  // Open & Close BK Portal
-  function openPortal() {
-    document.getElementById('portalModal').classList.add('active');
-    renderPortalRealData();
-    renderAllStatesList();
+  function switchAuthTab(type) {
+    if (type === 'login') {
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('registerForm').style.display = 'none';
+      document.getElementById('tabLoginBtn').classList.add('active');
+      document.getElementById('tabRegisterBtn').classList.remove('active');
+    } else {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('registerForm').style.display = 'block';
+      document.getElementById('tabRegisterBtn').classList.add('active');
+      document.getElementById('tabLoginBtn').classList.remove('active');
+    }
+  }
+
+  function handleCountryChange(val) {
+    const stateInput = document.getElementById('regState');
+    if (val !== 'India' && val !== 'United States' && val !== 'Canada') {
+      stateInput.placeholder = "Type 'Other' or State/Province";
+    } else {
+      stateInput.placeholder = "Enter State Name";
+    }
+  }
+
+  function handleUserLogin(e) {
+    e.preventDefault();
+    const id = document.getElementById('loginIdentifier').value.trim().toLowerCase();
+    const pass = document.getElementById('loginPassword').value.trim();
+
+    const user = registeredUsers.find(u => (u.phone === id || u.email.toLowerCase() === id) && u.password === pass);
+    if (!user) {
+      alert('❌ Invalid Mobile Number / Email or Password!');
+      return;
+    }
+
+    currentUser = user;
+    localStorage.setItem('shaadi_current_user', JSON.stringify(currentUser));
+    alert(`🎉 Welcome, ${currentUser.name}!`);
+    checkAuthentication();
+  }
+
+  async function handleUserRegistration(e) {
+    e.preventDefault();
+    const name = document.getElementById('regName').value.trim();
+    const studio = document.getElementById('regStudio').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const email = document.getElementById('regEmail').value.trim().toLowerCase();
+    const language = document.getElementById('regLanguage').value;
+    const country = document.getElementById('regCountry').value;
+    const state = document.getElementById('regState').value.trim() || 'Other';
+    const city = document.getElementById('regCity').value.trim();
+    const pass = document.getElementById('regPassword').value;
+    const confirmPass = document.getElementById('regConfirmPassword').value;
+    const photoFile = document.getElementById('regProfilePhoto').files[0];
+
+    if (pass !== confirmPass) {
+      alert('❌ Passwords do not match!');
+      return;
+    }
+
+    // Duplicate Check
+    const exists = registeredUsers.some(u => u.phone === phone || u.email.toLowerCase() === email);
+    if (exists) {
+      alert('⚠️ This Mobile Number or Gmail ID is already registered! Please Login instead.');
+      switchAuthTab('login');
+      return;
+    }
+
+    let photoDataUrl = '';
+    if (photoFile) {
+      photoDataUrl = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = ev => resolve(ev.target.result);
+        reader.readAsDataURL(photoFile);
+      });
+    }
+
+    const newUser = {
+      name, studio, phone, email, language, country, state, city,
+      photoDataUrl,
+      password: pass,
+      role: 'CREATOR',
+      registeredAt: new Date().toISOString()
+    };
+
+    registeredUsers.push(newUser);
+    localStorage.setItem('shaadi_registered_users', JSON.stringify(registeredUsers));
+
+    currentUser = newUser;
+    localStorage.setItem('shaadi_current_user', JSON.stringify(currentUser));
+    alert('🎉 Account created successfully!');
+    checkAuthentication();
+  }
+
+  function handleUserLogout() {
+    if (!confirm('Are you sure you want to logout?')) return;
+    currentUser = null;
+    localStorage.removeItem('shaadi_current_user');
+    checkAuthentication();
+  }
+
+  function openForgotModal() {
+    document.getElementById('forgotModal').classList.add('active');
+    document.getElementById('forgotStep1').style.display = 'block';
+    document.getElementById('forgotStep2').style.display = 'none';
+  }
+
+  function closeForgotModal() {
+    document.getElementById('forgotModal').classList.remove('active');
+  }
+
+  // STRICT 2-TIMES-PER-DAY PASSWORD RESET LIMIT
+  function sendForgotOTP() {
+    const ph = document.getElementById('forgotPhone').value.trim();
+    const user = registeredUsers.find(u => u.phone === ph);
+    if (!user) {
+      alert('❌ Mobile number not found in registered accounts!');
+      return;
+    }
+
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const key = `forgot_limit_${ph}_${todayStr}`;
+    let attempts = parseInt(localStorage.getItem(key) || '0');
+
+    if (attempts >= 2) {
+      alert('⛔ Daily Limit Reached: You can only reset password 2 times per day. Please try again tomorrow!');
+      return;
+    }
+
+    // Increment attempts count
+    localStorage.setItem(key, (attempts + 1).toString());
+
+    currentGeneratedOTP = Math.floor(1000 + Math.random() * 9000).toString();
+    document.getElementById('displayedOTP').innerText = currentGeneratedOTP;
+    document.getElementById('forgotStep1').style.display = 'none';
+    document.getElementById('forgotStep2').style.display = 'block';
+    alert(`📲 OTP Generated! Attempt ${attempts + 1} of 2 today.\nYour OTP code: ${currentGeneratedOTP}`);
+  }
+
+  function verifyAndChangePass() {
+    const entered = document.getElementById('enteredOTP').value.trim();
+    const newP = document.getElementById('forgotNewPass').value.trim();
+    const ph = document.getElementById('forgotPhone').value.trim();
+
+    if (entered !== currentGeneratedOTP) {
+      alert('❌ Invalid OTP! Please enter correct 4-digit code.');
+      return;
+    }
+    if (newP.length < 4) {
+      alert('Password must be at least 4 characters.');
+      return;
+    }
+
+    const user = registeredUsers.find(u => u.phone === ph);
+    if (user) {
+      user.password = newP;
+      localStorage.setItem('shaadi_registered_users', JSON.stringify(registeredUsers));
+      alert('✅ Password updated successfully! You can now Login.');
+      closeForgotModal();
+      switchAuthTab('login');
+    }
+  }
+
+  // DYNAMIC PROFILE INJECTION (USER SPECIFIC)
+  function applyUserDataToUI() {
+    if (!currentUser) return;
+
+    // Subtitle & Studio
+    document.getElementById('topHeaderSubtitle').innerText = `${currentUser.studio} • ${currentUser.city || 'City'}, ${currentUser.state || 'State'}`;
+    document.getElementById('settingsStudioName').innerText = currentUser.studio || 'Studio Name';
+    document.getElementById('settingsStudioSub').innerText = `Owner: ${currentUser.name} • ${currentUser.city || 'City'}, ${currentUser.state || 'State'}`;
+    document.getElementById('settingsEmail').innerText = currentUser.email || 'user@gmail.com';
+    document.getElementById('loggedUserDisplay').innerText = `${currentUser.name} (${currentUser.role === 'SUPER_ADMIN' ? 'Owner / Super Admin' : 'Creator'})`;
+
+    // Dynamic Avatar (Photo or Initials)
+    const initials = (currentUser.studio && currentUser.studio.length >= 2) 
+      ? (currentUser.studio[0] + currentUser.studio[1]).toUpperCase() 
+      : ((currentUser.name[0] || 'U') + (currentUser.name[1] || '')).toUpperCase();
+
+    const topAv = document.getElementById('topUserAvatar');
+    const setAv = document.getElementById('settingsAvatar');
+    const hubAv = document.getElementById('hubNavAvatar');
+
+    if (currentUser.photoDataUrl) {
+      topAv.innerHTML = `<img src="${currentUser.photoDataUrl}">`;
+      setAv.innerHTML = `<img src="${currentUser.photoDataUrl}">`;
+      if (hubAv) hubAv.innerHTML = `<img src="${currentUser.photoDataUrl}">`;
+    } else {
+      topAv.innerText = initials;
+      setAv.innerText = initials;
+      if (hubAv) hubAv.innerText = initials;
+    }
+  }
+
+  // Reviews with Strict Permission
+  function renderReviews() {
+    const box = document.getElementById('reviewsContainer');
+    box.innerHTML = '';
+    if (!userReviews.length) {
+      box.innerHTML = '<p style="text-align:center; color:#777; padding:25px; font-size:13px; background:#14161b; border-radius:18px; border:1px dashed #282c37;">No reviews submitted yet.<br><span style="color:#e0a944; font-weight:bold;">Tap "★ Give Reaction" above to write the first review!</span></p>';
+      return;
+    }
+
+    userReviews.forEach((r, idx) => {
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      const starStr = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
+      
+      const canDelete = currentUser && (currentUser.role === 'SUPER_ADMIN' || currentUser.phone === r.authorPhone || currentUser.email === r.authorEmail);
+
+      card.innerHTML = `
+        <div class="review-top-row">
+          <div class="stars-row">${starStr}</div>
+          ${canDelete ? `<button class="btn-del-review" onclick="deleteReview(${idx})">🗑️</button>` : ''}
+        </div>
+        <div class="review-text">${r.text}</div>
+        <div class="reviewer-name">${r.name}</div>
+        <div class="reviewer-role">${r.role}</div>
+      `;
+      box.appendChild(card);
+    });
+  }
+
+  function deleteReview(idx) {
+    if (!confirm('Are you sure you want to delete this review?')) return;
+    userReviews.splice(idx, 1);
+    localStorage.setItem('shaadi_user_reviews_genuine', JSON.stringify(userReviews));
     renderReviews();
-    generateCommunityQR();
-    setTimeout(initRealLeafletMap, 250);
   }
 
-  function closePortal() {
-    document.getElementById('portalModal').classList.remove('active');
+  function openReviewModal() {
+    document.getElementById('reviewModal').classList.add('active');
+    if (currentUser) {
+      document.getElementById('revName').value = currentUser.name;
+      document.getElementById('revRole').value = `${currentUser.studio} • ${currentUser.city}`;
+    }
   }
 
-  // ==============================================================
-  // REAL GEOGRAPHIC INDIA LEAFLET MAP INITIALIZATION
-  // ==============================================================
+  function closeReviewModal() {
+    document.getElementById('reviewModal').classList.remove('active');
+  }
+
+  function submitNewReview(e) {
+    e.preventDefault();
+    const name = document.getElementById('revName').value.trim();
+    const role = document.getElementById('revRole').value.trim();
+    const stars = parseInt(document.getElementById('revStars').value);
+    const comment = document.getElementById('revComment').value.trim();
+
+    userReviews.unshift({
+      stars: stars,
+      text: `“${comment}”`,
+      name: name,
+      role: role,
+      authorPhone: currentUser ? currentUser.phone : '',
+      authorEmail: currentUser ? currentUser.email : '',
+      createdAt: new Date().toISOString()
+    });
+
+    localStorage.setItem('shaadi_user_reviews_genuine', JSON.stringify(userReviews));
+    renderReviews();
+    closeReviewModal();
+    document.getElementById('reviewForm').reset();
+    alert('🎉 Thank you! Your review is now published live.');
+  }
+
+  // Weddings Deletion Security
+  function deleteWedding(id) {
+    const wedding = allWeddings.find(w => w.id === id);
+    if (!wedding) return;
+
+    const canDelete = currentUser && (currentUser.role === 'SUPER_ADMIN' || wedding.creatorPhone === currentUser.phone);
+    if (!canDelete) {
+      alert('🔒 Access Denied: Only the creator of this wedding album or the Super Admin can delete it!');
+      return;
+    }
+
+    if (!confirm('Are you sure you want to delete this wedding album?')) return;
+    allWeddings = allWeddings.filter(w => w.id !== id);
+    localStorage.setItem('shaadi_weddings_data', JSON.stringify(allWeddings));
+    renderAll();
+  }
+
+  // Leaflet Interactive Real Map
   let leafletMap = null;
   function initRealLeafletMap() {
     if (leafletMap) {
@@ -731,7 +1138,6 @@
       return;
     }
 
-    // Centered on India with bounds restricted
     leafletMap = L.map('leafletMapContainer', {
       center: [22.8, 79.5],
       zoom: 4.4,
@@ -741,12 +1147,10 @@
       attributionControl: false
     });
 
-    // Dark styled basemap
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 8
     }).addTo(leafletMap);
 
-    // Firozabad HQ Golden Pulse Marker
     const firozabadIcon = L.divIcon({
       className: 'custom-hq-marker',
       html: `
@@ -759,9 +1163,8 @@
     });
 
     const hqMarker = L.marker([27.1593, 78.3957], { icon: firozabadIcon }).addTo(leafletMap);
-    hqMarker.bindPopup('<b style="color:#111;">BK Royal HQ: Firozabad, UP</b><br>Active Headquarter');
+    hqMarker.bindPopup('<b style="color:#111;">HQ: Firozabad, UP</b><br>Active Hub');
 
-    // Add Real Wedding Locations on Map
     allWeddings.forEach(w => {
       L.circleMarker([27.18, 78.0], {
         radius: 6,
@@ -780,59 +1183,27 @@
     if (leafletMap) leafletMap.setView([22.8, 79.5], 4.4);
   }
 
-  // Render Reviews & Comments (Only Genuine!)
-  function renderReviews() {
-    const box = document.getElementById('reviewsContainer');
-    box.innerHTML = '';
-    if (!userReviews.length) {
-      box.innerHTML = '<p style="text-align:center; color:#777; padding:25px; font-size:13px; background:#14161b; border-radius:18px; border:1px dashed #282c37;">No reviews submitted yet.<br><span style="color:#e0a944; font-weight:bold;">Tap "★ Give Reaction" above to write the first review!</span></p>';
-      return;
-    }
+  // Portal & 4 Cards
+  const INDIA_STATES = [
+    'Uttar Pradesh (HQ)', 'Rajasthan', 'Bihar', 'Madhya Pradesh', 'Maharashtra', 
+    'Haryana', 'Delhi NCR', 'Gujarat', 'West Bengal', 'Punjab', 'Jharkhand', 
+    'Chhattisgarh', 'Odisha', 'Karnataka', 'Tamil Nadu', 'Andhra Pradesh', 
+    'Telangana', 'Uttarakhand', 'Himachal Pradesh', 'Assam', 'Kerala', 'Goa'
+  ];
 
-    userReviews.forEach(r => {
-      const card = document.createElement('div');
-      card.className = 'review-card';
-      const starStr = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
-      card.innerHTML = `
-        <div class="stars-row">${starStr}</div>
-        <div class="review-text">${r.text}</div>
-        <div class="reviewer-name">${r.name}</div>
-        <div class="reviewer-role">${r.role}</div>
-      `;
-      box.appendChild(card);
-    });
-  }
-
-  function openReviewModal() {
-    document.getElementById('reviewModal').classList.add('active');
-  }
-
-  function closeReviewModal() {
-    document.getElementById('reviewModal').classList.remove('active');
-  }
-
-  function submitNewReview(e) {
-    e.preventDefault();
-    const name = document.getElementById('revName').value.trim();
-    const role = document.getElementById('revRole').value.trim();
-    const stars = parseInt(document.getElementById('revStars').value);
-    const comment = document.getElementById('revComment').value.trim();
-
-    userReviews.unshift({
-      stars: stars,
-      text: `“${comment}”`,
-      name: name,
-      role: role
-    });
-
-    localStorage.setItem('shaadi_user_reviews_genuine', JSON.stringify(userReviews));
+  function openPortal() {
+    document.getElementById('portalModal').classList.add('active');
+    renderPortalRealData();
+    renderAllStatesList();
     renderReviews();
-    closeReviewModal();
-    document.getElementById('reviewForm').reset();
-    alert('🎉 Thank you! Your review is now published live.');
+    generateCommunityQR();
+    setTimeout(initRealLeafletMap, 250);
   }
 
-  // Update Portal Numbers Directly From Real Database
+  function closePortal() {
+    document.getElementById('portalModal').classList.remove('active');
+  }
+
   function renderPortalRealData() {
     let totalScans = 0;
     const regionSet = new Set();
@@ -842,13 +1213,13 @@
     });
     regionSet.add('Firozabad (HQ)');
 
-    document.getElementById('cardTotalUsers').innerText = totalScans.toLocaleString();
+    document.getElementById('cardTotalUsers').innerText = (registeredUsers.length + totalScans).toLocaleString();
+    document.getElementById('cardPlannersCount').innerText = registeredUsers.length;
     document.getElementById('cardWeddingsLive').innerText = allWeddings.length;
     document.getElementById('cardActiveRegions').innerText = regionSet.size;
     document.getElementById('mapMaxLabel').innerText = `${regionSet.size} Active Regions`;
   }
 
-  // 4 Cards Click Handler: Open Detailed Lists
   function openListModal(type) {
     const modal = document.getElementById('listDetailModal');
     const title = document.getElementById('listModalTitle');
@@ -857,34 +1228,33 @@
     modal.classList.add('active');
 
     if (type === 'users') {
-      title.innerText = '👥 All Registered Users & Active Guests';
-      if (!allWeddings.length) {
-        body.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">No guest accounts yet. Guests who scan your Gold QR will automatically appear here.</p>';
-      } else {
-        allWeddings.forEach(w => {
-          body.innerHTML += `
-            <div class="data-row-card">
-              <div>
-                <div style="font-weight:700; color:#fff;">${w.groomName} & ${w.brideName} Guests</div>
-                <div style="font-size:11px; color:#888;">📍 ${w.city || 'Firozabad'} • 📅 ${w.weddingDate}</div>
-              </div>
-              <div style="font-weight:800; color:#e0a944;">${w.scans || 0} Verified Scans</div>
+      title.innerText = '👥 Registered User Accounts';
+      registeredUsers.forEach(u => {
+        body.innerHTML += `
+          <div class="data-row-card">
+            <div>
+              <div style="font-weight:700; color:#fff;">${u.name}</div>
+              <div style="font-size:11px; color:#888;">📱 ${u.phone} • ✉️ ${u.email}</div>
+              <div style="font-size:11px; color:#e0a944;">📍 ${u.city || 'City'}, ${u.state || 'State'}, ${u.country || 'Country'}</div>
             </div>
-          `;
-        });
-      }
+            <span style="font-size:11px; font-weight:800; color:#22c55e;">● ${u.role}</span>
+          </div>
+        `;
+      });
     } else if (type === 'planners') {
       title.innerText = '👑 Event Planners Network';
-      body.innerHTML = `
-        <div class="data-row-card" style="border-color:#e0a944;">
-          <div>
-            <div style="font-weight:800; color:#fff; font-size:15px;">BK Royal Event Planner</div>
-            <div style="font-size:12px; color:#c5a059;">Owner: Bhupendra Khatik</div>
-            <div style="font-size:11px; color:#888;">📞 +91 7500972831 • 📍 Firozabad, UP</div>
+      registeredUsers.forEach(u => {
+        body.innerHTML += `
+          <div class="data-row-card" style="border-color:#e0a944;">
+            <div>
+              <div style="font-weight:800; color:#fff; font-size:15px;">${u.studio || 'Studio Name'}</div>
+              <div style="font-size:12px; color:#c5a059;">Owner: ${u.name}</div>
+              <div style="font-size:11px; color:#888;">📞 ${u.phone} • 📍 ${u.city || 'City'}, ${u.state || 'State'}</div>
+            </div>
+            <span style="background:rgba(34,197,94,0.15); color:#22c55e; font-size:11px; font-weight:700; padding:4px 8px; border-radius:12px;">● Verified</span>
           </div>
-          <span style="background:rgba(34,197,94,0.15); color:#22c55e; font-size:11px; font-weight:700; padding:4px 8px; border-radius:12px;">● Verified Admin</span>
-        </div>
-      `;
+        `;
+      });
     } else if (type === 'weddings') {
       title.innerText = '💍 All Weddings Live';
       if (!allWeddings.length) {
@@ -895,7 +1265,7 @@
             <div class="data-row-card">
               <div>
                 <div style="font-weight:800; color:#fff;">${w.groomName} & ${w.brideName}</div>
-                <div style="font-size:11px; color:#888;">📅 ${w.weddingDate} • 📍 ${w.city || 'Firozabad'} • ${w.photos ? w.photos.length : 0} Photos</div>
+                <div style="font-size:11px; color:#888;">📅 ${w.weddingDate} • 📍 ${w.city || 'City'} • ${w.photos ? w.photos.length : 0} Photos</div>
               </div>
               <button onclick="closeListModal(); showFullscreenQR('${w.qrDataUrl}', '${w.groomName}', '${w.brideName}', '${w.id}')" style="background:#e0a944; color:#0c0d0e; border:none; font-weight:700; font-size:11px; padding:6px 12px; border-radius:14px; cursor:pointer;">View QR</button>
             </div>
@@ -934,7 +1304,6 @@
     info.innerHTML = `📍 <b>${name}</b>: ${users} Active Users • ${weddings} Weddings`;
   }
 
-  // Render Real All India State Breakdown Table
   function renderAllStatesList() {
     const box = document.getElementById('allStatesTableBody');
     box.innerHTML = '';
@@ -963,10 +1332,9 @@
     });
   }
 
-  // Share Play Store / App Download Link Directly on WhatsApp
   function sharePlayStoreAppLink() {
     const shareText = encodeURIComponent(
-      `📲 *Download ShaadiQR Pro - BK Royal Event Planner App*\n\n` +
+      `📲 *Download ShaadiQR Pro - Event Planner App*\n\n` +
       `Create luxury Gold Heart QR Codes, view live wedding photo albums, and manage unlimited photos easily on Android!\n\n` +
       `👉 Download App: ${PLAYSTORE_DOWNLOAD_URL}\n\n` +
       `📞 Contact: +91 7500972831`
@@ -974,7 +1342,6 @@
     window.location.href = `whatsapp://send?text=${shareText}`;
   }
 
-  // Generate Official Channel Golden QR
   function generateCommunityQR() {
     const qr = qrcode(0, 'M');
     qr.addData(PLAYSTORE_DOWNLOAD_URL);
@@ -999,6 +1366,7 @@
     }
   }
 
+  // Dashboard & Tabs
   function switchTab(tabName, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -1076,12 +1444,14 @@
     list.forEach(w => {
       const initials = (w.groomName[0] || 'A') + (w.brideName[0] || 'R');
       const scanCount = w.scans || 0;
+      const canDelete = currentUser && (currentUser.role === 'SUPER_ADMIN' || w.creatorPhone === currentUser.phone);
+
       const card = document.createElement('div');
       card.className = 'wedding-banner-card';
       card.innerHTML = `
         <div class="card-top">
           <div class="live-indicator"><span class="live-dot"></span> LIVE</div>
-          <button class="btn-delete-card" onclick="deleteWedding('${w.id}')">🗑️</button>
+          ${canDelete ? `<button class="btn-delete-card" onclick="deleteWedding('${w.id}')">🗑️</button>` : ''}
         </div>
         <div class="couple-circle-avatar">
           ${w.coverUrl ? `<img src="${w.coverUrl}">` : initials}
@@ -1176,13 +1546,6 @@
     }
     const text = encodeURIComponent(`✨ *${groom} & ${bride} Wedding Memories*\n\nScan QR or open link below to view photos:\n👉 ${link}`);
     window.location.href = `whatsapp://send?text=${text}`;
-  }
-
-  function deleteWedding(id) {
-    if (!confirm('Are you sure you want to delete this wedding album?')) return;
-    allWeddings = allWeddings.filter(w => w.id !== id);
-    localStorage.setItem('shaadi_weddings_data', JSON.stringify(allWeddings));
-    renderAll();
   }
 
   function handleCoverSelected(input) {
@@ -1382,6 +1745,12 @@
 
   document.getElementById('weddingForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      alert('Please Login to create wedding albums.');
+      checkAuthentication();
+      return;
+    }
+
     const btn = document.getElementById('submitBtn');
     const status = document.getElementById('uploadStatus');
     btn.disabled = true;
@@ -1418,6 +1787,8 @@
         photos: photoUrls,
         scans: 0,
         status: 'active',
+        creatorPhone: currentUser.phone,
+        creatorName: currentUser.name,
         createdAt: new Date().toISOString()
       };
 
@@ -1438,7 +1809,8 @@
     }
   });
 
-  renderAll();
+  // Start & Check Authentication
+  checkAuthentication();
 </script>
 </body>
 </html>
