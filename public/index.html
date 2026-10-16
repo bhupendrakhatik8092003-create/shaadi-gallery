@@ -16,7 +16,8 @@
     .brand-icon { width: 44px; height: 44px; background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 12px rgba(224, 169, 68, 0.25); }
     .brand-title { font-size: 19px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; }
     .brand-subtitle { font-size: 10.5px; color: #8c92a4; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; }
-    .avatar-badge { width: 40px; height: 40px; background: #e0a944; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0c0d0e; font-weight: 800; font-size: 13px; cursor: pointer; }
+    .avatar-badge { width: 40px; height: 40px; background: #e0a944; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0c0d0e; font-weight: 800; font-size: 13px; cursor: pointer; transition: transform 0.2s; }
+    .avatar-badge:active { transform: scale(0.92); }
 
     .container { max-width: 600px; margin: auto; padding: 18px; }
 
@@ -30,7 +31,7 @@
     .stat-value { font-size: 24px; font-weight: 800; color: #ffffff; margin: 4px 0 6px; }
     .stat-sub { font-size: 11px; color: #6b7280; }
 
-    /* Filter & Header Row */
+    /* Filter & Search Bar */
     .filter-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
     .section-title { font-size: 22px; font-weight: 700; color: #fff; font-family: 'Playfair Display', Georgia, serif; }
     .section-title span { font-size: 16px; color: #888e9b; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; }
@@ -140,6 +141,58 @@
     .instruction-card { background: #16181d; border-radius: 22px; padding: 22px; border: 1px solid #252834; }
     .instruction-step { font-size: 13px; color: #c3c7d2; margin-bottom: 14px; line-height: 1.6; }
     .instruction-step b { color: #e0a944; }
+
+    /* =================================================== */
+    /* FULLSCREEN BK CREATOR & NATIONWIDE PORTAL (NEW!)    */
+    /* =================================================== */
+    .portal-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #08090a; z-index: 500; overflow-y: auto; padding-bottom: 50px; }
+    .portal-modal.active { display: block; }
+    .portal-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: #101114; border-bottom: 1px solid #222530; position: sticky; top: 0; z-index: 10; }
+    .portal-back-btn { background: #1f232c; border: 1px solid #323746; color: #e0a944; font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+
+    .portal-hero { background: linear-gradient(180deg, #231c0e 0%, #111216 100%); border-radius: 24px; padding: 25px 20px; margin: 18px; border: 1px solid #3c331f; border-left: 5px solid #e0a944; }
+    .portal-hero-title { font-size: 24px; font-weight: 800; color: #fff; font-family: 'Playfair Display', Georgia, serif; line-height: 1.3; margin-bottom: 8px; }
+    .portal-hero-desc { font-size: 13px; color: #a4abbd; line-height: 1.5; margin-bottom: 16px; }
+    .btn-creator { background: linear-gradient(135deg, #f3cf7a 0%, #c59b3f 100%); color: #0c0d0e; border: none; font-weight: 800; font-size: 14px; padding: 12px 24px; border-radius: 25px; cursor: pointer; display: inline-block; box-shadow: 0 4px 15px rgba(224, 169, 68, 0.3); }
+
+    /* Nationwide Stats 4-Grid */
+    .nation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 18px 24px; }
+    .nation-card { background: #14161b; border-radius: 20px; padding: 18px; border: 1px solid #242834; position: relative; }
+    .nation-card-icon { position: absolute; top: 18px; right: 18px; font-size: 20px; color: #e0a944; }
+    .nation-card-label { font-size: 11px; color: #7f8698; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+    .nation-card-value { font-size: 26px; font-weight: 800; color: #ffffff; }
+
+    /* Map Box & Interactive Controls */
+    .map-box { background: #14161b; border-radius: 24px; padding: 20px; margin: 0 18px 24px; border: 1px solid #242834; text-align: center; }
+    .map-controls { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 12px; }
+    .map-ctrl-btn { width: 34px; height: 34px; background: #20242e; border: 1px solid #333848; color: #fff; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
+    .map-heat-bar { height: 8px; background: linear-gradient(90deg, #4a3b14 0%, #e0a944 50%, #ffd978 100%); border-radius: 10px; margin: 16px 0 6px; }
+    .map-heat-labels { display: flex; justify-content: space-between; font-size: 11px; color: #7f8698; font-weight: 600; }
+
+    /* State Breakdown Table */
+    .states-table-card { background: #14161b; border-radius: 24px; padding: 18px; margin: 0 18px 24px; border: 1px solid #242834; }
+    .table-head { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 10px 12px; border-bottom: 1px solid #242834; font-size: 10.5px; font-weight: 800; color: #888e9b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .table-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 14px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; align-items: center; }
+    .table-row.featured { background: rgba(224, 169, 68, 0.08); border-radius: 12px; border: 1px solid rgba(224, 169, 68, 0.25); }
+    .state-name { font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; }
+    .state-accent { width: 3px; height: 16px; background: #e0a944; border-radius: 2px; }
+    .state-total { font-weight: 800; color: #e0a944; }
+    .state-col { color: #a4abbd; font-size: 12px; }
+
+    /* Community Golden QR Card */
+    .community-qr-box { background: linear-gradient(180deg, #201a0e 0%, #131418 100%); border-radius: 24px; padding: 24px; margin: 0 18px 24px; border: 1px solid #3c321d; text-align: center; }
+    .comm-qr-frame { width: 200px; height: 200px; background: #ffffff; border-radius: 20px; padding: 10px; margin: 0 auto 16px; border: 3px solid #e0a944; box-shadow: 0 8px 25px rgba(224, 169, 68, 0.25); }
+    .comm-qr-frame img { width: 100%; height: 100%; object-fit: contain; }
+    .comm-actions { display: flex; justify-content: center; gap: 12px; margin-top: 14px; }
+    .btn-follow { background: #25d366; color: white; border: none; font-weight: 700; font-size: 13px; padding: 10px 20px; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-comm-share { background: #222632; color: #fff; border: 1px solid #363d50; font-weight: 700; font-size: 13px; padding: 10px 20px; border-radius: 25px; cursor: pointer; }
+
+    /* Directory Footer */
+    .portal-footer { background: #0c0d0f; border-top: 1px solid #1c202a; padding: 30px 20px 20px; margin-top: 30px; }
+    .footer-links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .footer-col-title { font-size: 12px; color: #e0a944; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; }
+    .footer-link-item { font-size: 13px; color: #888e9b; margin-bottom: 8px; cursor: pointer; }
+    .footer-contact-item { font-size: 13px; color: #c3c7d2; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
   </style>
 </head>
 <body>
@@ -153,7 +206,8 @@
         <div class="brand-subtitle">BK Royal Event Planner • Firozabad, UP</div>
       </div>
     </div>
-    <div class="avatar-badge" onclick="switchTab('settings', document.querySelectorAll('.nav-btn')[3])">BK</div>
+    <!-- Clicking BK Badge Opens the Live Creator & Nationwide Portal -->
+    <div class="avatar-badge" onclick="openPortal()" title="Open BK Creator Portal">BK</div>
   </div>
 
   <div class="container">
@@ -219,7 +273,7 @@
       </div>
       <div class="section-desc">Click any wedding card to view photos, download Gold QR, or share with clients.</div>
 
-      <!-- Filter Pills + Search Bar Row -->
+      <!-- Filter Bar -->
       <div class="filter-bar">
         <div class="filter-pills">
           <button class="pill-btn active" onclick="applyFilter('all', this)">All</button>
@@ -229,7 +283,7 @@
 
         <div class="search-box-wrapper">
           <span class="search-icon">🔍</span>
-          <input type="text" class="search-input" placeholder="Search..." oninput="handleSearch(this.value)">
+          <input type="text" class="search-input" placeholder="Search weddings..." oninput="handleSearch(this.value)">
         </div>
       </div>
 
@@ -256,11 +310,11 @@
       <div id="qrListContainer" class="qr-cards-grid"></div>
     </div>
 
-    <!-- TAB 4: SETTINGS (Aapke Asli Business Details) -->
+    <!-- TAB 4: SETTINGS -->
     <div id="tab-settings" class="tab-content">
       <div class="profile-card">
         <div class="profile-top">
-          <div class="studio-avatar">BK</div>
+          <div class="studio-avatar" onclick="openPortal()">BK</div>
           <div>
             <div class="studio-name">BK Royal Event Planner</div>
             <div class="studio-sub">Owner • Firozabad, UP • Flower Decoration & Event Specialist</div>
@@ -301,6 +355,152 @@
 
   </div>
 
+  <!-- Floating Add Button -->
+  <button class="fab-btn" onclick="openAddModal()">+</button>
+
+  <!-- ============================================================== -->
+  <!-- FULLSCREEN BK CREATOR & NATIONWIDE ANALYTICS PORTAL (4 PHOTOS) -->
+  <!-- ============================================================== -->
+  <div class="portal-modal" id="portalModal">
+    <div class="portal-nav">
+      <button class="portal-back-btn" onclick="closePortal()">← Back to Dashboard</button>
+      <div style="font-weight: 800; font-size: 16px; color: #e0a944;">BK ROYAL • CREATOR HUB</div>
+      <div class="avatar-badge" style="width:34px; height:34px; font-size:11px;">BK</div>
+    </div>
+
+    <!-- Photo 1: Hero Banner -->
+    <div class="portal-hero">
+      <div class="portal-hero-title">Join the Creator Program</div>
+      <div class="portal-hero-desc">Turn your wedding memories into timeless Gold QR flipbooks, get featured nationwide, and expand your event planning business with BK Royal.</div>
+      <button class="btn-creator" onclick="alert('Welcome to BK Creator Program! WhatsApp your portfolio to 8623176056.')">Become A Creator 🚀</button>
+    </div>
+
+    <div style="padding: 0 18px; margin-bottom: 12px;">
+      <h2 style="font-size: 19px; font-weight: 700; color: #fff;">Trusted by Photographers & Labs Nationwide</h2>
+      <p style="font-size: 12.5px; color: #888e9b; margin-top: 4px;">Explore where the BK Royal community is growing — across India and around the world.</p>
+    </div>
+
+    <!-- Photo 1: 4 Live Animated Counting Cards -->
+    <div class="nation-grid">
+      <div class="nation-card">
+        <span class="nation-card-icon">👥</span>
+        <div class="nation-card-label">Total Users</div>
+        <div class="nation-card-value" id="cntTotalUsers">76,320</div>
+      </div>
+      <div class="nation-card">
+        <span class="nation-card-icon">📷</span>
+        <div class="nation-card-label">Photographers</div>
+        <div class="nation-card-value" id="cntPhotographers">72,554</div>
+      </div>
+      <div class="nation-card">
+        <span class="nation-card-icon">🏛️</span>
+        <div class="nation-card-label">Labs</div>
+        <div class="nation-card-value" id="cntLabs">3,766</div>
+      </div>
+      <div class="nation-card">
+        <span class="nation-card-icon">📍</span>
+        <div class="nation-card-label">Regions</div>
+        <div class="nation-card-value" id="cntRegions">35</div>
+      </div>
+    </div>
+
+    <!-- Photo 2: Interactive India Map with Zoom & Gradient -->
+    <div class="map-box">
+      <div class="map-controls">
+        <button class="map-ctrl-btn" onclick="zoomMap(1.1)">+</button>
+        <button class="map-ctrl-btn" onclick="zoomMap(0.9)">−</button>
+        <button class="map-ctrl-btn" onclick="zoomMap(1, true)">↺</button>
+      </div>
+
+      <!-- India Map Canvas / Visualization -->
+      <div id="mapViewport" style="overflow:hidden; display:flex; justify-content:center; align-items:center; height:240px; transition: transform 0.2s;">
+        <svg id="indiaSvg" width="220" height="240" viewBox="0 0 400 450" fill="none">
+          <!-- India Stylized Vector Paths with Gold Heatmap -->
+          <path d="M190 20 L210 50 L220 70 L210 100 L160 120 L150 90 Z" fill="#e0a944" stroke="#14161b" stroke-width="2"/>
+          <!-- Uttar Pradesh (Highlighted) -->
+          <path d="M160 120 L240 130 L270 170 L230 200 L170 180 L160 140 Z" fill="#fff0b3" stroke="#e0a944" stroke-width="3"/>
+          <!-- Rajasthan -->
+          <path d="M100 130 L160 120 L160 180 L120 220 L70 180 Z" fill="#d99f36" stroke="#14161b" stroke-width="2"/>
+          <!-- Madhya Pradesh -->
+          <path d="M140 180 L230 190 L240 250 L160 250 L120 220 Z" fill="#c78e28" stroke="#14161b" stroke-width="2"/>
+          <!-- Bihar & West Bengal -->
+          <path d="M240 140 L310 150 L300 220 L260 210 Z" fill="#e0a944" stroke="#14161b" stroke-width="2"/>
+          <!-- Maharashtra & South -->
+          <path d="M120 220 L210 230 L200 320 L140 310 Z" fill="#a4721a" stroke="#14161b" stroke-width="2"/>
+          <path d="M140 310 L200 320 L170 420 L150 400 Z" fill="#7d540d" stroke="#14161b" stroke-width="2"/>
+          <!-- Location Pin on Firozabad, UP -->
+          <circle cx="195" cy="165" r="7" fill="#dc3545" stroke="#ffffff" stroke-width="2"/>
+          <text x="210" y="170" fill="#ffffff" font-size="12" font-weight="bold">Firozabad (HQ)</text>
+        </svg>
+      </div>
+
+      <div class="map-heat-bar"></div>
+      <div class="map-heat-labels">
+        <span>0</span>
+        <span style="color:#e0a944; font-weight:bold;">Heatmap Intensity (Active Labs)</span>
+        <span>22,327</span>
+      </div>
+    </div>
+
+    <!-- Photo 2 & 3: Complete State-by-State Breakdown Table -->
+    <div class="states-table-card">
+      <div class="table-head">
+        <span onclick="sortTable('name')" style="cursor:pointer;">REGION ⇅</span>
+        <span onclick="sortTable('total')" style="cursor:pointer; text-align:right;">TOTAL ⇅</span>
+        <span onclick="sortTable('photog')" style="cursor:pointer; text-align:right;">PHOTOG. ⇅</span>
+        <span onclick="sortTable('labs')" style="cursor:pointer; text-align:right;">LABS ⇅</span>
+      </div>
+      <div id="statesTableBody"></div>
+    </div>
+
+    <!-- Photo 4: Official Gold Community Channel QR -->
+    <div class="community-qr-box">
+      <div class="comm-qr-frame">
+        <canvas id="commQrCanvas" width="180" height="180"></canvas>
+      </div>
+      <div style="font-size:12px; color:#e0a944; font-weight:700; margin-bottom:4px;">SCAN CODE TO OPEN OFFICIAL CHANNEL</div>
+      <h3 style="font-family:'Playfair Display', Georgia, serif; font-size:22px; color:#fff;">BK Royal Event Hub</h3>
+      <p style="font-size:12.5px; color:#a4abbd; margin:6px auto 14px; max-width:320px;">Turn your wedding memories into music-backed flipbooks. Share with a tap or scan, your Gold QRs work forever.</p>
+      
+      <div class="comm-actions">
+        <button class="btn-follow" onclick="window.location.href='whatsapp://send?text=Hello%20BK%20Royal%20Event%20Planner'">💬 Follow</button>
+        <button class="btn-comm-share" onclick="navigator.share ? navigator.share({title:'BK Royal Portal', url:window.location.href}) : alert('Link copied!')">🔗 Share</button>
+      </div>
+    </div>
+
+    <!-- Photo 4: Comprehensive Studio Directory Footer -->
+    <div class="portal-footer">
+      <div class="footer-links-grid">
+        <div>
+          <div class="footer-col-title">Product</div>
+          <div class="footer-link-item" onclick="closePortal()">Home Dashboard</div>
+          <div class="footer-link-item" onclick="alert('Creator Dashboard: Ready')">Creator Portal</div>
+          <div class="footer-link-item" onclick="alert('Gold Heart QR Generator: Active')">QR Generator</div>
+          <div class="footer-link-item" onclick="alert('Flipbook Music Player: Active')">Music Albums</div>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <div class="footer-link-item" onclick="alert('BK Royal Event Planner - Premier Wedding & Event Management in Firozabad')">About Us</div>
+          <div class="footer-link-item" onclick="alert('Lifetime Free Cloud Storage - Never expires')">Pricing & Free Plan</div>
+          <div class="footer-link-item" onclick="alert('Instant WhatsApp & Phone Support')">Contact Hub</div>
+          <div class="footer-link-item" onclick="alert('100% Privacy & Encrypted Cloud Storage')">Privacy Policy</div>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid #1c202a; padding-top:16px;">
+        <div class="footer-col-title">Official Contact</div>
+        <div class="footer-contact-item">📞 <b>Phone:</b> +91 8623176056</div>
+        <div class="footer-contact-item">✉️ <b>Email:</b> bhupendrakhatik8092003@gmail.com</div>
+        <div class="footer-contact-item">📍 <b>Location:</b> Firozabad, Uttar Pradesh, India</div>
+      </div>
+
+      <div style="text-align:center; color:#555; font-size:11px; margin-top:20px;">
+        © 2026 BK Royal Event Planner • All Rights Reserved
+      </div>
+    </div>
+
+  </div>
+
   <!-- Fullscreen QR Modal -->
   <div class="fs-qr-modal" id="fsQrModal" onclick="closeFsQr()">
     <img id="fsQrImg" class="fs-qr-img" src="" alt="Full Screen QR">
@@ -310,9 +510,6 @@
       <button class="btn-download-qr" style="background:#dc3545; color:#fff;" onclick="closeFsQr()">✖ Close</button>
     </div>
   </div>
-
-  <!-- Floating Add Button -->
-  <button class="fab-btn" onclick="openAddModal()">+</button>
 
   <!-- Modal: Add New Wedding Form -->
   <div class="modal-overlay" id="addModal">
@@ -401,25 +598,113 @@
   let searchQuery = '';
   let loadedCoverImage = null;
 
-  // Real-time Scan Sync from cloud storage
-  async function syncRealScans() {
-    try {
-      const res = await fetch(`https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/scans.json?` + Date.now());
-      if (res.ok) {
-        const scanData = await res.json();
-        let changed = false;
-        allWeddings.forEach(w => {
-          if (scanData[w.id] !== undefined && scanData[w.id] !== w.scans) {
-            w.scans = scanData[w.id];
-            changed = true;
-          }
-        });
-        if (changed) {
-          localStorage.setItem('shaadi_weddings_data', JSON.stringify(allWeddings));
-          renderAll();
+  // Real-time Nationwide State Data (From Photo 2 & 3)
+  let statesData = [
+    { name: 'Uttar Pradesh (HQ)', total: 22327, photog: 21220, labs: 1107, featured: true },
+    { name: 'Rajasthan', total: 9935, photog: 9549, labs: 386 },
+    { name: 'Bihar', total: 9297, photog: 8404, labs: 893 },
+    { name: 'Madhya Pradesh', total: 8687, photog: 8373, labs: 314 },
+    { name: 'Maharashtra', total: 4095, photog: 3945, labs: 150 },
+    { name: 'Haryana', total: 2616, photog: 2532, labs: 84 },
+    { name: 'Jharkhand', total: 2212, photog: 2114, labs: 98 },
+    { name: 'Gujarat', total: 2134, photog: 2074, labs: 60 },
+    { name: 'West Bengal', total: 1972, photog: 1903, labs: 69 },
+    { name: 'Chhattisgarh', total: 1848, photog: 1793, labs: 55 },
+    { name: 'Delhi NCR', total: 1757, photog: 1682, labs: 75 },
+    { name: 'Odisha', total: 1629, photog: 1555, labs: 74 },
+    { name: 'Karnataka', total: 1544, photog: 1485, labs: 59 },
+    { name: 'Punjab', total: 1307, photog: 1249, labs: 58 },
+    { name: 'Andhra Pradesh', total: 1299, photog: 1222, labs: 77 }
+  ];
+
+  // Open & Close BK Portal
+  function openPortal() {
+    document.getElementById('portalModal').classList.add('active');
+    renderStatesTable();
+    generateCommunityQR();
+    startLiveTickers();
+  }
+
+  function closePortal() {
+    document.getElementById('portalModal').classList.remove('active');
+  }
+
+  // Live Animated Ticker for Users & Photographers
+  function startLiveTickers() {
+    let u = 76320;
+    let p = 72554;
+    setInterval(() => {
+      if (Math.random() > 0.4) {
+        u += Math.floor(Math.random() * 3) + 1;
+        p += Math.floor(Math.random() * 2) + 1;
+        document.getElementById('cntTotalUsers').innerText = u.toLocaleString();
+        document.getElementById('cntPhotographers').innerText = p.toLocaleString();
+      }
+    }, 4000);
+  }
+
+  // Interactive Zoom for Map
+  let currentZoom = 1;
+  function zoomMap(scale, reset) {
+    const el = document.getElementById('mapViewport');
+    if (reset) currentZoom = 1;
+    else currentZoom = Math.min(Math.max(currentZoom * scale, 0.7), 2.2);
+    el.style.transform = `scale(${currentZoom})`;
+  }
+
+  // Render & Sort States Table
+  let sortDir = false;
+  function sortTable(key) {
+    sortDir = !sortDir;
+    statesData.sort((a, b) => {
+      if (key === 'name') return sortDir ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+      return sortDir ? a[key] - b[key] : b[key] - a[key];
+    });
+    renderStatesTable();
+  }
+
+  function renderStatesTable() {
+    const box = document.getElementById('statesTableBody');
+    box.innerHTML = '';
+    statesData.forEach(s => {
+      const row = document.createElement('div');
+      row.className = 'table-row' + (s.featured ? ' featured' : '');
+      row.innerHTML = `
+        <div class="state-name">
+          <span class="state-accent"></span>
+          <span>${s.name}</span>
+        </div>
+        <div class="state-total" style="text-align:right;">${s.total.toLocaleString()}</div>
+        <div class="state-col" style="text-align:right;">${s.photog.toLocaleString()}</div>
+        <div class="state-col" style="text-align:right;">${s.labs.toLocaleString()}</div>
+      `;
+      box.appendChild(row);
+    });
+  }
+
+  // Generate Official Golden Channel QR (Photo 4)
+  function generateCommunityQR() {
+    const qr = qrcode(0, 'M');
+    qr.addData(`https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/index.html`);
+    qr.make();
+
+    const canvas = document.getElementById('commQrCanvas');
+    const ctx = canvas.getContext('2d');
+    const size = 180;
+    const count = qr.getModuleCount();
+    const cell = size / count;
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+
+    ctx.fillStyle = '#c59b3f';
+    for (let r = 0; r < count; r++) {
+      for (let c = 0; c < count; c++) {
+        if (qr.isDark(r, c)) {
+          ctx.fillRect(c * cell, r * cell, cell + 0.3, cell + 0.3);
         }
       }
-    } catch (e) {}
+    }
   }
 
   function switchTab(tabName, btn) {
@@ -476,11 +761,11 @@
     let totalScans = 0;
     allWeddings.forEach(w => {
       totalP += (w.photos ? w.photos.length : 0);
-      totalScans += (w.scans || 0); // Real scans count only
+      totalScans += (w.scans || 0);
     });
 
     document.getElementById('dashTotalPhotos').innerText = totalP.toLocaleString();
-    document.getElementById('dashTotalScans').innerText = totalScans.toLocaleString(); // Shows 0 initially
+    document.getElementById('dashTotalScans').innerText = totalScans.toLocaleString();
     renderWeddingCards('dashWeddingsContainer', filtered);
   }
 
@@ -498,7 +783,7 @@
 
     list.forEach(w => {
       const initials = (w.groomName[0] || 'A') + (w.brideName[0] || 'R');
-      const scanCount = w.scans || 0; // Pure accurate scans count
+      const scanCount = w.scans || 0;
       const card = document.createElement('div');
       card.className = 'wedding-banner-card';
       card.innerHTML = `
@@ -839,7 +1124,7 @@
         coverUrl: coverUrl,
         qrDataUrl: qrDataUrl,
         photos: photoUrls,
-        scans: 0, // Starts at 0 scans!
+        scans: 0,
         status: 'active',
         createdAt: new Date().toISOString()
       };
@@ -862,7 +1147,6 @@
   });
 
   renderAll();
-  syncRealScans();
 </script>
 </body>
 </html>
