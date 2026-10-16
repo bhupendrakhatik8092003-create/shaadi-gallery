@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ShaadiQR Pro - Studio Dashboard</title>
+  <title>ShaadiQR Pro - BK Royal Event Planner</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
   <style>
@@ -20,7 +20,7 @@
 
     .container { max-width: 600px; margin: auto; padding: 18px; }
 
-    /* Stats Grid (No Overlap - Flex Row) */
+    /* Stats Grid */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
     .stat-card { background: #16181d; border-radius: 22px; padding: 16px; border: 1px solid #232630; }
     .stat-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -36,9 +36,14 @@
     .section-title span { font-size: 16px; color: #888e9b; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; }
     .section-desc { font-size: 12.5px; color: #888e9b; margin-bottom: 16px; line-height: 1.5; }
     
-    .filter-pills { display: flex; gap: 8px; margin-bottom: 20px; }
+    .filter-bar { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .filter-pills { display: flex; gap: 8px; }
     .pill-btn { background: #1a1c23; border: 1px solid #282c37; color: #9da3b4; padding: 8px 18px; border-radius: 20px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
     .pill-btn.active { background: #ffffff; color: #0c0d0e; font-weight: 700; border-color: #ffffff; }
+
+    .search-box-wrapper { flex: 1; min-width: 140px; position: relative; }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; color: #737887; }
+    .search-input { width: 100%; background: #16181d; border: 1px solid #282c37; border-radius: 20px; padding: 8px 14px 8px 34px; color: #fff; font-size: 13px; outline: none; }
 
     /* Wedding Cards */
     .wedding-list { display: flex; flex-direction: column; gap: 18px; }
@@ -145,10 +150,10 @@
       <div class="brand-icon">💛</div>
       <div>
         <div class="brand-title">ShaadiQR Pro</div>
-        <div class="brand-subtitle">Business Dashboard • Firozabad, Uttar Pradesh</div>
+        <div class="brand-subtitle">BK Royal Event Planner • Firozabad, UP</div>
       </div>
     </div>
-    <div class="avatar-badge" onclick="switchTab('settings', document.querySelectorAll('.nav-btn')[3])">SP</div>
+    <div class="avatar-badge" onclick="switchTab('settings', document.querySelectorAll('.nav-btn')[3])">BK</div>
   </div>
 
   <div class="container">
@@ -156,7 +161,6 @@
     <!-- TAB 1: DASHBOARD -->
     <div id="tab-dashboard" class="tab-content active">
       <div class="stats-grid">
-        <!-- Card 1 -->
         <div class="stat-card">
           <div class="stat-top-row">
             <div class="stat-icon-wrapper">💛</div>
@@ -167,7 +171,6 @@
           <div class="stat-sub">Active • All managed smoothly</div>
         </div>
 
-        <!-- Card 2 -->
         <div class="stat-card">
           <div class="stat-top-row">
             <div class="stat-icon-wrapper">🖼️</div>
@@ -178,7 +181,6 @@
           <div class="stat-sub">Telegram Cloud Storage</div>
         </div>
 
-        <!-- Card 3: Memory Chip Icon (Pure Gold SVG) -->
         <div class="stat-card">
           <div class="stat-top-row">
             <div class="stat-icon-wrapper">
@@ -201,15 +203,14 @@
           <div class="stat-sub">100% Lifetime Free Cloud</div>
         </div>
 
-        <!-- Card 4 -->
         <div class="stat-card">
           <div class="stat-top-row">
             <div class="stat-icon-wrapper">⚡</div>
             <div class="stat-badge">LIVE TRACKING</div>
           </div>
           <div class="stat-label">Total Scans</div>
-          <div class="stat-value" id="dashTotalScans">1,240</div>
-          <div class="stat-sub">Live guests online</div>
+          <div class="stat-value" id="dashTotalScans">0</div>
+          <div class="stat-sub">Live verified guests</div>
         </div>
       </div>
 
@@ -218,20 +219,17 @@
       </div>
       <div class="section-desc">Click any wedding card to view photos, download Gold QR, or share with clients.</div>
 
-      <!-- Functional Filter Pills -->
-      <!-- Filter Pills & Search Bar (Photo Match) -->
-      <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
-        <div class="filter-pills" style="margin-bottom: 0;">
+      <!-- Filter Pills + Search Bar Row -->
+      <div class="filter-bar">
+        <div class="filter-pills">
           <button class="pill-btn active" onclick="applyFilter('all', this)">All</button>
           <button class="pill-btn" onclick="applyFilter('active', this)">Active</button>
           <button class="pill-btn" onclick="applyFilter('archived', this)">Archived</button>
         </div>
-        
-        <!-- Live Search Bar -->
-        <div style="flex: 1; min-width: 140px; position: relative;">
-          <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; color: #737887;">🔍</span>
-          <input type="text" id="weddingSearchInput" placeholder="Search..." oninput="handleSearch(this.value)" 
-                 style="width: 100%; background: #16181d; border: 1px solid #282c37; border-radius: 20px; padding: 8px 14px 8px 34px; color: #fff; font-size: 13px; outline: none;">
+
+        <div class="search-box-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search..." oninput="handleSearch(this.value)">
         </div>
       </div>
 
@@ -258,18 +256,18 @@
       <div id="qrListContainer" class="qr-cards-grid"></div>
     </div>
 
-    <!-- TAB 4: SETTINGS -->
+    <!-- TAB 4: SETTINGS (Aapke Asli Business Details) -->
     <div id="tab-settings" class="tab-content">
       <div class="profile-card">
         <div class="profile-top">
-          <div class="studio-avatar">SP</div>
+          <div class="studio-avatar">BK</div>
           <div>
-            <div class="studio-name">Sharma Photography</div>
-            <div class="studio-sub">Owner • Firozabad, UP • 8 Years Experience</div>
+            <div class="studio-name">BK Royal Event Planner</div>
+            <div class="studio-sub">Owner • Firozabad, UP • Flower Decoration & Event Specialist</div>
           </div>
         </div>
         <div class="studio-email-badge">
-          <span class="studio-email">sharma.photo@gmail.com</span>
+          <span class="studio-email">bhupendrakhatik8092003@gmail.com</span>
           <span class="online-chip">● Online</span>
         </div>
       </div>
@@ -303,7 +301,7 @@
 
   </div>
 
-  <!-- Fullscreen QR Modal (Bada QR View) -->
+  <!-- Fullscreen QR Modal -->
   <div class="fs-qr-modal" id="fsQrModal" onclick="closeFsQr()">
     <img id="fsQrImg" class="fs-qr-img" src="" alt="Full Screen QR">
     <div class="fs-btn-row" onclick="event.stopPropagation()">
@@ -401,12 +399,28 @@
   let allWeddings = JSON.parse(localStorage.getItem('shaadi_weddings_data') || '[]');
   let currentFilter = 'all';
   let searchQuery = '';
-
-  function handleSearch(val) {
-    searchQuery = val.toLowerCase().trim();
-    renderDashboard();
-  }
   let loadedCoverImage = null;
+
+  // Real-time Scan Sync from cloud storage
+  async function syncRealScans() {
+    try {
+      const res = await fetch(`https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/public/scans.json?` + Date.now());
+      if (res.ok) {
+        const scanData = await res.json();
+        let changed = false;
+        allWeddings.forEach(w => {
+          if (scanData[w.id] !== undefined && scanData[w.id] !== w.scans) {
+            w.scans = scanData[w.id];
+            changed = true;
+          }
+        });
+        if (changed) {
+          localStorage.setItem('shaadi_weddings_data', JSON.stringify(allWeddings));
+          renderAll();
+        }
+      }
+    } catch (e) {}
+  }
 
   function switchTab(tabName, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -431,6 +445,11 @@
     renderDashboard();
   }
 
+  function handleSearch(val) {
+    searchQuery = val.toLowerCase().trim();
+    renderDashboard();
+  }
+
   function renderAll() {
     renderDashboard();
     renderShadiyaTab();
@@ -442,7 +461,6 @@
     if (currentFilter === 'active') filtered = allWeddings.filter(w => w.status !== 'archived');
     if (currentFilter === 'archived') filtered = allWeddings.filter(w => w.status === 'archived');
 
-    // Live Search Filter (Groom, Bride ya City se search karne ke liye)
     if (searchQuery) {
       filtered = filtered.filter(w => 
         (w.groomName && w.groomName.toLowerCase().includes(searchQuery)) ||
@@ -453,9 +471,16 @@
 
     document.getElementById('dashTotalWeddings').innerText = allWeddings.length;
     document.getElementById('weddingCountLabel').innerText = `— ${filtered.length} selected`;
+
     let totalP = 0;
-    allWeddings.forEach(w => totalP += (w.photos ? w.photos.length : 0));
+    let totalScans = 0;
+    allWeddings.forEach(w => {
+      totalP += (w.photos ? w.photos.length : 0);
+      totalScans += (w.scans || 0); // Real scans count only
+    });
+
     document.getElementById('dashTotalPhotos').innerText = totalP.toLocaleString();
+    document.getElementById('dashTotalScans').innerText = totalScans.toLocaleString(); // Shows 0 initially
     renderWeddingCards('dashWeddingsContainer', filtered);
   }
 
@@ -473,6 +498,7 @@
 
     list.forEach(w => {
       const initials = (w.groomName[0] || 'A') + (w.brideName[0] || 'R');
+      const scanCount = w.scans || 0; // Pure accurate scans count
       const card = document.createElement('div');
       card.className = 'wedding-banner-card';
       card.innerHTML = `
@@ -485,7 +511,7 @@
         </div>
         <div class="tag-row">
           <span class="chip">${w.photos ? w.photos.length : 0} Photos</span>
-          <span class="chip">👁️ 1,240 scans</span>
+          <span class="chip">👁️ ${scanCount} scans</span>
         </div>
         <div class="wedding-names">${w.groomName} & ${w.brideName}</div>
         <div class="wedding-meta">📅 ${w.weddingDate} • 📍 ${w.city || 'Firozabad'}</div>
@@ -538,7 +564,6 @@
     });
   }
 
-  // Full Screen QR Popup Logic
   function showFullscreenQR(dataUrl, groom, bride, id) {
     document.getElementById('fsQrImg').src = dataUrl;
     document.getElementById('fsDownloadBtn').onclick = () => saveImageToPhone(dataUrl, `${groom}_${bride}`);
@@ -550,14 +575,11 @@
     document.getElementById('fsQrModal').classList.remove('active');
   }
 
-  // Native Android Gallery Downloader Bridge
   function saveImageToPhone(base64Data, filename) {
     if (window.AndroidSaver && window.AndroidSaver.saveBase64Image) {
       window.AndroidSaver.saveBase64Image(base64Data, `LoveSnap_${filename}.png`);
-      alert('✅ Heart QR saved directly to your phone gallery!');
       return;
     }
-    // Fallback for standard browsers
     const a = document.createElement('a');
     a.href = base64Data;
     a.download = `LoveSnap_${filename}.png`;
@@ -575,8 +597,6 @@
       window.AndroidSaver.shareImageToWhatsApp(qrData, groom, bride, link);
       return;
     }
-
-    // Browser fallback
     const text = encodeURIComponent(`✨ *${groom} & ${bride} Wedding Memories*\n\nScan QR or open link below to view photos:\n👉 ${link}`);
     window.location.href = `whatsapp://send?text=${text}`;
   }
@@ -819,6 +839,7 @@
         coverUrl: coverUrl,
         qrDataUrl: qrDataUrl,
         photos: photoUrls,
+        scans: 0, // Starts at 0 scans!
         status: 'active',
         createdAt: new Date().toISOString()
       };
@@ -841,6 +862,7 @@
   });
 
   renderAll();
+  syncRealScans();
 </script>
 </body>
 </html>

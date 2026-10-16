@@ -59,6 +59,15 @@
 
   async function loadGallery() {
     try {
+      // Real-time scan record helper
+    const weddingId = urlParams.get('id');
+    if (weddingId) {
+      try {
+        let localScans = JSON.parse(localStorage.getItem('wedding_scans_tracker') || '{}');
+        localScans[weddingId] = (localScans[weddingId] || 0) + 1;
+        localStorage.setItem('wedding_scans_tracker', JSON.stringify(localScans));
+      } catch (e) {}
+    }
       // 1. Data load from GitHub repo directly
       const res = await fetch('data.json?' + new Date().getTime());
       if (!res.ok) throw new Error("File not found");
